@@ -1,0 +1,101 @@
+{% extends 'reforco/base.html' %}
+{% load static %}
+
+{% block title %}Pagamentos - Sistema de Gestão de Alunos{% endblock %}
+
+{% block header_title %}Pagamentos{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">
+            <i class="fas fa-money-bill-wave me-2"></i>
+            Lista de Pagamentos
+        </h5>
+        <a href="{% url 'pagamento_create' %}" class="btn btn-primary btn-sm">
+            <i class="fas fa-plus-circle me-1"></i>
+            Novo Pagamento
+        </a>
+    </div>
+    <div class="card-body">
+        <!-- Filtros -->
+        <div class="mb-4">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label for="status" class="form-label">Status</label>
+                    <select name="status" id="status" class="form-select">
+                        <option value="">Todos</option>
+                        <option value="pago" {% if status_filter == 'pago' %}selected{% endif %}>Pagos</option>
+                        <option value="pendente" {% if status_filter == 'pendente' %}selected{% endif %}>Pendentes</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="aluno" class="form-label">Aluno</label>
+                    <select name="aluno" id="aluno" class="form-select">
+                        <option value="">Todos</option>
+                        {% for aluno in alunos %}
+                            <option value="{{ aluno.id }}" {% if aluno_filter == aluno.id|stringformat:"s" %}selected{% endif %}>{{ aluno.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">
+                        <i class="fas fa-filter me-1"></i>
+                        Filtrar
+                    </button>
+                    <a href="{% url 'pagamento_list' %}" class="btn btn-secondary">
+                        <i class="fas fa-sync-alt me-1"></i>
+                        Limpar
+                    </a>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Tabela de Pagamentos -->
+        {% if pagamentos %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Aluno</th>
+                            <th>Mês/Ano</th>
+                            <th>Valor</th>
+                            <th>Status</th>
+                            <th>Data Pagamento</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pagamento in pagamentos %}
+                            <tr>
+                                <td>{{ pagamento.aluno.nome }}</td>
+                                <td>{{ pagamento.mes_referencia|date:"m/Y" }}</td>
+                                <td>R$ {{ pagamento.valor }}</td>
+                                <td>
+                                    <span class="{{ pagamento.get_status_display_badge }}">
+                                        {{ pagamento.pago|yesno:"Pago,Pendente" }}
+                                    </span>
+                                </td>
+                                <td>{{ pagamento.data_pagamento|date:"d/m/Y"|default:"-" }}</td>
+                                <td>
+                                    <a href="{% url 'pagamento_update' pagamento.id %}" class="btn btn-warning btn-sm text-white" data-bs-toggle="tooltip" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'aluno_detail' pagamento.aluno.id %}" class="btn btn-info btn-sm text-white" data-bs-toggle="tooltip" title="Ver Aluno">
+                                        <i class="fas fa-user"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                Nenhum pagamento encontrado.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

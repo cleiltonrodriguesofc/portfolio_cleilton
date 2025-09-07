@@ -1,0 +1,117 @@
+<div class="portfolio-shell">
+  <style>
+    /* === Tokens do seu design (escopados) === */
+    .portfolio-shell{
+      --color-dark-blue:#0A192F;
+      --color-blue:#4A90E2;
+      --color-light-blue:#CCD6F6;
+      --color-white:#FFFFFF;
+      --color-gray:#8892B0;
+      --color-light-gray:#F8F9FA;
+      --font-primary:'Roboto',system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+      --font-heading:'Montserrat','Roboto',system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+      --transition:all .3s ease;
+      --shadow:0 10px 30px rgba(0,0,0,.1);
+      --shadow-hover:0 20px 40px rgba(0,0,0,.15);
+    }
+    .portfolio-shell, .portfolio-shell *{ box-sizing:border-box; }
+
+    /* === NAVBAR (visual idêntico ao seu) === */
+    .ps-navbar{
+      position:fixed; top:0; left:0; right:0;
+      backdrop-filter: blur(10px);
+      background-color: rgba(10,25,47,.95);
+      box-shadow: 0 2px 20px rgba(0,0,0,.1);
+      transition: var(--transition);
+      z-index: 2147483647; /* sempre acima da sidebar/overlay */
+    }
+    .ps-nav-wrap{
+      max-width:1120px; margin:0 auto; padding:12px 16px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+
+    /* .navbar-brand → mesmo tamanho/peso */
+    .ps-brand{
+      font-family: var(--font-heading);
+      font-size: 1.5rem; /* igual ao teu .navbar-brand */
+      font-weight: 700;
+      color: var(--color-white);
+      text-decoration:none;
+    }
+    .ps-brand .ps-accent{ color: var(--color-blue); }
+
+    /* .nav-link → mesmo peso/margem/animação underline */
+    .ps-nav{ display:flex; align-items:center; gap:0; }
+    .ps-link{
+      font-family: var(--font-primary);
+      font-weight: 500;            /* igual ao teu .nav-link */
+      margin: 0 10px;              /* igual ao teu .nav-link */
+      position: relative;          /* underline animado */
+      color: var(--color-light-blue);
+      text-decoration:none;
+      padding: 8px 0;
+      transition: var(--transition);
+    }
+    .ps-link:hover{ color: var(--color-blue); }
+    .ps-link::after{
+      content:'';
+      position:absolute;
+      width:0; height:2px; bottom:-5px; left:50%;
+      background-color: var(--color-blue);
+      transition: var(--transition);
+      transform: translateX(-50%);
+    }
+    .ps-link:hover::after{ width:100%; }
+
+    /* Compensação da barra fixa — igual ao teu 76px */
+    .ps-offset{ height:76px; }
+
+    /* === Messages (sem depender de Bootstrap) === */
+    .ps-alerts{ max-width:1120px; margin:8px auto 0; padding:0 16px; }
+    .ps-alert{
+      border-radius:10px;
+      padding:12px 14px; margin:8px 0;
+      font-family: var(--font-primary); font-weight:500; font-size:1rem;
+    }
+    .ps-alert-success{ background:#e7f6ec; color:#1e7e34; border:1px solid #c7ebd1; }
+    .ps-alert-info   { background:#eaf3ff; color:#1b4b91; border:1px solid #cfe3ff; }
+    .ps-alert-warning{ background:#fff6e5; color:#8a5a00; border:1px solid #ffe3b3; }
+    .ps-alert-danger { background:#fdeaea; color:#842029; border:1px solid #f5c2c7; }
+    .ps-close{ background:transparent; border:0; cursor:pointer; font-size:18px; float:right; }
+
+    @media (max-width:768px){
+      .ps-nav{ gap:8px; }
+      .ps-offset{ height:60px; }
+    }
+  </style>
+
+  <nav class="ps-navbar" role="navigation" aria-label="Navegação do portfólio">
+    <div class="ps-nav-wrap">
+      <a class="ps-brand" href="{% url 'core:home' %}">
+        <span class="ps-accent">Cleilton</span>
+      </a>
+      <div class="ps-nav" role="menubar">
+        <a class="ps-link" href="{% url 'core:home' %}" role="menuitem">Início</a>
+        <a class="ps-link" href="{% url 'core:about' %}" role="menuitem">Sobre</a>
+        <a class="ps-link" href="{% url 'core:project_list'%}" role="menuitem">Projetos</a>
+        <a class="ps-link" href="{% url 'contact:contact' %}" role="menuitem">Contato</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="ps-offset" aria-hidden="true"></div>
+
+  {% if messages %}
+    <div class="ps-alerts">
+      {% for message in messages %}
+        {% if "success" in message.tags %}<div class="ps-alert ps-alert-success">
+        {% elif "warning" in message.tags %}<div class="ps-alert ps-alert-warning">
+        {% elif "error" in message.tags or "danger" in message.tags %}<div class="ps-alert ps-alert-danger">
+        {% else %}<div class="ps-alert ps-alert-info">{% endif %}
+          <button class="ps-close" aria-label="Fechar" onclick="this.parentElement.remove()">×</button>
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>

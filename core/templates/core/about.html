@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Cleilton{% endblock %}
+{% block description %}Learn about Cleilton, a full-stack developer and finance professional from Brazil, skilled in Django, React, and AI-driven solutions.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 text-center">
+                <img src="{% static 'img/PERFIL.png' %}" alt="Cleilton's Profile" class="profile-image mb-4 fade-in-up">
+                <div class="social-links-hero">
+                    <a href="https://linkedin.com/in/yourprofile" class="btn btn-outline-primary btn-sm me-2" title="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/cleiltonrodriguesofc" class="btn btn-outline-primary btn-sm me-2" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="{% url 'contact:contact' %}" class="btn btn-outline-primary btn-sm" title="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 hero-content">
+                <h1 class="section-title fade-in-up">About Me</h1>
+                <p class="hero-description fade-in-up">
+                    I’m Cleilton Rodrigues, a full-stack developer and finance professional from Brazil.
+                    As an Information Systems student at UFPI, I build scalable applications using Django, React, and PostgreSQL.
+                    With experience in investment analysis and CEA certification, I create solutions that bridge technology and finance.
+                </p>
+                <!-- <a href="projects:project_list" class="btn btn-primary fade-in-up"> -->
+                    <i class="fas fa-code me-2"></i>View Projects
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section class="section bg-light">
+    <div class="container">
+        <h2 class="section-title fade-in-up">Skills</h2>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card fade-in-up">
+                    <div class="card-body text-center">
+                        <span class="tech-tag">Django</span>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">React Native</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Bootstrap</span>
+                        <span class="tech-tag">Financial Analysis</span>
+                        <span class="tech-tag">AI Integration</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Bio Section -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title fade-in-up">My Expertise</h2>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card fade-in-up">
+                    <div class="card-body">
+                        <p class="lead">
+                            <i class="fas fa-chart-line me-2 text-blue"></i>
+                            Since 2023, I have advised on investment portfolios for an RPPS committee, enhancing my financial analysis skills.
+                            I am preparing for the CEA certification to deepen my finance expertise.
+                        </p>
+                        <p>
+                            <i class="fas fa-laptop-code me-2 text-blue"></i>
+                            As a full-stack developer, I develop applications like Sistema de Gestão Escolar, which streamlines school operations, and TaQuanto, a price-sharing app.
+                            My work on CS50W projects and SindsebSystem showcases my skills in Django and React.
+                        </p>
+                        <p>
+                            <i class="fas fa-robot me-2 text-blue"></i>
+                            I integrate AI tools, such as Grok, to optimize coding, project planning, and CEA preparation.
+                            My current project, an AI-powered investment tool, analyzes market trends to empower users.
+                        </p>
+                        <div class="text-center mt-4">
+                            <a href="projects:project_list" class="btn btn-primary">
+                                <i class="fas fa-code me-2"></i>View Projects
+                            </a>
+                            <a href="{% static 'files/resume.pdf' %}" class="btn btn-outline-primary ms-2" download>
+                                <i class="fas fa-download me-2"></i>Download Resume
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Milestones Section -->
+<section class="section bg-light">
+    <div class="container">
+        <h2 class="section-title fade-in-up">Milestones</h2>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card mb-3 fade-in-up">
+                    <div class="card-body">
+                        <h5 class="card-title text-blue"><i class="fas fa-graduation-cap me-2"></i>2023: Started Information Systems</h5>
+                        <p class="card-text">Began my degree at UFPI, focusing on software development.</p>
+                    </div>
+                </div>
+                <div class="card mb-3 fade-in-up">
+                    <div class="card-body">
+                        <h5 class="card-title text-blue"><i class="fas fa-chart-line me-2"></i>2023: Joined Investment Committee</h5>
+                        <p class="card-text">Advised on portfolios for an RPPS committee, building financial expertise.</p>
+                    </div>
+                </div>
+                <div class="card mb-3 fade-in-up">
+                    <div class="card-body">
+                        <h5 class="card-title text-blue"><i class="fas fa-laptop-code me-2"></i>2025: Started CS50W</h5>
+                        <p class="card-text">Completed four CS50W projects, including e-commerce and email systems.</p>
+                    </div>
+                </div>
+                <div class="card mb-3 fade-in-up">
+                    <div class="card-body">
+                        <h5 class="card-title text-blue"><i class="fas fa-code me-2"></i>2025: Developed Key Projects</h5>
+                        <p class="card-text">Built Sistema de Gestão Escolar, TaQuanto, and SindsebSystem.</p>
+                    </div>
+                </div>
+                <div class="card fade-in-up">
+                    <div class="card-body">
+                        <h5 class="card-title text-blue"><i class="fas fa-certificate me-2"></i>2025: Preparing for CEA</h5>
+                        <p class="card-text">Studying 10 hours weekly to earn the CEA certification.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

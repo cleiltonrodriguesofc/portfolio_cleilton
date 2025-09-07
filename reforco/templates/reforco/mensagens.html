@@ -1,0 +1,214 @@
+{% extends 'reforco/base.html' %}
+{% load static %}
+
+{% block title %}Mensagens - Sistema de Gestão de Alunos{% endblock %}
+
+{% block header_title %}Mensagens para WhatsApp{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">
+            <i class="fab fa-whatsapp me-2"></i>
+            Gerador de Mensagens
+        </h5>
+    </div>
+    <div class="card-body">
+        <!-- Filtros -->
+        <div class="mb-4">
+            <form method="get" class="row g-3">
+                <div class="col-md-6">
+                    <label for="aluno" class="form-label">Selecione o Aluno</label>
+                    <select name="aluno" id="aluno" class="form-select" onchange="this.form.submit()">
+                        <option value="">Selecione um aluno</option>
+                        {% for aluno in alunos %}
+                            <option value="{{ aluno.id }}" {% if aluno_selecionado and aluno.id == aluno_selecionado.id %}selected{% endif %}>{{ aluno.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+        </div>
+        
+        {% if aluno_selecionado %}
+            <!-- Informações do Aluno -->
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0">Informações do Aluno</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Nome:</strong> {{ aluno_selecionado.nome }}</p>
+                            <p><strong>Telefone/WhatsApp:</strong> {{ aluno_selecionado.telefone }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Responsável:</strong> {{ aluno_selecionado.nome_responsavel|default:"Não informado" }}</p>
+                            <p><strong>Status:</strong> <span class="{{ aluno_selecionado.get_status_display_badge }}">{{ aluno_selecionado.get_status_display }}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tipos de Mensagens -->
+            <div class="row mb-4">
+                {% for tipo in tipos_mensagem %}
+                    <div class="col-md-3 mb-3">
+                        <div class="card h-100 tipo-mensagem" data-tipo="{{ tipo.id }}">
+                            <div class="card-body text-center">
+                                <i class="{{ tipo.icone }} fa-3x mb-3 text-primary"></i>
+                                <h5 class="card-title">{{ tipo.nome }}</h5>
+                                <p class="card-text">{{ tipo.descricao }}</p>
+                                <button class="btn btn-primary btn-sm selecionar-tipo" data-tipo="{{ tipo.id }}">
+                                    <i class="fas fa-check me-1"></i>
+                                    Selecionar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Mensagens Geradas -->
+            <div class="card">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">Mensagem Gerada</h6>
+                    <div>
+                        <button class="btn btn-primary btn-sm copy-message" data-message="mensagem-gerada">
+                            <i class="fas fa-copy me-1"></i>
+                            Copiar Mensagem
+                        </button>
+                        <a href="https://wa.me/{{ aluno_selecionado.telefone|cut:' '|cut:'('|cut:')'|cut:'-' }}" target="_blank" class="btn btn-success btn-sm ms-2">
+                            <i class="fab fa-whatsapp me-1"></i>
+                            Abrir WhatsApp
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Mensagem de Cobrança -->
+                    <div class="mensagem-container" id="mensagem-cobranca" style="display: none;">
+                        <div class="alert alert-light" id="mensagem-gerada">
+                            <p>Olá, {{ aluno_selecionado.nome_responsavel|default:aluno_selecionado.nome }}!</p>
+                            <p>Espero que esteja tudo bem. Gostaria de lembrá-lo(a) sobre o(s) pagamento(s) pendente(s) referente(s) às mensalidades:</p>
+                            <p>
+                                {% if pagamentos_pendentes %}
+                                    {% for pagamento in pagamentos_pendentes %}
+                                        - {{ pagamento.mes_referencia|date:"m/Y" }}: R$ {{ pagamento.valor }}<br>
+                                    {% endfor %}
+                                {% else %}
+                                    - Não há pagamentos pendentes.
+                                {% endif %}
+                            </p>
+                            <p>Por favor, entre em contato para regularizar a situação ou informar se já realizou o pagamento.</p>
+                            <p>Obrigado pela atenção!</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Mensagem de Aniversário -->
+                    <div class="mensagem-container" id="mensagem-aniversario" style="display: none;">
+                        <div class="alert alert-light" id="mensagem-gerada">
+                            <p>Olá, {{ aluno_selecionado.nome }}!</p>
+                            <p>Hoje é um dia muito especial! Quero desejar a você um feliz aniversário, com muita saúde, paz e realizações!</p>
+                            <p>Que este novo ciclo seja repleto de conquistas e momentos felizes.</p>
+                            <p>Parabéns! 🎂🎉</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Mensagem de Ausência -->
+                    <div class="mensagem-container" id="mensagem-ausencia" style="display: none;">
+                        <div class="alert alert-light" id="mensagem-gerada">
+                            <p>Olá, {{ aluno_selecionado.nome_responsavel|default:aluno_selecionado.nome }}!</p>
+                            <p>Notamos que {{ aluno_selecionado.nome }} esteve ausente nas últimas aulas. Gostaríamos de saber se está tudo bem e se podemos ajudar de alguma forma.</p>
+                            <p>A presença regular é importante para o bom aproveitamento das aulas.</p>
+                            <p>Por favor, entre em contato caso precise de algum suporte ou tenha alguma dúvida.</p>
+                            <p>Atenciosamente,</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Mensagem Informativa -->
+                    <div class="mensagem-container" id="mensagem-informativo" style="display: none;">
+                        <div class="alert alert-light" id="mensagem-gerada">
+                            <p>Olá, {{ aluno_selecionado.nome_responsavel|default:aluno_selecionado.nome }}!</p>
+                            <p>Gostaríamos de informar que teremos algumas mudanças em nosso calendário de aulas.</p>
+                            <p>Por favor, fique atento(a) às datas e horários das próximas aulas.</p>
+                            <p>Caso tenha alguma dúvida, estamos à disposição para esclarecimentos.</p>
+                            <p>Atenciosamente,</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Mensagem Padrão (quando nenhum tipo é selecionado) -->
+                    <div class="mensagem-container" id="mensagem-padrao">
+                        <div class="alert alert-info">
+                            Selecione um tipo de mensagem acima para gerar o texto.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                Selecione um aluno para gerar mensagens.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Selecionar tipo de mensagem
+        const botoesTipo = document.querySelectorAll('.selecionar-tipo');
+        const mensagemContainers = document.querySelectorAll('.mensagem-container');
+        
+        botoesTipo.forEach(botao => {
+            botao.addEventListener('click', function() {
+                const tipo = this.getAttribute('data-tipo');
+                
+                // Esconder todas as mensagens
+                mensagemContainers.forEach(container => {
+                    container.style.display = 'none';
+                });
+                
+                // Mostrar a mensagem selecionada
+                document.getElementById(`mensagem-${tipo}`).style.display = 'block';
+                
+                // Destacar o card selecionado
+                document.querySelectorAll('.tipo-mensagem').forEach(card => {
+                    card.classList.remove('border-primary');
+                });
+                document.querySelector(`.tipo-mensagem[data-tipo="${tipo}"]`).classList.add('border-primary');
+            });
+        });
+        
+        // Copiar mensagem para a área de transferência
+        const copyButton = document.querySelector('.copy-message');
+        if (copyButton) {
+            copyButton.addEventListener('click', function() {
+                const messageId = this.getAttribute('data-message');
+                const messageElement = document.querySelector('.mensagem-container[style="display: block;"] #mensagem-gerada');
+                
+                if (messageElement) {
+                    // Obter o texto da mensagem
+                    const messageText = messageElement.innerText;
+                    
+                    // Copiar para a área de transferência
+                    navigator.clipboard.writeText(messageText).then(() => {
+                        // Feedback visual
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                        this.classList.add('btn-success');
+                        this.classList.remove('btn-primary');
+                        
+                        // Restaurar após 2 segundos
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                            this.classList.remove('btn-success');
+                            this.classList.add('btn-primary');
+                        }, 2000);
+                    });
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
+

@@ -1,0 +1,227 @@
+{% extends 'reforco/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - Sistema de Gestão de Alunos{% endblock %}
+
+{% block header_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Total de Alunos Ativos -->
+    <div class="col-md-3 col-sm-6">
+        <div class="dashboard-card">
+            <div class="card-body">
+                <div class="icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="info">
+                    <h4>{{ total_alunos }}</h4>
+                    <p>Alunos Ativos</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Presentes Hoje -->
+    <div class="col-md-3 col-sm-6">
+        <div class="dashboard-card">
+            <div class="card-body">
+                <div class="icon">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <div class="info">
+                    <h4>{{ total_presentes }}</h4>
+                    <p>Presentes Hoje</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pagamentos Pendentes -->
+    <div class="col-md-3 col-sm-6">
+        <div class="dashboard-card">
+            <div class="card-body">
+                <div class="icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="info">
+                    <h4>{{ total_pendentes }}</h4>
+                    <p>Pagamentos Pendentes</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Aniversariantes do Mês -->
+    <div class="col-md-3 col-sm-6">
+        <div class="dashboard-card">
+            <div class="card-body">
+                <div class="icon">
+                    <i class="fas fa-birthday-cake"></i>
+                </div>
+                <div class="info">
+                    <h4>{{ total_aniversariantes }}</h4>
+                    <p>Aniversariantes</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <!-- Lista de Presentes Hoje -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-clipboard-check me-2"></i>
+                    Presentes Hoje
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if presentes_hoje %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Hora</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for presenca in presentes_hoje %}
+                                    <tr>
+                                        <td>{{ presenca.aluno.nome }}</td>
+                                        <td>{{ presenca.data|date:"d/m/Y" }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">Nenhum aluno presente hoje.</p>
+                {% endif %}
+                
+                <a href="{% url 'presenca_create' %}" class="btn btn-primary mt-3">
+                    <i class="fas fa-plus-circle me-2"></i>
+                    Marcar Presença
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pagamentos Pendentes -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    Pagamentos Pendentes
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if pagamentos_pendentes %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Aluno</th>
+                                    <th>Mês</th>
+                                    <th>Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pagamento in pagamentos_pendentes %}
+                                    <tr>
+                                        <td>{{ pagamento.aluno.nome }}</td>
+                                        <td>{{ pagamento.mes_referencia|date:"m/Y" }}</td>
+                                        <td>R$ {{ pagamento.valor }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">Nenhum pagamento pendente.</p>
+                {% endif %}
+                
+                <a href="{% url 'pagamento_list' %}" class="btn btn-primary mt-3">
+                    <i class="fas fa-money-bill-wave me-2"></i>
+                    Ver Todos os Pagamentos
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <!-- Aniversariantes do Mês -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-birthday-cake me-2"></i>
+                    Aniversariantes do Mês
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if aniversariantes %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Data</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for aluno in aniversariantes %}
+                                    <tr>
+                                        <td>{{ aluno.nome }}</td>
+                                        <td>{{ aluno.data_nascimento|date:"d/m" }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">Nenhum aniversariante este mês.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Ações Rápidas -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-bolt me-2"></i>
+                    Ações Rápidas
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-3">
+                    <a href="{% url 'aluno_create' %}" class="btn btn-primary">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Novo Aluno
+                    </a>
+                    <a href="{% url 'presenca_create' %}" class="btn btn-success">
+                        <i class="fas fa-clipboard-check me-2"></i>
+                        Marcar Presença
+                    </a>
+                    <a href="{% url 'pagamento_create' %}" class="btn btn-info text-white">
+                        <i class="fas fa-money-bill-wave me-2"></i>
+                        Registrar Pagamento
+                    </a>
+                    <a href="{% url 'mensagens' %}" class="btn btn-secondary">
+                        <i class="fab fa-whatsapp me-2"></i>
+                        Enviar Mensagem
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

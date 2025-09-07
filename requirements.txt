@@ -1,0 +1,15 @@
+# Core framework
+Django==5.2.4
+
+# Production WSGI server
+gunicorn==23.0.0
+
+# Database connection for Neon (PostgreSQL)
+psycopg2-binary==2.9.10
+dj-database-url==3.0.1
+
+# For serving static files in production
+whitenoise==6.9.0
+
+# For managing environment variables
+python-decouple==3.8

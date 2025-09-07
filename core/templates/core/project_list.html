@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="section bg-light">
+    <div class="container">
+        <h2 class="section-title">Meus Projetos</h2>
+        <div class="row">
+
+            <!-- Reforço Escolar -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="project-card">
+                    <a href="/projetos/reforco/">
+                        <img src="{% static 'img/project-reforco.png' %}" 
+                             alt="Dashboard do Reforço Escolar" 
+                             class="project-image">
+                    </a>
+                    <div class="project-content">
+                        <h3 class="project-title">Reforço Escolar Tia Damires</h3>
+                        <p class="project-description">
+                            Sistema de gestão acadêmica para aulas de reforço escolar,
+                            incluindo dashboard moderno, controle de presença,
+                            gerenciamento de pagamentos e relatórios.
+                        </p>
+                        <div class="tech-tags mb-3">
+                            <span class="tech-tag">Django</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">Bootstrap</span>
+                        </div>
+                        <a href="/projetos/reforco/" class="btn btn-primary btn-sm">
+                            <i class="fas fa-eye me-2"></i>Ver Projeto
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}
