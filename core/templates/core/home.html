@@ -4,255 +4,190 @@
 {% block content %}
 <!-- Hero Section -->
 <section class="hero-section">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 hero-content">
-                <h1 class="hero-title">Cleilton Rodrigues</h1>
-                <h2 class="hero-subtitle typing-effect">Desenvolvedor Full-Stack & Apaixonado por Finanças</h2>
-                <p class="hero-description">
-                    Sou apaixonado por tecnologia e investimentos, áreas que direcionam minha trajetória profissional e meus estudos. 
-                    Estou cursando Bacharelado em Sistemas de Informação e desenvolvendo projetos que unem inovação, usabilidade e resultados reais.
-                </p>
-                <div class="hero-buttons">
-                    <a href="projects:project_list" class="btn btn-primary me-3">
-                        <i class="fas fa-code me-2"></i>Ver Projetos
-                    </a>
-                    <a href="{% url 'contact:contact' %}" class="btn btn-outline-primary">
-                        <i class="fas fa-envelope me-2"></i>Entre em Contato
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-6 text-center">
-                <img src="{% static 'img/PERFIL.png' %}" alt="Foto de Cleilton" class="profile-image">
-                <div class="mt-4">
-                    <p class="text-muted">
-                        <i class="fas fa-map-marker-alt me-2"></i>Brasil
-                    </p>
-                    <div class="social-links-hero">
-                        <a href="https://www.linkedin.com/in/cleilton-rodrigues-1347551a5/" class="btn btn-outline-primary btn-sm me-2" title="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="#" class="btn btn-outline-primary btn-sm me-2" title="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="{% url 'contact:contact' %}" class="btn btn-outline-primary btn-sm" title="Email">
-                            <i class="fas fa-envelope"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 hero-content">
+        <h1 class="hero-title">Cleilton Rodrigues</h1>
+        <h2 class="hero-subtitle typing-effect">Full-Stack Developer & Finance Enthusiast</h2>
+        <p class="hero-description">
+          I’m passionate about technology and investments—the two pillars guiding my work and studies.
+          I hold a <strong>Technology degree in Public Management (IFMA, 2022)</strong> and I’m currently pursuing
+          <strong>Information Systems (UFPI)</strong> and <strong>Letters – English (Uniasselvi)</strong>.
+          I build scalable, user-focused products with Django, React, PostgreSQL, and AI integration, always aiming for real-world impact.
+        </p>
+        <div class="hero-buttons">
+          <a href="{% url 'core:project_list' %}" class="btn btn-primary me-3">
+            <i class="fas fa-code me-2"></i>View Projects
+          </a>
+          <a href="{% url 'contact:contact' %}" class="btn btn-outline-primary">
+            <i class="fas fa-envelope me-2"></i>Contact Me
+          </a>
         </div>
+      </div>
+      <div class="col-lg-6 text-center">
+        <img src="{% static 'img/PERFIL.png' %}" alt="Cleilton’s photo" class="profile-image">
+        <div class="mt-4">
+          <p class="text-muted">
+            <i class="fas fa-map-marker-alt me-2"></i>Brazil
+          </p>
+          <div class="social-links-hero">
+            <a href="https://www.linkedin.com/in/cleiltonrodriguesofc" class="btn btn-outline-primary btn-sm me-2" title="LinkedIn">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://github.com/cleiltonrodriguesofc" class="btn btn-outline-primary btn-sm me-2" title="GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
 <!-- About Section -->
 <section class="section bg-light">
-    <div class="container">
-        <h2 class="section-title">Sobre Mim</h2>
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <div class="card">
-                    <div class="card-body">
-                        <p class="lead">
-                            Gosto de transformar ideias em soluções funcionais e eficientes. Trabalho com Django, Django REST Framework, 
-                            React, PostgreSQL, integração de APIs e aplicações com inteligência artificial.
-                        </p>
-                        <p>
-                            Antes de mergulhar de vez na área de tecnologia, construí uma sólida experiência no setor financeiro, 
-                            atuando como conselheiro gestor de investimentos em comitê, participando de decisões estratégicas e análises de carteira. 
-                            Também fui classificado em concursos para Banco da Amazônia, Caixa Econômica Federal e Banco do Nordeste.
-                        </p>
-                        <p>
-                            Meu objetivo é continuar evoluindo como desenvolvedor e unir minhas experiências em tecnologia e investimentos 
-                            para criar soluções inovadoras, úteis e que gerem impacto positivo.
-                        </p>
-                        <div class="text-center mt-4">
-                            <a href="{% url 'core:about' %}" class="btn btn-primary">
-                                <i class="fas fa-user me-2"></i>Saiba Mais
-                            </a>
-                        </div>
-                    </div>
-                </div>
+  <div class="container">
+    <h2 class="section-title">About Me</h2>
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="card">
+          <div class="card-body">
+            <p class="lead">
+              I turn ideas into reliable, efficient solutions. My toolkit includes Django, Django REST Framework,
+              React, PostgreSQL, API integrations, and AI-powered features.
+            </p>
+            <p>
+              Before going all-in on software, I built a solid foundation in finance:
+              since 2023 I’ve served on an <strong>RPPS investment committee</strong>, contributing to portfolio analysis and strategy.
+              I’m actively preparing for <strong>CEA (ANBIMA)</strong> and <strong>CG-RPPS</strong>. I’ve also ranked in public exams
+              for <em>Banco da Amazônia</em>, <em>Caixa Econômica Federal</em>, and <em>Banco do Nordeste</em>.
+            </p>
+            <p>
+              My goal is to keep growing as a developer and combine my technology background with finance
+              to create useful, innovative products that deliver measurable results.
+            </p>
+            <div class="text-center mt-4">
+              <a href="{% url 'core:about' %}" class="btn btn-primary">
+                <i class="fas fa-user me-2"></i>Learn More
+              </a>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </section>
 
 <!-- Skills Section -->
 <section class="section">
-    <div class="container">
-        <h2 class="section-title">Habilidades Técnicas</h2>
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="skill-item">
-                    <div class="skill-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <h3 class="skill-title">Back-End</h3>
-                    <div class="tech-tags">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">Django</span>
-                        <span class="tech-tag">Django REST</span>
-                        <span class="tech-tag">Node.js</span>
-                        <span class="tech-tag">PostgreSQL</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="skill-item">
-                    <div class="skill-icon">
-                        <i class="fas fa-laptop-code"></i>
-                    </div>
-                    <h3 class="skill-title">Front-End</h3>
-                    <div class="tech-tags">
-                        <span class="tech-tag">React</span>
-                        <span class="tech-tag">React Native</span>
-                        <span class="tech-tag">JavaScript</span>
-                        <span class="tech-tag">HTML5</span>
-                        <span class="tech-tag">CSS3</span>
-                        <span class="tech-tag">Bootstrap</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="skill-item">
-                    <div class="skill-icon">
-                        <i class="fas fa-tools"></i>
-                    </div>
-                    <h3 class="skill-title">Ferramentas</h3>
-                    <div class="tech-tags">
-                        <span class="tech-tag">Git</span>
-                        <span class="tech-tag">GitHub</span>
-                        <span class="tech-tag">Firebase</span>
-                        <span class="tech-tag">APIs</span>
-                        <span class="tech-tag">IA</span>
-                        <span class="tech-tag">Docker</span>
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="skill-item">
+          <div class="skill-icon">
+            <i class="fas fa-server"></i>
+          </div>
+          <h3 class="skill-title">Back-End</h3>
+          <div class="tech-tags">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">Django</span>
+            <span class="tech-tag">Django REST</span>
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">PostgreSQL</span>
+          </div>
         </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="skill-item">
+          <div class="skill-icon">
+            <i class="fas fa-laptop-code"></i>
+          </div>
+          <h3 class="skill-title">Front-End</h3>
+          <div class="tech-tags">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">React Native</span>
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">HTML5</span>
+            <span class="tech-tag">CSS3</span>
+            <span class="tech-tag">Bootstrap</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="skill-item">
+          <div class="skill-icon">
+            <i class="fas fa-tools"></i>
+          </div>
+          <h3 class="skill-title">Tools</h3>
+          <div class="tech-tags">
+            <span class="tech-tag">Git</span>
+            <span class="tech-tag">GitHub</span>
+            <span class="tech-tag">Firebase</span>
+            <span class="tech-tag">APIs</span>
+            <span class="tech-tag">AI</span>
+            <span class="tech-tag">Docker</span>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
 <!-- Featured Projects Section -->
 <section class="section bg-light">
-    <div class="container">
-        <h2 class="section-title">Projetos em Destaque</h2>
-        <div class="row">
+  <div class="container">
+    <h2 class="section-title">Featured Projects</h2>
+    <div class="row">
 
-            <!-- Reforço Escolar Project -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="project-card">
-                    <img src="{% static 'img/project-reforco.png' %}" alt="Reforço Escolar Dashboard" class="project-image">
-                    <div class="project-content">
-                        <h3 class="project-title">Reforço Escolar Tia Damires</h3>
-                        <p class="project-description">
-                            Sistema de gestão para aulas de reforço escolar, com dashboard moderno,
-                            controle de presença, pagamentos e relatórios.
-                        </p>
-                        <div class="tech-tags mb-3">
-                            <span class="tech-tag">Django</span>
-                            <span class="tech-tag">PostgreSQL</span>
-                            <span class="tech-tag">Bootstrap</span>
-                        </div>
-                        <a href="{% url 'core:project_list' %}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye me-2"></i>Ver Projeto
-                        </a>
-                    </div>
-                </div>
+      <!-- Reforço Escolar Project -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="project-card">
+          <img src="{% static 'img/project-reforco.png' %}" alt="Reforço Escolar Dashboard" class="project-image">
+          <div class="project-content">
+            <h3 class="project-title">Reforço Escolar Tia Damires</h3>
+            <p class="project-description">
+              Management system for tutoring schools with a modern dashboard, attendance tracking, payments, and reports.
+            </p>
+            <div class="tech-tags mb-3">
+              <span class="tech-tag">Django</span>
+              <span class="tech-tag">PostgreSQL</span>
+              <span class="tech-tag">Bootstrap</span>
             </div>
-
-            <!-- TaQuanto App
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="project-card">
-                    <img src="{% static 'img/project-taquanto.jpg' %}" alt="TaQuanto App" class="project-image">
-                    <div class="project-content">
-                        <h3 class="project-title">TaQuanto?</h3>
-                        <p class="project-description">
-                            Aplicativo em React Native para compartilhamento de preços de supermercado em tempo real, 
-                            com integração ao Firebase.
-                        </p>
-                        <div class="tech-tags mb-3">
-                            <span class="tech-tag">React Native</span>
-                            <span class="tech-tag">Firebase</span>
-                            <span class="tech-tag">JavaScript</span>
-                        </div>
-                        <a href="projects:project_detail" slug='taquanto' class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye me-2"></i>Ver Projeto
-                        </a>
-                    </div>
-                </div>
-            </div> -->
-
-            <!-- SindsebSystem -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="project-card">
-                    <img src="{% static 'img/project-sindseb.jpg' %}" alt="SindsebSystem" class="project-image">
-                    <div class="project-content">
-                        <h3 class="project-title">SindsebSystem</h3>
-                        <p class="project-description">
-                            Sistema de gestão completo para sindicatos, desenvolvido em Django com funcionalidades 
-                            avançadas de administração.
-                        </p>
-                        <div class="tech-tags mb-3">
-                            <span class="tech-tag">Django</span>
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">PostgreSQL</span>
-                        </div>
-                        <a href="projects:project_detail' slug='sindsebsystem" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye me-2"></i>Ver Projeto
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CS50W Projects
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="project-card">
-                    <img src="{% static 'img/project-cs50w.jpg' %}" alt="Projetos CS50W" class="project-image">
-                    <div class="project-content">
-                        <h3 class="project-title">Projetos CS50W</h3>
-                        <p class="project-description">
-                            Coleção de projetos desenvolvidos durante o curso CS50W de Harvard, 
-                            demonstrando habilidades em desenvolvimento web.
-                        </p>
-                        <div class="tech-tags mb-3">
-                            <span class="tech-tag">Django</span>
-                            <span class="tech-tag">JavaScript</span>
-                            <span class="tech-tag">HTML/CSS</span>
-                        </div>
-                        <a href="projects:project_detail' slug='cs50w-projects" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye me-2"></i>Ver Projetos
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        
-        <div class="text-center mt-4">
-            <a href="{% url 'core:project_list' %}" class="btn btn-outline-primary btn-lg">
-                <i class="fas fa-folder-open me-2"></i>Ver Todos os Projetos
+            <a href="/projetos/reforco/" class="btn btn-primary btn-sm">
+              <i class="fas fa-eye me-2"></i>View Project
             </a>
+          </div>
         </div>
+      </div>
+
+     
+
     </div>
+
+    <div class="text-center mt-4">
+      <a href="{% url 'core:project_list' %}" class="btn btn-outline-primary btn-lg">
+        <i class="fas fa-folder-open me-2"></i>View All Projects
+      </a>
+    </div>
+  </div>
 </section>
 
 <!-- CTA Section -->
 <section class="section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="section-title">Vamos Trabalhar Juntos?</h2>
-                <p class="lead mb-4">
-                    Estou sempre aberto a novas oportunidades e projetos interessantes. 
-                    Entre em contato para discutirmos como posso ajudar em seu próximo projeto.
-                </p>
-                <a href="{% url 'contact:contact' %}" class="btn btn-primary btn-lg">
-                    <i class="fas fa-handshake me-2"></i>Iniciar Conversa
-                </a>
-            </div>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="section-title">Shall We Work Together?</h2>
+        <p class="lead mb-4">
+          I’m always open to new opportunities and meaningful projects.
+          Get in touch and let’s explore how I can help your next build.
+        </p>
+        <a href="{% url 'contact:contact' %}" class="btn btn-primary btn-lg">
+          <i class="fas fa-handshake me-2"></i>Start a Conversation
+        </a>
+      </div>
     </div>
+  </div>
 </section>
 {% endblock %}
-

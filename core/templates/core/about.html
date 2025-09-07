@@ -2,141 +2,146 @@
 {% load static %}
 
 {% block title %}About Cleilton{% endblock %}
-{% block description %}Learn about Cleilton, a full-stack developer and finance professional from Brazil, skilled in Django, React, and AI-driven solutions.{% endblock %}
+{% block description %}Discover Cleilton Rodrigues, a Brazilian full-stack developer, finance professional, and entrepreneur, passionate about AI-powered solutions that connect technology and investments.{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
 <section class="section">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 text-center">
-                <img src="{% static 'img/PERFIL.png' %}" alt="Cleilton's Profile" class="profile-image mb-4 fade-in-up">
-                <div class="social-links-hero">
-                    <a href="https://linkedin.com/in/yourprofile" class="btn btn-outline-primary btn-sm me-2" title="LinkedIn">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                    <a href="https://github.com/cleiltonrodriguesofc" class="btn btn-outline-primary btn-sm me-2" title="GitHub">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="{% url 'contact:contact' %}" class="btn btn-outline-primary btn-sm" title="Email">
-                        <i class="fas fa-envelope"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-6 hero-content">
-                <h1 class="section-title fade-in-up">About Me</h1>
-                <p class="hero-description fade-in-up">
-                    I’m Cleilton Rodrigues, a full-stack developer and finance professional from Brazil.
-                    As an Information Systems student at UFPI, I build scalable applications using Django, React, and PostgreSQL.
-                    With experience in investment analysis and CEA certification, I create solutions that bridge technology and finance.
-                </p>
-                <!-- <a href="projects:project_list" class="btn btn-primary fade-in-up"> -->
-                    <i class="fas fa-code me-2"></i>View Projects
-                </a>
-            </div>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 text-center">
+        <img src="{% static 'img/PERFIL.png' %}" alt="Cleilton's Profile" class="profile-image mb-4 fade-in-up">
+        <div class="social-links-hero">
+          <a href="https://linkedin.com/in/cleiltonrodriguesofc" class="btn btn-outline-primary btn-sm me-2" title="LinkedIn">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="https://github.com/cleiltonrodriguesofc" class="btn btn-outline-primary btn-sm me-2" title="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="{% url 'contact:contact' %}" class="btn btn-outline-primary btn-sm" title="Email">
+            <i class="fas fa-envelope"></i>
+          </a>
         </div>
+      </div>
+      <div class="col-lg-6 hero-content">
+        <h1 class="section-title fade-in-up">About Me</h1>
+        <p class="hero-description fade-in-up">
+          I’m <strong>Cleilton Rodrigues</strong>, a Brazilian full-stack developer and finance professional.
+          I hold a <strong>Technology degree in Public Management (IFMA, 2022)</strong> and I’m currently pursuing
+          <strong>Information Systems (UFPI)</strong> and <strong>Letters – English (Uniasselvi)</strong>.
+          I merge Django, React, and AI to build scalable products for education, business, and finance.
+          On the finance side, I serve on an <strong>RPPS investment committee</strong> and I’m preparing for
+          <strong>CEA (ANBIMA)</strong> and <strong>CG-RPPS</strong> certifications.
+        </p>
+        <a href="{% url 'core:project_list' %}" class="btn btn-primary fade-in-up">
+          <i class="fas fa-code me-2"></i>View Projects
+        </a>
+      </div>
     </div>
+  </div>
 </section>
 
 <!-- Skills Section -->
 <section class="section bg-light">
-    <div class="container">
-        <h2 class="section-title fade-in-up">Skills</h2>
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <div class="card fade-in-up">
-                    <div class="card-body text-center">
-                        <span class="tech-tag">Django</span>
-                        <span class="tech-tag">React</span>
-                        <span class="tech-tag">React Native</span>
-                        <span class="tech-tag">PostgreSQL</span>
-                        <span class="tech-tag">JavaScript</span>
-                        <span class="tech-tag">Bootstrap</span>
-                        <span class="tech-tag">Financial Analysis</span>
-                        <span class="tech-tag">AI Integration</span>
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <h2 class="section-title fade-in-up">Skills</h2>
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="card fade-in-up">
+          <div class="card-body text-center">
+            <span class="tech-tag">Django</span>
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">React Native</span>
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">Bootstrap</span>
+            <span class="tech-tag">AI Integration</span>
+            <span class="tech-tag">Financial Analysis</span>
+            <span class="tech-tag">Investment Strategies</span>
+            <span class="tech-tag">Public Management</span>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </section>
 
 <!-- Bio Section -->
 <section class="section">
-    <div class="container">
-        <h2 class="section-title fade-in-up">My Expertise</h2>
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <div class="card fade-in-up">
-                    <div class="card-body">
-                        <p class="lead">
-                            <i class="fas fa-chart-line me-2 text-blue"></i>
-                            Since 2023, I have advised on investment portfolios for an RPPS committee, enhancing my financial analysis skills.
-                            I am preparing for the CEA certification to deepen my finance expertise.
-                        </p>
-                        <p>
-                            <i class="fas fa-laptop-code me-2 text-blue"></i>
-                            As a full-stack developer, I develop applications like Sistema de Gestão Escolar, which streamlines school operations, and TaQuanto, a price-sharing app.
-                            My work on CS50W projects and SindsebSystem showcases my skills in Django and React.
-                        </p>
-                        <p>
-                            <i class="fas fa-robot me-2 text-blue"></i>
-                            I integrate AI tools, such as Grok, to optimize coding, project planning, and CEA preparation.
-                            My current project, an AI-powered investment tool, analyzes market trends to empower users.
-                        </p>
-                        <div class="text-center mt-4">
-                            <a href="projects:project_list" class="btn btn-primary">
-                                <i class="fas fa-code me-2"></i>View Projects
-                            </a>
-                            <a href="{% static 'files/resume.pdf' %}" class="btn btn-outline-primary ms-2" download>
-                                <i class="fas fa-download me-2"></i>Download Resume
-                            </a>
-                        </div>
-                    </div>
-                </div>
+  <div class="container">
+    <h2 class="section-title fade-in-up">My Expertise</h2>
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="card fade-in-up">
+          <div class="card-body">
+            <p class="lead">
+              <i class="fas fa-chart-line me-2 text-blue"></i>
+              Since 2023, I’ve served on an RPPS investment committee, strengthening portfolio analysis
+              and risk management. I’m deepening this path with CEA and CG-RPPS prep.
+            </p>
+            <p>
+              <i class="fas fa-laptop-code me-2 text-blue"></i>
+              As a developer, I’ve built <em>Reforço Escolar</em> (education management), <em>SindsebSystem</em> (union management),
+              and <em>TaQuanto</em> (React Native price-sharing). I also ship AI-assisted tools and modern dashboards in Django.
+            </p>
+            <p>
+              <i class="fas fa-robot me-2 text-blue"></i>
+              I’m currently building an AI-powered investment advisor that analyzes macro signals and personal portfolios
+              to deliver tailored insights in real time.
+            </p>
+            <div class="text-center mt-4">
+              <a href="{% url 'core:project_list' %}" class="btn btn-primary">
+                <i class="fas fa-code me-2"></i>View Projects
+              </a>
+              <a href="{% static 'files/resume.pdf' %}" class="btn btn-outline-primary ms-2" download>
+                <i class="fas fa-download me-2"></i>Download Resume
+              </a>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </section>
 
 <!-- Milestones Section -->
 <section class="section bg-light">
-    <div class="container">
-        <h2 class="section-title fade-in-up">Milestones</h2>
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <div class="card mb-3 fade-in-up">
-                    <div class="card-body">
-                        <h5 class="card-title text-blue"><i class="fas fa-graduation-cap me-2"></i>2023: Started Information Systems</h5>
-                        <p class="card-text">Began my degree at UFPI, focusing on software development.</p>
-                    </div>
-                </div>
-                <div class="card mb-3 fade-in-up">
-                    <div class="card-body">
-                        <h5 class="card-title text-blue"><i class="fas fa-chart-line me-2"></i>2023: Joined Investment Committee</h5>
-                        <p class="card-text">Advised on portfolios for an RPPS committee, building financial expertise.</p>
-                    </div>
-                </div>
-                <div class="card mb-3 fade-in-up">
-                    <div class="card-body">
-                        <h5 class="card-title text-blue"><i class="fas fa-laptop-code me-2"></i>2025: Started CS50W</h5>
-                        <p class="card-text">Completed four CS50W projects, including e-commerce and email systems.</p>
-                    </div>
-                </div>
-                <div class="card mb-3 fade-in-up">
-                    <div class="card-body">
-                        <h5 class="card-title text-blue"><i class="fas fa-code me-2"></i>2025: Developed Key Projects</h5>
-                        <p class="card-text">Built Sistema de Gestão Escolar, TaQuanto, and SindsebSystem.</p>
-                    </div>
-                </div>
-                <div class="card fade-in-up">
-                    <div class="card-body">
-                        <h5 class="card-title text-blue"><i class="fas fa-certificate me-2"></i>2025: Preparing for CEA</h5>
-                        <p class="card-text">Studying 10 hours weekly to earn the CEA certification.</p>
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <h2 class="section-title fade-in-up">Milestones</h2>
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="card mb-3 fade-in-up">
+          <div class="card-body">
+            <h5 class="card-title text-blue"><i class="fas fa-certificate me-2"></i>2022: Public Management Degree</h5>
+            <p class="card-text">Graduated in Public Management (IFMA) — a business-oriented program focused on the public sector.</p>
+          </div>
         </div>
+        <div class="card mb-3 fade-in-up">
+          <div class="card-body">
+            <h5 class="card-title text-blue"><i class="fas fa-graduation-cap me-2"></i>2023: Academic Growth</h5>
+            <p class="card-text">Began Information Systems at UFPI and advanced English studies at Uniasselvi.</p>
+          </div>
+        </div>
+        <div class="card mb-3 fade-in-up">
+          <div class="card-body">
+            <h5 class="card-title text-blue"><i class="fas fa-chart-line me-2"></i>2023: Finance Experience</h5>
+            <p class="card-text">Joined an RPPS investment committee, contributing to portfolio strategy.</p>
+          </div>
+        </div>
+        <div class="card mb-3 fade-in-up">
+          <div class="card-body">
+            <h5 class="card-title text-blue"><i class="fas fa-laptop-code me-2"></i>2024–2025: Project Development</h5>
+            <p class="card-text">Shipped TaQuanto, SindsebSystem, and an AI-driven investment dashboard.</p>
+          </div>
+        </div>
+        <div class="card mb-3 fade-in-up">
+          <div class="card-body">
+            <h5 class="card-title text-blue"><i class="fas fa-code me-2"></i>2025: CS50W</h5>
+            <p class="card-text">Completed CS50W projects (e-commerce, email, and more) using Django and React.</p>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 {% endblock %}

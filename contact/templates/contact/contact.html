@@ -39,14 +39,7 @@
 <section class="section">
     <div class="container">
         <div class="row justify-content-center mb-5">
-            <div class="col-md-4 mb-4">
-                <div class="contact-info-card">
-                    <i class="fas fa-envelope"></i>
-                    <h3>Email</h3>
-                    <p class="lead">contato@cleilton.dev</p>
-                    <a href="" class="btn btn-outline-primary">Enviar Email</a>
-                </div>
-            </div>
+            
             <div class="col-md-4 mb-4">
                 <div class="contact-info-card">
                     <i class="fab fa-linkedin"></i>
@@ -61,24 +54,6 @@
                     <h3>GitHub</h3>
                     <p class="lead">/cleilton</p>
                     <a href="https://github.com/cleiltonrodriguesofc?tab=repositories" target="_blank" class="btn btn-outline-primary">Ver Repositórios</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Contact Form -->
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="contact-form-card">
-                    <h2 class="section-title text-center mb-4">Envie uma Mensagem</h2>
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg mt-3">
-                                <i class="fas fa-paper-plane me-2"></i>Enviar Mensagem
-                            </button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
