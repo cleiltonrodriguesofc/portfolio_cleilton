@@ -207,10 +207,12 @@ python manage.py startapp new_project
 - **Layout**: Edit templates in `templates/`.
 
 ## 📱 Project URLs
-- `/`: Homepage
-- `/projects/`: Project list
-- `/projects/reforco/`: Student management system
-- `/contact/`: Contact page
+- `/` → Homepage
+- `/projects/` → Project list
+- `/projects/reforco/` → Reforço Escolar (Academic Management System)
+- `/projects/prograos/` → ProgGrãos (Grain Management System)
+- `/contact/` → Contact page
+
 
 ## 🎯 Next Steps
 1. **Integrate Projects**: Follow `INTEGRACAO_PROJETOS.md` for existing projects.
