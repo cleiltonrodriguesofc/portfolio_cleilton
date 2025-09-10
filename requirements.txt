@@ -1,27 +1,19 @@
-# === Core framework ===
+# === Core (used by portfolio, Reforço and ProGrãos) ===
 Django==5.2.4
 djangorestframework==3.15.2
-
-# === Production WSGI server ===
 gunicorn==23.0.0
-
-# === Database (PostgreSQL / Neon) ===
-psycopg2-binary==2.9.10
-dj-database-url==3.0.1
-
-# === Static files in production ===
 whitenoise==6.9.0
-
-# === Environment variables ===
+dj-database-url==3.0.1
+psycopg2-binary==2.9.10
 python-decouple==3.8
 
-# === Reports / PDFs ===
-reportlab==4.2.5
-
-# === Serial communication (scales, hardware, etc.) ===
-pyserial==3.5
-
-# === Django runtime deps (required by Django 5.x) ===
+# Django runtime deps
 asgiref==3.8.1
 sqlparse==0.5.1
 tzdata==2025.1
+
+# === ProGrãos (data analysis, PDF, hardware serial) ===
+numpy==2.1.2
+pandas==2.2.3
+reportlab==4.2.5   # already listed above, but kept here for clarity
+pyserial==3.5
