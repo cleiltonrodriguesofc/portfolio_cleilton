@@ -1,15 +1,27 @@
-# Core framework
+# === Core framework ===
 Django==5.2.4
+djangorestframework==3.15.2
 
-# Production WSGI server
+# === Production WSGI server ===
 gunicorn==23.0.0
 
-# Database connection for Neon (PostgreSQL)
+# === Database (PostgreSQL / Neon) ===
 psycopg2-binary==2.9.10
 dj-database-url==3.0.1
 
-# For serving static files in production
+# === Static files in production ===
 whitenoise==6.9.0
 
-# For managing environment variables
+# === Environment variables ===
 python-decouple==3.8
+
+# === Reports / PDFs ===
+reportlab==4.2.5
+
+# === Serial communication (scales, hardware, etc.) ===
+pyserial==3.5
+
+# === Django runtime deps (required by Django 5.x) ===
+asgiref==3.8.1
+sqlparse==0.5.1
+tzdata==2025.1
