@@ -101,17 +101,4 @@
 
   <div class="ps-offset" aria-hidden="true"></div>
 
-  {% if messages %}
-    <div class="ps-alerts">
-      {% for message in messages %}
-        {% if "success" in message.tags %}<div class="ps-alert ps-alert-success">
-        {% elif "warning" in message.tags %}<div class="ps-alert ps-alert-warning">
-        {% elif "error" in message.tags or "danger" in message.tags %}<div class="ps-alert ps-alert-danger">
-        {% else %}<div class="ps-alert ps-alert-info">{% endif %}
-          <button class="ps-close" aria-label="Fechar" onclick="this.parentElement.remove()">×</button>
-          {{ message }}
-        </div>
-      {% endfor %}
-    </div>
-  {% endif %}
 </div>

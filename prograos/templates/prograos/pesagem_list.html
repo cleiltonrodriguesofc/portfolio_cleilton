@@ -1,0 +1,94 @@
+{% extends 'prograos/base.html' %}
+{% load static %}
+
+{% block title %}Lista de Pesagens de Caminhões{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Pesagens de Caminhões</h1>
+    <a href="{% url 'prograos:pesagem_create' %}" class="btn btn-primary mb-3">
+        <i class="fas fa-plus me-1"></i>Nova Pesagem
+    </a>
+    <div class="card">
+        <div class="card-header">Lista de Pesagens</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped" id="pesagens-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Placa</th>
+                            <th>Tipo de Grão</th>
+                            <th>Peso Líquido (kg)</th>
+                            <th>Quantidade de Sacos</th>
+                            <th>Data</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pesagem in pesagens %}
+                        <tr>
+                            <td>{{ pesagem.id }}</td>
+                            <td>{{ pesagem.placa }}</td>
+                            <td>{{ pesagem.get_tipo_grao_display }}</td>
+                            <td>{{ pesagem.peso_liquido|floatformat:2 }}</td>
+                            <td>{{ pesagem.quantidade_sacos|floatformat:0 }}</td>
+                            <td>{{ pesagem.data_criacao|date:"d/m/Y H:i" }}</td>
+                            <td>
+                                <a href="{% url 'prograos:pesagem_detail' pesagem.id %}" class="btn btn-info btn-sm" title="Ver Detalhes">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{% url 'prograos:pesagem_update' pesagem.id %}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                </a>
+                                <a href="{% url 'prograos:pesagem_delete' pesagem.id %}" class="btn btn-danger btn-sm btn-delete" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7">Nenhuma pesagem encontrada.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if is_paginated %}
+            <nav aria-label="Paginação">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                    </li>
+                    {% endif %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Página {{ page_obj.number }} de {{ paginator.num_pages }}</span>
+                    </li>
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Próximo</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Highlight active sidebar link
+    const navLinks = document.querySelectorAll('.sidebar .nav-link');
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === '/pesagens/') {
+            link.classList.add('active');
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,169 @@
+{% extends 'prograos/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Ordem de Carregamento #{{ nota.id|stringformat:"06d" }}{% endblock %}
+
+{% block content %}
+<style>
+    /* --- Page Setup for Printing --- */
+    @page {
+        size: A4 portrait;
+        margin: 1.5cm;
+    }
+
+    /* --- General On-Screen Styles --- */
+    .ticket { /* Renamed from document-container for consistency */
+        background-color: white;
+        width: 210mm; /* A4 width */
+        min-height: 297mm; /* A4 height */
+        padding: 1.5cm;
+        box-sizing: border-box;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        margin: 2rem auto;
+        font-family: Arial, sans-serif;
+        font-size: 11pt;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .ticket-title {
+        text-align: center;
+        font-size: 18pt;
+        font-weight: bold;
+        margin-bottom: 1cm;
+        color: #2c3e50;
+    }
+
+    .ticket-body { display: flex; flex-direction: column; gap: 3mm; }
+    .row-group { display: flex; gap: 3mm; }
+    .row-group > .box { flex: 1; } /* Makes boxes in a row share space equally */
+    
+    .box {
+        border: 1px solid #aaa;
+        border-radius: 8px;
+        padding: 3mm;
+        background-color: #f8f9fa;
+    }
+    .box p {
+        margin: 0 0 4px 0;
+    }
+    
+    .field-label {
+        font-weight: bold;
+        color: #555;
+        font-size: 9pt;
+    }
+    .field-value {
+        font-size: 11pt;
+        min-height: 1em;
+    }
+
+    .signature-line {
+        margin-top: auto; /* Pushes the signature to the bottom */
+        padding-top: 3cm;
+        text-align: center;
+    }
+    
+    /* --- Print Styles --- */
+    @media print {
+        .no-print, .navbar, .sidebar, footer { display: none !important; }
+        body, .content-wrapper, .container-fluid {
+            padding: 0 !important; margin: 0 !important; background: none !important;
+        }
+        .ticket {
+            box-shadow: none; margin: 0; border: none; width: 100%; height: 100%;
+        }
+        .box {
+             background-color: #fff !important;
+        }
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="ticket">
+        
+        <h1 class="ticket-title">ORDEM DE CARREGAMENTO Nº {{ nota.id|stringformat:"06d" }}</h1>
+
+        <div class="ticket-body">
+            <div class="box">
+                <p><span class="field-label">Fornecedor:</span><br><span class="field-value">{{ nota.pesagem.motorista|default_if_none:"Não informado" }}</span></p>
+                <p><span class="field-label">Endereço:</span><br><span class="field-value">&nbsp;</span></p>
+            </div>
+
+            <div class="row-group">
+                <div class="box">
+                    <p><span class="field-label">Embarque:</span><br><span class="field-value">&nbsp;</span></p>
+                    <p><span class="field-label">Produto:</span><br><span class="field-value">{{ nota.get_tipo_grao_display }}</span></p>
+                </div>
+                <div class="box">
+                    <p><span class="field-label">Descarga:</span><br><span class="field-value">&nbsp;</span></p>
+                    <p><span class="field-label">Fone:</span><br><span class="field-value">{{ nota.telefone_recebedor|default_if_none:"N/A" }}</span></p>
+                </div>
+            </div>
+
+            <div class="row-group">
+                 <div class="box">
+                    <p><span class="field-label">Motorista:</span><br><span class="field-value">{{ nota.pesagem.motorista|default_if_none:"N/A" }}</span></p>
+                </div>
+                <div class="box">
+                    <p><span class="field-label">Placa - Carreta:</span><br><span class="field-value">{{ nota.pesagem.placa|default_if_none:"N/A" }}</span></p>
+                </div>
+                 <div class="box">
+                    <p><span class="field-label">Placa - Cavalo:</span><br><span class="field-value">{{ nota.pesagem.placa_cavalo|default_if_none:"N/A" }}</span></p>
+                </div>
+            </div>
+            
+            <div class="box">
+                <p><span class="field-label">Comprador:</span><br><span class="field-value">{{ nota.nome_recebedor }}</span></p>
+                <p><span class="field-label">Endereço:</span><br><span class="field-value">{{ nota.endereco_recebedor|default_if_none:"N/A" }}</span></p>
+                <div class="row-group" style="margin-top: 5px;">
+                    <p style="flex:1;"><span class="field-label">CPF/CNPJ:</span><br><span class="field-value">{{ nota.cpf_cnpj_recebedor|default_if_none:"N/A" }}</span></p>
+                    <p style="flex:1;"><span class="field-label">Município:</span><br><span class="field-value">&nbsp;</span></p>
+                </div>
+            </div>
+            
+            <div class="row-group">
+                <div class="box">
+                    <p><span class="field-label">Quantidade de Sacos:</span><br><span class="field-value">{{ nota.pesagem.quantidade_sacos|floatformat:"0g" }}</span></p>
+                </div>
+                <div class="box">
+                    <p><span class="field-label">Preço por Saco:</span><br><span class="field-value">R$ {{ nota.preco_por_saco|floatformat:"2g" }}</span></p>
+                </div>
+                <div class="box">
+                    <p><span class="field-label">Valor Total:</span><br><span class="field-value">R$ {{ nota.valor_total|floatformat:"2g" }}</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="signature-line">
+            <p>_________________________________________<br>{{ nota.pesagem.motorista|default:"Assinatura Motorista" }}</p>
+        </div>
+    </div>
+
+    <div class="action-buttons no-print text-center py-4">
+        <a href="{% url 'prograos:nota_list' %}" class="btn btn-secondary mx-1">
+            <i class="fas fa-arrow-left me-1"></i> Voltar
+        </a>
+        <button onclick="window.print()" class="btn btn-primary btn-lg mx-1">
+            <i class="fas fa-print me-1"></i> Imprimir ou Salvar PDF
+        </button>
+        <a href="{% url 'prograos:nota_update' nota.id %}" class="btn btn-secondary mx-1">
+            <i class="fas fa-edit me-1"></i> Editar
+        </a>
+        <a href="{% url 'prograos:nota_delete' nota.id %}" class="btn btn-danger mx-1">
+            <i class="fas fa-trash me-1"></i> Excluir
+        </a>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if the URL contains the 'print=true' parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('print')) {
+            window.print();
+        }
+    });
+</script>
+{% endblock %}

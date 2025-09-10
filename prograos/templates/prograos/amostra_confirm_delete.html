@@ -1,0 +1,24 @@
+{% extends 'prograos/base.html' %}
+{% block title %}Confirmar Exclusão{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Confirmar Exclusão</h1>
+</div>
+
+<div class="alert alert-danger" role="alert">
+    <h4 class="alert-heading">Atenção!</h4>
+    <p>Você tem certeza que deseja excluir a amostra <strong>#{{ amostra.id }}</strong>?</p>
+    <p>Esta ação não pode ser desfeita.</p>
+    <hr>
+    <p class="mb-0">Ao confirmar, a amostra será removida permanentemente do sistema.</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <a href="{% url 'prograos:amostra_detail' amostra.id %}" class="btn btn-secondary me-2">Cancelar</a>
+    <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+</form>
+{% endblock %}
+
+

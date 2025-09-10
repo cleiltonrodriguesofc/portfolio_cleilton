@@ -22,10 +22,10 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
-    # path('projetos/', include('projects.urls')),
     path('contato/', include('contact.urls')),
     # URLs dos projetos integrados
     path('projetos/reforco/', include('reforco.urls')),
+    path("projetos/prograos/", include(("prograos.urls"), namespace="prograos")),
 ]
 
 # Servir arquivos de media durante o desenvolvimento

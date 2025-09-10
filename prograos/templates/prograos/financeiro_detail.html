@@ -1,0 +1,110 @@
+{% extends 'prograos/base.html' %}
+
+{% block title %}Detalhes Financeiros - Nota #{{ registro.nota.id }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Detalhes Financeiros <small class="text-muted">| Nota #{{ registro.nota.id }}</small></h1>
+
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            Resumo da Operação
+            </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-5">Placa do Veículo:</dt>
+                        <dd class="col-sm-7">{{ registro.nota.pesagem.placa|default:"N/A" }}</dd>
+
+                        <dt class="col-sm-5">Valor Total da Venda:</dt>
+                        <dd class="col-sm-7"><strong>R$ {{ registro.nota.valor_total|floatformat:2 }}</strong></dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-5">Status do Pagamento:</dt>
+                        <dd class="col-sm-7">
+                            {% if registro.status_pagamento == 'PAGO' %}
+                                <span class="badge bg-success fs-6">{{ registro.get_status_pagamento_display }}</span>
+                            {% elif registro.status_pagamento == 'PARCIAL' %}
+                                <span class="badge bg-warning text-dark fs-6">{{ registro.get_status_pagamento_display }}</span>
+                            {% else %}
+                                <span class="badge bg-danger fs-6">{{ registro.get_status_pagamento_display }}</span>
+                            {% endif %}
+                        </dd>
+
+                        <dt class="col-sm-5">Valor Total Pago:</dt>
+                        <dd class="col-sm-7">R$ {{ registro.valor_pago|floatformat:2 }}</dd>
+
+                        <dt class="col-sm-5">Valor Restante:</dt>
+                        <dd class="col-sm-7"><strong class="text-danger">R$ {{ registro.calcular_valor_restante|floatformat:2 }}</strong></dd>
+                        <dt class="col-sm-5">Custo Total da Operação:</dt>
+                        <dd class="col-sm-7">R$ {{ registro.valor_custo_total|default:"0.00"|floatformat:2 }}</dd>
+
+                        <dt class="col-sm-5">Lucro da Operação:</dt>
+                        <dd class="col-sm-7">
+                            <strong class="{% if registro.lucro > 0 %}text-success{% elif registro.lucro < 0 %}text-danger{% endif %} fs-5">
+                                R$ {{ registro.lucro|default:"0.00"|floatformat:2 }}
+                            </strong>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            Histórico de Pagamentos
+            <a href="{% url 'prograos:pagamento_create' nota_pk=registro.nota.pk %}" class="btn btn-sm btn-success">
+                <i class="fas fa-plus me-1"></i> Adicionar Pagamento
+            </a>
+        </div>
+        <div class="card-body">
+            {% with pagamentos=registro.pagamentos.all %}
+            {% if pagamentos %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Valor (R$)</th>
+                        <th>Método</th>
+                        <th>Comprovante</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pagamento in pagamentos %}
+                    <tr>
+                        <td>{{ pagamento.data_pagamento|date:"d/m/Y H:i" }}</td>
+                        <td>{{ pagamento.valor|floatformat:2 }}</td>
+                        <td>{{ pagamento.get_metodo_pagamento_display }}</td>
+                        <td>
+                            {% if pagamento.comprovante %}
+                                <a href="{{ pagamento.comprovante.url }}" target="_blank">Ver</a>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'prograos:pagamento_update' pagamento.pk %}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                            <a href="{% url 'prograos:pagamento_delete' pagamento.pk %}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="text-center">Nenhum pagamento registrado para esta operação.</p>
+            {% endif %}
+            {% endwith %}
+        </div>
+
+    </div>
+    <div class="mt-4">
+        <a href="{% url 'prograos:financeiro_list' %}" class="btn btn-secondary">Voltar para a Lista</a>
+    </div>
+</div>
+{% endblock %}

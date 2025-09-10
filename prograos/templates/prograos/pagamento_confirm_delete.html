@@ -1,0 +1,37 @@
+{% extends 'prograos/base.html' %}
+
+{% block title %}Confirmar Exclusão de Pagamento{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Confirmar Exclusão</h5>
+                </div>
+                <div class="card-body">
+                    <p class="fs-5">Tem certeza que deseja excluir o pagamento de <strong>R$ {{ object.valor|floatformat:2 }}</strong>?</p>
+                    <ul class="list-unstyled text-muted">
+                        <li><strong>Data:</strong> {{ object.data_pagamento|date:"d/m/Y H:i" }}</li>
+                        <li><strong>Método:</strong> {{ object.get_metodo_pagamento_display }}</li>
+                        <li><strong>Referente à Nota:</strong> #{{ object.registro_financeiro.nota.id }}</li>
+                    </ul>
+                    <p class="mt-3"><strong>Atenção:</strong> Esta ação não pode ser desfeita e o status financeiro da nota será recalculado.</p>
+                    
+                    <form method="post" class="mt-4">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash me-1"></i> Sim, Excluir
+                        </button>
+                        
+                        <a href="{% url 'prograos:financeiro_detail' nota_pk=object.registro_financeiro.nota.pk %}" class="btn btn-secondary">
+                            Cancelar
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

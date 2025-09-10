@@ -1,0 +1,82 @@
+{% extends 'prograos/base.html' %}
+{% load static %}
+
+{% block title %}Detalhes da Amostra{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Detalhes da Amostra #{{ amostra.id }}</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{% url 'prograos:amostra_update' amostra.id %}" class="btn btn-sm btn-warning me-2">
+            <i class="fas fa-edit me-1"></i> Editar
+        </a>
+        <a href="{% url 'prograos:amostra_delete' amostra.id %}" class="btn btn-sm btn-danger btn-delete">
+            <i class="fas fa-trash me-1"></i> Excluir
+        </a>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0">Informações da Amostra</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>ID da Amostra:</strong> {{ amostra.id }}</p>
+                <p><strong>Tipo de Grão:</strong> {{ amostra.tipo_grao }}</p>
+                <p><strong>Peso Bruto:</strong> {{ amostra.peso_bruto|floatformat:3 }} kg</p>
+                <p><strong>Umidade:</strong> {{ amostra.umidade|default_if_none:"N/A" }} %</p>
+                <p><strong>Impurezas:</strong> {{ amostra.impurezas|default_if_none:"N/A" }} %</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Peso Útil:</strong> {{ amostra.peso_util|floatformat:3 }} kg</p>
+                <p><strong>Status:</strong> 
+                    <span class="badge {% if amostra.status == 'ACEITA' %}bg-success{% elif amostra.status == 'REJEITADA' %}bg-danger{% else %}bg-warning{% endif %}">
+                        {{ amostra.status }}
+                    </span>
+                </p>
+                <p><strong>Data de Criação:</strong> {{ amostra.data_criacao|date:"d/m/Y H:i" }}</p>
+                <p><strong>Última Atualização:</strong> {{ amostra.data_atualizacao|date:"d/m/Y H:i" }}</p>
+                <p><strong>Usuário Responsável:</strong> {{ amostra.usuario.username }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">Log de Atividades</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Data/Hora</th>
+                        <th>Usuário</th>
+                        <th>Ação</th>
+                        <th>Detalhes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in activity_logs %}
+                    <tr>
+                        <td>{{ log.timestamp|date:"d/m/Y H:i" }}</td>
+                        <td>{{ log.user.username }}</td>
+                        <td>{{ log.action }}</td>
+                        <td>{{ log.details }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">Nenhum log de atividade para esta amostra.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

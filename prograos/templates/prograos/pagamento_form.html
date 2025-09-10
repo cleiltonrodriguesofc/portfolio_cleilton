@@ -1,0 +1,73 @@
+{% extends 'prograos/base.html' %}
+
+{% block title %}
+    {% if form.instance.pk %}Editar Pagamento{% else %}Registrar Novo Pagamento{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    
+    <div class="mb-4">
+        <h1 class="h2">
+            {% if form.instance.pk %}Editar Pagamento{% else %}Registrar Novo Pagamento{% endif %}
+        </h1>
+        
+        <p class="lead text-muted">
+            Referente à <a href="{% url 'prograos:nota_detail' nota.pk %}">Nota de Carregamento #{{ nota.id }}</a>
+            (<a href="{% url 'prograos:financeiro_detail' nota_pk=nota.pk %}">Ver Detalhes Financeiros</a>)
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Dados do Pagamento</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.valor.id_for_label }}" class="form-label">{{ form.valor.label }}</label>
+                        {{ form.valor }}
+                        {% if form.valor.errors %}<div class="invalid-feedback d-block">{{ form.valor.errors|join:", " }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.data_pagamento.id_for_label }}" class="form-label">{{ form.data_pagamento.label }}</label>
+                        {{ form.data_pagamento }}
+                        {% if form.data_pagamento.errors %}<div class="invalid-feedback d-block">{{ form.data_pagamento.errors|join:", " }}</div>{% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.metodo_pagamento.id_for_label }}" class="form-label">{{ form.metodo_pagamento.label }}</label>
+                        {{ form.metodo_pagamento }}
+                        {% if form.metodo_pagamento.errors %}<div class="invalid-feedback d-block">{{ form.metodo_pagamento.errors|join:", " }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.comprovante.id_for_label }}" class="form-label">{{ form.comprovante.label }}</label>
+                        {{ form.comprovante }}
+                        {% if form.comprovante.errors %}<div class="invalid-feedback d-block">{{ form.comprovante.errors|join:", " }}</div>{% endif %}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ form.observacoes.id_for_label }}" class="form-label">{{ form.observacoes.label }}</label>
+                    {{ form.observacoes }}
+                    {% if form.observacoes.errors %}<div class="invalid-feedback d-block">{{ form.observacoes.errors|join:", " }}</div>{% endif %}
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Salvar
+                    </button>
+                    <a href="{% url 'prograos:financeiro_detail' nota_pk=nota.pk %}" class="btn btn-secondary">
+                        Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

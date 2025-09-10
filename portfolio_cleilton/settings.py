@@ -5,6 +5,10 @@ from pathlib import Path
 from decouple import config
 import dj_database_url
 
+# --- Public demo flags ---
+DEMO_PUBLIC_MODE = True
+DEMO_USER_USERNAME = "tester"
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,9 +36,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'core',
     'contact',
     'reforco',
+    'prograos',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +87,7 @@ DATABASES = {
 }
 
 # Password validation... (remains unchanged)
-AUTH_PASSWORD_VALIDATORS = [...]
+# AUTH_PASSWORD_VALIDATORS = [...]
 
 # Internationalization
 LANGUAGE_CODE = 'pt-br'

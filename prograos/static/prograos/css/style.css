@@ -1,0 +1,236 @@
+/* Tema Azul para Sistema de Classificação de Grãos */
+
+:root {
+    --primary-blue: #0066cc;
+    --secondary-blue: #004499;
+    --light-blue: #e6f2ff;
+    --dark-blue: #003366;
+    --accent-blue: #3399ff;
+    --success-green: #28a745;
+    --warning-orange: #fd7e14;
+    --danger-red: #dc3545;
+    --info-cyan: #17a2b8;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Navbar customizations */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.bg-primary {
+    background-color: var(--primary-blue) !important;
+}
+
+.btn-primary {
+    background-color: var(--primary-blue);
+    border-color: var(--primary-blue);
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-blue);
+    border-color: var(--secondary-blue);
+}
+
+.btn-outline-primary {
+    color: var(--primary-blue);
+    border-color: var(--primary-blue);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-blue);
+    border-color: var(--primary-blue);
+}
+
+/* Cards and containers */
+.card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+.card-header {
+    background-color: var(--light-blue);
+    border-bottom: 1px solid var(--primary-blue);
+    font-weight: 600;
+}
+
+/* Forms */
+.form-control:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 0.2rem rgba(51, 153, 255, 0.25);
+}
+
+.form-select:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 0.2rem rgba(51, 153, 255, 0.25);
+}
+
+/* Tables */
+.table-striped > tbody > tr:nth-of-type(odd) > td {
+    background-color: var(--light-blue);
+}
+
+.table th {
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+}
+
+/* Status badges */
+.badge.bg-success {
+    background-color: var(--success-green) !important;
+}
+
+.badge.bg-warning {
+    background-color: var(--warning-orange) !important;
+}
+
+.badge.bg-danger {
+    background-color: var(--danger-red) !important;
+}
+
+.badge.bg-info {
+    background-color: var(--info-cyan) !important;
+}
+
+/* Statistics cards */
+.stat-card {
+    background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+    color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.stat-card .stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card .stat-label {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* Specific styles for pesagem tables */
+.pesagem-table th {
+    background-color: var(--primary-blue);
+    color: white;
+}
+
+.pesagem-table .btn-sm {
+    padding: 0.25rem 0.5rem;
+}
+
+/* Form styling */
+.form-control.is-invalid, .form-select.is-invalid {
+    border-color: var(--danger-red);
+}
+
+.form-control.is-valid, .form-select.is-valid {
+    border-color: var(--success-green);
+}
+
+
+/* Login page */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+}
+
+.login-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary-blue);
+}
+
+.login-header i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .stat-card {
+        text-align: center;
+    }
+    
+    .stat-card .stat-number {
+        font-size: 2rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+}
+
+/* Loading spinner */
+.spinner-border-primary {
+    color: var(--primary-blue);
+}
+
+/* Custom utilities */
+.text-primary {
+    color: var(--primary-blue) !important;
+}
+
+.bg-light-blue {
+    background-color: var(--light-blue) !important;
+}
+
+.border-primary {
+    border-color: var(--primary-blue) !important;
+}
+
+/* Alert customizations */
+.alert-primary {
+    background-color: var(--light-blue);
+    border-color: var(--primary-blue);
+    color: var(--dark-blue);
+}
+
+/* Modal customizations */
+.modal-header {
+    background-color: var(--primary-blue);
+    color: white;
+}
+
+.modal-header .btn-close {
+    filter: invert(1);
+}
+
+/* Pagination */
+.page-link {
+    color: var(--primary-blue);
+}
+
+.page-link:hover {
+    color: var(--secondary-blue);
+    background-color: var(--light-blue);
+    border-color: var(--primary-blue);
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary-blue);
+    border-color: var(--primary-blue);
+}
+

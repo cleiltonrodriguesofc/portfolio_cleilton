@@ -1,0 +1,98 @@
+{% extends 'prograos/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Ticket de Pesagem #{{ pesagem.id }}{% endblock %}
+
+{% block content %}
+<style>
+    /* All styles are the same as before, no changes needed here */
+    @page { size: A5 landscape; margin: 8mm; }
+    .ticket { background-color: white; width: 210mm; min-height: 74mm; padding: 7mm; box-sizing: border-box; display: flex; flex-direction: column; box-shadow: 0 0 15px rgba(0,0,0,0.15); margin: 1.5rem auto; }
+    .ticket-body { display: flex; flex-grow: 1; margin-top: 5mm; gap: 5mm; }
+    .left-column { flex-basis: 55%; display: flex; flex-direction: column; gap: 3mm; }
+    .right-column { flex-basis: 45%; display: flex; flex-direction: column; gap: 3mm; }
+    .ticket-title { text-align: center; font-size: 10pt; margin: 4mm 0 0 0; }
+    .box { border: 1px solid #aaa; border-radius: 8px; padding: 3mm; }
+    .box p { margin: 0 0 4px 0; }
+    .field-label { font-size: 8pt; font-weight: bold; color: #555; }
+    .field-value { font-size: 11pt; font-weight: 500; min-height: 1em; }
+    .obs-box { flex-grow: 1; }
+    .net-weight-box { border: 2px solid #000; text-align: center; }
+    .net-weight-box .field-value { font-size: 16pt; font-weight: bold; }
+    .action-buttons { text-align: center; padding: 1.5rem; margin-top: 1rem; border-top: 1px solid #dee2e6; }
+    .plate-group { display: flex; gap: 3mm; } /* New style for side-by-side plates */
+    .plate-group > .box { flex-grow: 1; } /* Makes boxes in the group share space */
+    @media print {
+        .no-print, .navbar, .sidebar, footer { display: none !important; }
+        body, .content-wrapper, .container-fluid { padding: 0 !important; margin: 0 !important; background-color: white !important; }
+        .ticket { box-shadow: none; margin: 0; border: none; width: 100%; height: 70mm; }
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center no-print">
+        <h3>Pré-visualização do Ticket</h3>
+        <a href="{% url 'prograos:pesagem_list' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Voltar para a Lista
+        </a>
+    </div>
+    
+    <div class="ticket">
+        <p class="ticket-title">TICKET DE PESAGEM {{ pesagem.id|stringformat:"06d" }} - Encerrado</p>
+        <div class="ticket-body">
+            <div class="left-column">
+                
+                <div class="plate-group">
+                    <div class="box">
+                        <p class="field-label">Carreta/Placa</p>
+                        <p class="field-value">{{ pesagem.placa }}</p> 
+                    </div>
+                    <div class="box">
+                        <p class="field-label">Veíc/Cavalo</p>
+                        <p class="field-value">{{ pesagem.placa_cavalo }}</p>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <p class="field-label">Motorista</p>
+                    <p class="field-value">{{ pesagem.motorista }}</p>
+                </div>
+
+                <div class="box"><p class="field-label">Transportadora</p><p class="field-value">{{ pesagem.transportadora }}</p></div>
+                <div class="box obs-box"><p class="field-label">Observação</p></div>
+            </div>
+            <div class="right-column">
+                <div class="box">
+                    <p class="field-label">Pesagem Inicial</p>
+                    <p class="field-value"><b>Data/Hora:</b> {{ pesagem.data_tara|date:"d/m/Y H:i" }}</p>
+                    <p class="field-value"><b>Peso:</b> {{ pesagem.tara|floatformat:"2g" }} kg</p>
+                    <p class="field-value"><b>Operador:</b>{{ pesagem.operador }}</p>
+                </div>
+                <div class="box">
+                    <p class="field-label">Pesagem Final</p>
+                    <p class="field-value"><b>Data/Hora:</b> {{ pesagem.data_final|date:"d/m/Y H:i" }}</p>
+                    <p class="field-value"><b>Peso:</b> {{ pesagem.peso_carregado|floatformat:"2g" }} kg</p>
+                    <p class="field-value"><b>Operador:</b> {{ pesagem.operador }}</p>
+                </div>
+                <div class="box net-weight-box">
+                    <p class="field-label">Peso Líquido</p>
+                    <p class="field-value">{{ pesagem.peso_liquido|floatformat:"2g" }} kg</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-buttons no-print">
+        <button onclick="window.print()" class="btn btn-primary btn-lg mx-2">
+            <i class="fas fa-print me-1"></i> Imprimir ou Salvar PDF
+        </button>
+        <a href="{% url 'prograos:pesagem_update' pesagem.id %}" class="btn btn-secondary mx-2">
+            <i class="fas fa-edit me-1"></i> Editar
+        </a>
+        <a href="{% url 'prograos:pesagem_delete' pesagem.id %}" class="btn btn-danger mx-2">
+            <i class="fas fa-trash me-1"></i> Excluir
+        </a>
+    </div>
+</div>
+{% endblock %}

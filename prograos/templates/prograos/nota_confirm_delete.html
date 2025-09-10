@@ -1,0 +1,50 @@
+{% extends 'prograos/base.html' %}
+{% load static %}
+
+{% block title %}Confirmar Exclusão de Nota{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-sm">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Confirmar Exclusão de Nota
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Você tem certeza que deseja excluir permanentemente a Nota de Carregamento <strong>#{{ object.id }}</strong>?</p>
+                    
+                    <div class="alert alert-secondary">
+                        <h5 class="alert-heading">Detalhes da Nota:</h5>
+                        <hr>
+                        <ul class="list-unstyled mb-0">
+                            <li><strong>ID da Nota:</strong> {{ object.id }}</li>
+                            <li><strong>Placa do Caminhão:</strong> {{ object.pesagem.placa }}</li>
+                            <li><strong>Nome do Recebedor:</strong> {{ object.nome_recebedor }}</li>
+                            <li><strong>Total de Sacos:</strong> {{ object.total_sacos|floatformat:0 }}</li>
+                            <li><strong>Valor Total:</strong> R$ {{ object.valor_total|floatformat:2 }}</li>
+                            <li><strong>Data de Emissão:</strong> {{ object.data_criacao|date:"d/m/Y H:i" }}</li>
+                        </ul>
+                    </div>
+
+                    <p class="text-danger"><strong>Atenção:</strong> Esta ação não pode ser desfeita.</p>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="{% url 'prograos:nota_list' %}" class="btn btn-secondary me-2">
+                                <i class="fas fa-times me-1"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash-alt me-1"></i> Sim, Excluir
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

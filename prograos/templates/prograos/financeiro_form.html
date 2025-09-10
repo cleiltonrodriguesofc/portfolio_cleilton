@@ -1,0 +1,29 @@
+{% extends 'prograos/base.html' %}
+
+{% block title %}Editar Custo da Operação{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Editar Custo da Operação</h1>
+    <p class="lead">Nota de Carregamento <a href="{% url 'prograos:nota_detail' form.instance.nota.pk %}">#{{ form.instance.nota.id }}</a></p>
+
+    <div class="card">
+        <div class="card-header">
+            Atualizar Custo
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="{{ form.valor_custo_total.id_for_label }}" class="form-label">{{ form.valor_custo_total.label }}</label>
+                    {{ form.valor_custo_total }}
+                    {% if form.valor_custo_total.errors %}<div class="invalid-feedback d-block">{{ form.valor_custo_total.errors|join:", " }}</div>{% endif %}
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                <a href="{% url 'prograos:financeiro_detail' pk=form.instance.pk %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
