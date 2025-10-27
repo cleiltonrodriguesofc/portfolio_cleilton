@@ -1,5 +1,5 @@
 # .gitignore
-
+.ssh/
 # Secret environment variables
 .env
 
@@ -34,4 +34,4 @@ Thumbs.db
 *.log
 
 # Coverage reports
-.coverage
+.coverage.ssh/
