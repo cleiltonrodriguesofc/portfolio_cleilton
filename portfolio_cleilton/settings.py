@@ -23,7 +23,8 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Allowed hosts will be your Render URL in production.
 # The 'RENDER_EXTERNAL_HOSTNAME' is an environment variable Render provides automatically.
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+
 RENDER_EXTERNAL_HOSTNAME = config('RENDER_EXTERNAL_HOSTNAME', default=None)
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
