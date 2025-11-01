@@ -1,5 +1,5 @@
 # .gitignore
-ssh_comand.txt
+
 # Secret environment variables
 .env
 

@@ -6,8 +6,6 @@ from decouple import config
 import dj_database_url
 
 
-# We'll use SQLite locally for simplicity. The production DB will be set on Render.
-# DATABASE_URL='sqlite:///db.sqlite3'
 
 # --- Public demo flags ---
 DEMO_PUBLIC_MODE = True
