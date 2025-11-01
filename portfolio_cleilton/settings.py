@@ -5,6 +5,10 @@ from pathlib import Path
 from decouple import config
 import dj_database_url
 
+
+# We'll use SQLite locally for simplicity. The production DB will be set on Render.
+# DATABASE_URL='sqlite:///db.sqlite3'
+
 # --- Public demo flags ---
 DEMO_PUBLIC_MODE = True
 DEMO_USER_USERNAME = "tester"
@@ -23,7 +27,11 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Allowed hosts will be your Render URL in production.
 # The 'RENDER_EXTERNAL_HOSTNAME' is an environment variable Render provides automatically.
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+# ALLOWED_HOSTS fixo (lista). Adicione aqui os hosts que o AlwaysData usa.
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+]
 
 RENDER_EXTERNAL_HOSTNAME = config('RENDER_EXTERNAL_HOSTNAME', default=None)
 if RENDER_EXTERNAL_HOSTNAME:

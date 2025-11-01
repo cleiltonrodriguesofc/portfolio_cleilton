@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Cleilton Rodrigues — Investment Analyst & Full-Stack Developer{% endblock %}
+{% block description %}Investment Analyst (CEA, CPA-20, CNPI Candidate) and Full-Stack Developer. Specialized in portfolio analytics, risk management, and AI-powered dashboards.{% endblock %}
+
 {% block content %}
 <!-- Hero Section -->
 <section class="hero-section">
@@ -8,12 +11,11 @@
     <div class="row align-items-center">
       <div class="col-lg-6 hero-content">
         <h1 class="hero-title">Cleilton Rodrigues</h1>
-        <h2 class="hero-subtitle typing-effect">Full-Stack Developer & Finance Enthusiast</h2>
+        <h2 class="hero-subtitle typing-effect">Investment Analyst (CEA, CPA-20) • CNPI Candidate • Full-Stack Developer</h2>
         <p class="hero-description">
-          I’m passionate about technology and investments—the two pillars guiding my work and studies.
-          I hold a <strong>Technology degree in Public Management (IFMA, 2022)</strong> and I’m currently pursuing
-          <strong>Information Systems (UFPI)</strong> and <strong>Letters – English (Uniasselvi)</strong>.
-          I build scalable, user-focused products with Django, React, PostgreSQL, and AI integration, always aiming for real-world impact.
+          I connect <strong>finance</strong> and <strong>technology</strong> to create real-world solutions that simplify analysis and decision-making.
+          Certified by <strong>ANBIMA</strong> (CEA, CPA-20) and a member of an <strong>RPPS Investment Committee</strong>,
+          I design products that transform data into insight—using Django, React, and AI.
         </p>
         <div class="hero-buttons">
           <a href="{% url 'core:project_list' %}" class="btn btn-primary me-3">
@@ -24,74 +26,48 @@
           </a>
         </div>
       </div>
+
       <div class="col-lg-6 text-center">
-        <img src="{% static 'img/PERFIL.png' %}" alt="Cleilton’s photo" class="profile-image">
+        <img src="{% static 'img/PERFIL.png' %}" alt="Cleilton Rodrigues" class="profile-image" loading="lazy">
         <div class="mt-4">
-          <p class="text-muted">
-            <i class="fas fa-map-marker-alt me-2"></i>Brazil
-          </p>
+          <p class="text-muted"><i class="fas fa-map-marker-alt me-2"></i>Brazil</p>
           <div class="social-links-hero">
-            <a href="https://www.linkedin.com/in/cleilton-rodrigues-1347551a5/" class="btn btn-outline-primary btn-sm me-2" title="LinkedIn">
-              <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="https://github.com/cleiltonrodriguesofc" class="btn btn-outline-primary btn-sm me-2" title="GitHub">
-              <i class="fab fa-github"></i>
-            </a>
+            <a href="https://www.linkedin.com/in/cleilton-rodrigues-1347551a5/" 
+               class="btn btn-outline-primary btn-sm me-2" 
+               title="LinkedIn" aria-label="LinkedIn profile"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/cleiltonrodriguesofc" 
+               class="btn btn-outline-primary btn-sm me-2" 
+               title="GitHub" aria-label="GitHub profile"><i class="fab fa-github"></i></a>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-
-<!-- Portfolio Hub Section -->
-<section class="section bg-light">
-  <div class="container">
-    <h2 class="section-title">About This Portfolio</h2>
-    <div class="row">
-      <div class="col-lg-8 mx-auto">
-        <div class="card">
-          <div class="card-body">
-            <p class="lead">
-              This portfolio works as a <strong>hub</strong>, where I integrated some of my projects
-              into a single environment for a clearer and more seamless visualization.
-            </p>
-            <p>
-              To make the navigation faster, all projects are running in <strong>demonstration mode</strong>.
-              Since many of them originally required authentication, I removed the login request
-              so you can explore the main features right away.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 
 <!-- About Section -->
 <section class="section bg-light">
   <div class="container">
-    <h2 class="section-title">About Me</h2>
+    <h2 class="section-title">Who I Am</h2>
     <div class="row">
       <div class="col-lg-8 mx-auto">
         <div class="card">
           <div class="card-body">
             <p class="lead">
-              I transform ideas into reliable, efficient solutions that combine technology and finance.
-              My toolkit includes Django, Django REST Framework, React, PostgreSQL, API integrations,
-              and AI-powered features.
+              I’m a finance professional and developer passionate about transforming complex information into actionable intelligence.
+              With a <strong>Technology degree in Public Management (IFMA, 2022)</strong> and ongoing studies in
+              <strong>Information Systems (UFPI)</strong> and <strong>Letters – English (Uniasselvi)</strong>,
+              I blend technical depth with communication clarity.
             </p>
             <p>
-              I also bring a strong background in finance. Since 2023, I have served on an
-              <strong>RPPS investment committee</strong>, contributing to portfolio analysis and
-              strategy decisions. At the same time, I am preparing for advanced certifications such
-              as <strong>CEA (ANBIMA)</strong> and <strong>CG-RPPS</strong>, to further strengthen
-              my expertise in investment management.
+              My financial experience comes from serving on an <strong>RPPS Investment Committee</strong>,
+              where I help analyze performance, manage risk, and design allocation strategies.
+              Holding <strong>CEA</strong> and <strong>CPA-20</strong> certifications, I’m now preparing for the
+              <strong>CNPI</strong> credential to enhance my equity-research and valuation skillset.
             </p>
             <p>
-              My goal is to keep growing as a developer and leverage my multidisciplinary background
-              to build innovative products that deliver measurable results in both technology and finance.
+              In technology, I specialize in <strong>Django, React, PostgreSQL, and AI integrations</strong>,
+              developing dashboards, analytics systems, and web apps that automate reporting and accelerate decision-making.
             </p>
             <div class="text-center mt-4">
               <a href="{% url 'core:about' %}" class="btn btn-primary">
@@ -105,56 +81,16 @@
   </div>
 </section>
 
-
-<!-- Skills Section -->
-<section class="section">
+<!-- Certifications -->
+<section class="section bg-light">
   <div class="container">
-    <h2 class="section-title">Technical Skills</h2>
     <div class="row">
-      <div class="col-md-4 mb-4">
-        <div class="skill-item">
-          <div class="skill-icon">
-            <i class="fas fa-server"></i>
-          </div>
-          <h3 class="skill-title">Back-End</h3>
-          <div class="tech-tags">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">Django</span>
-            <span class="tech-tag">Django REST</span>
-            <span class="tech-tag">Node.js</span>
-            <span class="tech-tag">PostgreSQL</span>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 mb-4">
-        <div class="skill-item">
-          <div class="skill-icon">
-            <i class="fas fa-laptop-code"></i>
-          </div>
-          <h3 class="skill-title">Front-End</h3>
-          <div class="tech-tags">
-            <span class="tech-tag">React</span>
-            <span class="tech-tag">React Native</span>
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">HTML5</span>
-            <span class="tech-tag">CSS3</span>
-            <span class="tech-tag">Bootstrap</span>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 mb-4">
-        <div class="skill-item">
-          <div class="skill-icon">
-            <i class="fas fa-tools"></i>
-          </div>
-          <h3 class="skill-title">Tools</h3>
-          <div class="tech-tags">
-            <span class="tech-tag">Git</span>
-            <span class="tech-tag">GitHub</span>
-            <span class="tech-tag">Firebase</span>
-            <span class="tech-tag">APIs</span>
-            <span class="tech-tag">AI</span>
-            <span class="tech-tag">Docker</span>
+      <div class="col-lg-8 mx-auto">
+        <div class="card">
+          <div class="card-body text-center">
+            <span class="tech-tag"><i class="fas fa-award me-1"></i> CEA (ANBIMA)</span>
+            <span class="tech-tag"><i class="fas fa-certificate me-1"></i> CPA-20 (ANBIMA)</span>
+            <span class="tech-tag"><i class="fas fa-clipboard-check me-1"></i> CNPI — in preparation</span>
           </div>
         </div>
       </div>
@@ -162,70 +98,154 @@
   </div>
 </section>
 
-<!-- Featured Projects Section -->
+<!-- Investment Work & Research -->
 <section class="section bg-light">
   <div class="container">
-    <h2 class="section-title">Featured Projects</h2>
+    <h2 class="section-title">Investment Work & Research</h2>
     <div class="row">
-
-      <!-- Reforço Escolar -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="project-card">
-                    <a href="/projetos/reforco/">
-                        <img src="{% static 'img/project-reforco.png' %}" 
-                             alt="Reforço Escolar Dashboard" 
-                             class="project-image">
-                    </a>
-                    <div class="project-content">
-                        <h3 class="project-title">Reforço Escolar Tia Damires</h3>
-                        <p class="project-description">
-                            Academic management system for tutoring schools,
-                            featuring a modern dashboard, attendance tracking,
-                            payment management, and detailed reports.
-                        </p>
-                        <div class="tech-tags mb-3">
-                            <span class="tech-tag">Django</span>
-                            <span class="tech-tag">PostgreSQL</span>
-                            <span class="tech-tag">Bootstrap</span>
-                        </div>
-                        <a href="/projetos/reforco/" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye me-2"></i>View Project
-                        </a>
-                    </div>
-                </div>
+      <div class="col-lg-6 mb-4">
+        <div class="project-card h-100">
+          <div class="project-content p-4">
+            <h3 class="project-title mb-2"><i class="fas fa-chart-line me-2"></i>RPPS Committee — Portfolio Analytics</h3>
+            <p>
+              I support investment policy (PAI) execution through monitoring, risk review, and documentation.
+              Each month, I prepare reports covering allocation, benchmarks, and performance attribution.
+            </p>
+            <ul>
+              <li>Analyze results vs. CDI, IPCA, IRF-M benchmarks</li>
+              <li>Review duration, liquidity, and rebalancing triggers</li>
+              <li>Produce official minutes and compliance summaries</li>
+            </ul>
+            <div class="tech-tags mb-3">
+              <span class="tech-tag">Fixed Income</span>
+              <span class="tech-tag">Portfolio Strategy</span>
+              <span class="tech-tag">Risk</span>
+              <span class="tech-tag">Governance</span>
             </div>
+          </div>
+        </div>
+      </div>
 
-
-            <!-- ProgGrãos Project -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="project-card">
-                    <a href="/projetos/prograos/">
-                        <img src="{% static 'img/project-prograos.png' %}" 
-                             alt="ProGrãos Dashboard" 
-                             class="project-image">
-                    </a>
-                <div class="project-content">
-                    <h3 class="project-title">ProGrãos</h3>
-                    <p class="project-description">
-                    Grain management system with truck weighing (tare and final), PDF tickets and loading notes,
-                    a KPI dashboard (revenue, cost, profit), financial controls and payments, and reports.
-                    </p>
-                    <div class="tech-tags mb-3">
-                    <span class="tech-tag">Django</span>
-                    <span class="tech-tag">PostgreSQL</span>
-                    <span class="tech-tag">Bootstrap</span>
-                    </div>
-                    <a href="{% url 'prograos:dashboard' %}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-eye me-2"></i>View Project
-                    </a>
-                </div>
-                </div>
+      <div class="col-lg-6 mb-4">
+        <div class="project-card h-100">
+          <div class="project-content p-4">
+            <h3 class="project-title mb-2"><i class="fas fa-robot me-2"></i>AI-Powered Investment Dashboard</h3>
+            <p>
+              I’m developing a proprietary Django dashboard that combines macro indicators and portfolio data
+              to provide dynamic insights on allocation, risk, and drawdown metrics.
+            </p>
+            <ul>
+              <li>Integrates macro trends, carry signals, and rates</li>
+              <li>Calculates risk bands and drawdown thresholds</li>
+              <li>Generates automated research notes with AI support</li>
+            </ul>
+            <div class="tech-tags mb-3">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">Django</span>
+              <span class="tech-tag">Analytics</span>
+              <span class="tech-tag">AI</span>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- Skills -->
+<section class="section bg-light">
+  <div class="container">
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="skill-item">
+          <div class="skill-icon"><i class="fas fa-server"></i></div>
+          <h3 class="skill-title">Back-End</h3>
+          <div class="tech-tags">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">Django</span>
+            <span class="tech-tag">Django REST</span>
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">APIs</span>
+          </div>
+        </div>
+      </div>
 
+      <div class="col-md-4 mb-4">
+        <div class="skill-item">
+          <div class="skill-icon"><i class="fas fa-laptop-code"></i></div>
+          <h3 class="skill-title">Front-End</h3>
+          <div class="tech-tags">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">React Native</span>
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">Bootstrap</span>
+            <span class="tech-tag">HTML5/CSS3</span>
+          </div>
+        </div>
+      </div>
 
-     
+      <div class="col-md-4 mb-4">
+        <div class="skill-item">
+          <div class="skill-icon"><i class="fas fa-tools"></i></div>
+          <h3 class="skill-title">Tools</h3>
+          <div class="tech-tags">
+            <span class="tech-tag">Git</span>
+            <span class="tech-tag">GitHub</span>
+            <span class="tech-tag">Firebase</span>
+            <span class="tech-tag">Docker</span>
+            <span class="tech-tag">AI APIs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- Featured Projects -->
+<section class="section bg-light">
+  <div class="container">
+    <h2 class="section-title">Selected Projects</h2>
+    <div class="row">
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="project-card">
+          <a href="/projetos/reforco/">
+            <img src="{% static 'img/project-reforco.png' %}" alt="Reforço Escolar Dashboard" class="project-image" loading="lazy">
+          </a>
+          <div class="project-content">
+            <h3 class="project-title">Reforço Escolar</h3>
+            <p>Education management system with dashboards, attendance, billing, and reports.</p>
+            <div class="tech-tags mb-3">
+              <span class="tech-tag">Django</span>
+              <span class="tech-tag">PostgreSQL</span>
+              <span class="tech-tag">Bootstrap</span>
+            </div>
+            <a href="/projetos/reforco/" class="btn btn-primary btn-sm">
+              <i class="fas fa-eye me-2"></i>View Project
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="project-card">
+          <a href="/projetos/prograos/">
+            <img src="{% static 'img/project-prograos.png' %}" alt="ProGrãos Dashboard" class="project-image" loading="lazy">
+          </a>
+          <div class="project-content">
+            <h3 class="project-title">ProGrãos</h3>
+            <p>Grain operations system with weighing, PDF tickets, KPI dashboards, and financial control.</p>
+            <div class="tech-tags mb-3">
+              <span class="tech-tag">Django</span>
+              <span class="tech-tag">PostgreSQL</span>
+              <span class="tech-tag">Bootstrap</span>
+            </div>
+            <a href="{% url 'prograos:dashboard' %}" class="btn btn-primary btn-sm">
+              <i class="fas fa-eye me-2"></i>View Project
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="text-center mt-4">
@@ -236,15 +256,15 @@
   </div>
 </section>
 
-<!-- CTA Section -->
-<section class="section">
+<!-- CTA -->
+<section class="section bg-light">
   <div class="container">
     <div class="row">
       <div class="col-lg-8 mx-auto text-center">
-        <h2 class="section-title">Shall We Work Together?</h2>
+        <h2 class="section-title">Let’s Collaborate</h2>
         <p class="lead mb-4">
-          I’m always open to new opportunities and meaningful projects.
-          Get in touch and let’s explore how I can help your next build.
+          I’m seeking opportunities as an <strong>Investment / Research / Portfolio Analyst</strong>
+          where I can unite my analytical and technical expertise to deliver data-driven insights.
         </p>
         <a href="{% url 'contact:contact' %}" class="btn btn-primary btn-lg">
           <i class="fas fa-handshake me-2"></i>Start a Conversation
