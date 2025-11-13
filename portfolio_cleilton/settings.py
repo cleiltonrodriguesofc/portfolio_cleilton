@@ -7,12 +7,18 @@ import dj_database_url
 
 
 
+
 # --- Public demo flags ---
 DEMO_PUBLIC_MODE = True
 DEMO_USER_USERNAME = "tester"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+ENTRIES_DIR = os.path.join(BASE_DIR, "encyclopedia", "entries")
+
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # We now load this from our .env file locally or from Render's environment variables.
@@ -48,6 +54,7 @@ INSTALLED_APPS = [
     'contact',
     'reforco',
     'prograos',
+    'encyclopedia',
 ]
 
 MIDDLEWARE = [

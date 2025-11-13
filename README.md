@@ -13,91 +13,168 @@ A professional portfolio built with Django, featuring a modern blue-themed desig
 ## 📁 Project Structure
 
 ```
-portfolio_cleilton/                  # Main project folder
-├── core/                            # Core portfolio app (home, about pages)
-│   ├── __init__.py                  # App initializer
-│   ├── admin.py                     # Admin panel configuration
-│   ├── apps.py                      # App configuration
-│   ├── models.py                    # Database models
-│   ├── tests.py                     # Unit tests
-│   ├── urls.py                      # Main URLs
-│   ├── views.py                     # Home page views
-│   ├── migrations/                  # Database migrations
+portfolio_cleilton/                         # Main project folder
+├── core/                                   # Portfolio core (home, about, projects)
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py                             # Homepage, project list, about
+│   ├── views.py
+│   ├── migrations/
 │   │   └── __init__.py
-│   ├── static/                      # Static files (CSS, JS, images)
+│   ├── static/core/                        # Core static files
 │   │   ├── css/
 │   │   │   └── style.css
-│   │   ├── img/                     # Profile and project images
+│   │   ├── img/
+│   │   │   ├── PERFIL.png
 │   │   │   ├── profile-placeholder.jpg
 │   │   │   ├── profile-placeholder1.jpg
 │   │   │   ├── project-cs50w.jpg
+│   │   │   ├── project-encyclopedia.png
+│   │   │   ├── project-prograos.png
+│   │   │   ├── project-reforco.png
 │   │   │   ├── project-sindseb.jpg
 │   │   │   └── project-taquanto.jpg
 │   │   └── js/
 │   │       └── main.js
-│   └── templates/                   # Core templates
-│       ├── _footer_shell.html
+│   └── templates/
 │       ├── _header_shell.html
 │       ├── base.html
-│       ├── portfolio_base.html
 │       └── core/
 │           ├── about.html
-│           └── home.html
-├── reforco/                         # App for student/project management
-│   ├── __init__.py                  # App initializer
-│   ├── admin.py                     # Admin configuration
-│   ├── apps.py                      # App configuration
-│   ├── forms.py                     # Forms for data input
-│   ├── models.py                    # Models (students, payments, attendance)
-│   ├── tests.py                     # Tests
-│   ├── urls.py                      # App-specific URLs
-│   ├── views.py                     # Views for lists, details, reports
-│   ├── migrations/                  # Database migrations
+│           ├── home.html
+│           └── project_list.html
+│
+├── encyclopedia/                           # CS50Wiki (Markdown-based Encyclopedia)
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── entries/                            # Markdown entries stored locally
+│   │   ├── Css.md
+│   │   ├── Django.md
+│   │   ├── Git.md
+│   │   ├── HTML.md
+│   │   ├── Python.md
+│   │   ├── Tcp.md
+│   │   └── Wiki.md
+│   ├── migrations/
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── storage.py                          # Custom FileSystemStorage
+│   ├── tests.py
+│   ├── urls.py                             # /projects/encyclopedia/
+│   ├── util.py                             # Entry helpers (list, get, save)
+│   ├── views.py
+│   ├── static/
+│   │   ├── encyclopedia/
+│   │   │   └── styles.css
+│   │   └── images/
+│   │       ├── favicon.ico
+│   │       └── wikipedia-logo.png
+│   └── templates/encyclopedia/
+│       ├── edit.html
+│       ├── entry.html
+│       ├── error.html
+│       ├── index.html
+│       ├── layout.html
+│       ├── newpage.html
+│       └── search.html
+│
+├── reforco/                                # Student Academic Management System
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   ├── views.py
+│   ├── migrations/
 │   │   ├── __init__.py
 │   │   └── 0001_initial.py
-│   ├── static/reforco/              # App-specific static files
+│   ├── static/reforco/
 │   │   ├── css/
 │   │   │   └── style.css
 │   │   ├── img/
 │   │   │   └── logo-reforco.png
 │   │   └── js/
 │   │       └── script.js
-│   └── templates/reforco/           # App templates
-│       ├── aluno_detail.html        # Student detail view
-│       ├── aluno_form.html          # Student form
-│       ├── aluno_list.html          # Student list
+│   └── templates/reforco/
+│       ├── aluno_detail.html
+│       ├── aluno_form.html
+│       ├── aluno_list.html
 │       ├── base.html
-│       ├── dashboard.html           # Main dashboard
-│       ├── mensagens.html           # Messages
-│       ├── pagamento_form.html      # Payment form
-│       ├── pagamento_list.html      # Payment list
-│       ├── presenca_form.html       # Attendance form
-│       ├── presenca_list.html       # Attendance list
-│       ├── relatorio_pagamentos.html # Payment report
-│       └── relatorio_presenca.html  # Attendance report
-├── contact/                         # Contact app
-│   ├── __init__.py                  # App initializer
-│   ├── admin.py                     # Admin configuration
-│   ├── apps.py                      # App configuration
-│   ├── forms.py                     # Contact forms
-│   ├── models.py                    # Contact models
-│   ├── tests.py                     # Tests
-│   ├── urls.py                      # Contact URLs
-│   ├── views.py                     # Contact views
-│   ├── migrations/                  # Migrations
+│       ├── dashboard.html
+│       ├── mensagens.html
+│       ├── pagamento_form.html
+│       ├── pagamento_list.html
+│       ├── presenca_form.html
+│       ├── presenca_list.html
+│       ├── relatorio_pagamentos.html
+│       └── relatorio_presenca.html
+│
+├── prograos/                               # ProGrãos (Grain Management System)
+│   ├── __pycache__/
+│   ├── apps.py
+│   ├── forms.py
+│   ├── migrations/
 │   │   ├── __init__.py
 │   │   └── 0001_initial.py
-│   └── templates/contact/           # Contact templates
-│       └── contact.html
-├── portfolio_cleilton/              # Django settings
+│   ├── models.py
+│   ├── reports.py
+│   ├── scale_integration.py
+│   ├── scale_views.py
+│   ├── serializers.py
+│   ├── signals.py
+│   ├── static/prograos/
+│   │   ├── css/
+│   │   │   └── style.css
+│   │   ├── img/
+│   │   └── js/
+│   │       └── main.js
+│   ├── templates/prograos/
+│   │   ├── base.html
+│   │   ├── dashboard.html
+│   │   ├── amostra_*                      # (list, detail, form, delete)
+│   │   ├── nota_*                         # (list, detail, form, delete)
+│   │   ├── pagamento_*                    # (list, form, delete)
+│   │   ├── pesagem_*                      # (list, form, update, delete)
+│   │   └── financeiro_*                   # (list, detail, form)
+│   ├── test_views.py
+│   ├── tests.py
+│   ├── tests_simple.py
+│   ├── urls.py
+│   ├── utils.py
+│   ├── utils_demo.py
+│   └── views.py
+│
+├── contact/                                # Contact system
 │   ├── __init__.py
-│   ├── asgi.py                      # ASGI config for async
-│   ├── settings.py                  # Main settings (databases, apps)
-│   ├── urls.py                      # Root URLs
-│   └── wsgi.py                      # WSGI config for deployment
-├── db.sqlite3                       # Local database file
-├── manage.py                        # Django management script
-└── README.md                        # Project description
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   ├── views.py
+│   ├── migrations/
+│   │   ├── __init__.py
+│   │   └── 0001_initial.py
+│   └── templates/contact/
+│       └── contact.html
+│
+├── portfolio_cleilton/                     # Global settings module
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+│
+├── manage.py                               # Django management script
+├── db.sqlite3                              # Local database
+└── README.md                                # Project documentation
 ```
 
 ## 🛠️ Technologies Used

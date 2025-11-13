@@ -12,8 +12,11 @@ asgiref==3.8.1
 sqlparse==0.5.1
 tzdata==2025.1
 
+# === Encyclopedia (Markdown-based Wiki) ===
+Markdown==3.7
+
 # === ProGrãos (data analysis, PDF, hardware serial) ===
 numpy==2.1.2
 pandas==2.2.3
-reportlab==4.2.5   # already listed above, but kept here for clarity
+reportlab==4.2.5
 pyserial==3.5

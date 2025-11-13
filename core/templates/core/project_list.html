@@ -68,6 +68,37 @@
                 </div>
             </div>
 
+
+            <!-- Encyclopedia Project -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="project-card">
+                    <a href="{% url 'encyclopedia:index' %}">
+                        <img src="{% static 'img/project-encyclopedia.png' %}" 
+                            alt="Encyclopedia Wiki Project"
+                            class="project-image">
+                    </a>
+                    <div class="project-content">
+                        <h3 class="project-title">Encyclopedia (CS50Wiki)</h3>
+                        <p class="project-description">
+                            A Markdown-based wiki system inspired by Wikipedia, built with Django. 
+                            It allows users to create, edit, search, and browse entries using a clean 
+                            custom storage architecture and a fully dynamic rendering engine.
+                        </p>
+
+                        <div class="tech-tags mb-3">
+                            <span class="tech-tag">Django</span>
+                            <span class="tech-tag">Markdown</span>
+                            <span class="tech-tag">Custom File Storage</span>
+                        </div>
+
+                        <a href="{% url 'encyclopedia:index' %}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-eye me-2"></i>View Project
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </section>

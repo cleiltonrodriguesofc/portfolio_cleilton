@@ -1,0 +1,57 @@
+{% load static %}
+<!doctype html>
+
+<html lang="en">
+  <head>
+    {% block meta%}<meta charset="utf-8">{%endblock%}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'encyclopedia/styles.css' %}">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}">
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  
+  <body>
+
+    {# Header do portfólio (casca neutra) #}
+    {% include '_header_shell.html' %}
+    
+    <div class="body-container">
+      <div id="left-column">
+        <div class="text-home">
+          <img src="{% static 'images/wikipedia-logo.png' %}" alt="Wikipedia Logo">
+            <div class="wiki-title">
+              <h2>CS50Wiki</h2>
+              <h6>The Wiki Project</h6>
+            </div>
+          
+          <div class="home">
+            <form action="{% url 'encyclopedia:search' %}" method="post">
+              {% csrf_token %}
+              {{ search_form }}
+              <button id="search-button" type="submit" name="seachType" value="normal">Search</button>
+            </form>
+        
+            <a href="{% url 'encyclopedia:index' %}">Home</a>
+          </div>  
+          <div class="create-page">
+            <a href="{% url 'encyclopedia:newpage' %}">Create new page</a>
+          </div>   
+          <div class="random-page">
+            <a href="{% url 'encyclopedia:random' %}">Random Page</a>
+          </div>
+          
+        </div>
+        {% block nav %}
+        {% endblock %}
+      </div>
+  
+      <div class="right-column">
+        <div class="main-page">
+          {% block body %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>
