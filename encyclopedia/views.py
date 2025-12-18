@@ -14,7 +14,7 @@ def index(request):
         "search_form": SearchEntryForm()
     })
 
-# render entry page
+# Render entry page
 def entry(request, name):
     entry_content = util.get_entry(name)
     markdowner = Markdown()
@@ -78,11 +78,11 @@ def newpage(request):
             "search_form": SearchEntryForm()
         })
  
-#  def randompage to random page
+# Random page function
 def randompage(request):
     names = util.list_entries()
     if not names:
-        # graceful fallback if there are no entries
+        # Graceful fallback if there are no entries
         return redirect("encyclopedia:index")
 
     name = random.choice(names)
@@ -91,7 +91,7 @@ def randompage(request):
     return redirect("encyclopedia:entry", name=name)
 
 
-# create a class to search form
+# Create a class to search form
 class SearchEntryForm(forms.Form):
     # search = forms.CharField(max_length=100)
     search_entry = forms.CharField(widget=forms.TextInput(attrs={
@@ -100,21 +100,21 @@ class SearchEntryForm(forms.Form):
         }),
         label='')
     
-# search function to render the page
+# Search function to render the page
 def search(request):
     result = []
     entries = util.list_entries()
-    # check if method is get
+    # Check if method is POST
     if request.method == "POST":
-        # take user's data search
+        # Take user's data search
         search_form = SearchEntryForm(request.POST)
-        # check if form is valid
+        # Check if form is valid
         if search_form.is_valid():
             search_entry = search_form.cleaned_data["search_entry"]
             for entry in entries:
                 if search_entry.lower() == entry.lower():
                     return HttpResponseRedirect(f"{search_entry}")
-                # code above here is okay
+                # Code above here is okay
 
             # Check letters in entry's name
             for entry in entries:

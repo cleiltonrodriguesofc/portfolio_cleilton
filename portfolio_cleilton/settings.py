@@ -31,7 +31,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Allowed hosts will be your Render URL in production.
 # The 'RENDER_EXTERNAL_HOSTNAME' is an environment variable Render provides automatically.
-# ALLOWED_HOSTS fixo (lista). Adicione aqui os hosts que o AlwaysData usa.
+# Fixed ALLOWED_HOSTS (list). Add here the hosts that AlwaysData uses.
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",

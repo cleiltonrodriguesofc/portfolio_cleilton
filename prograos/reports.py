@@ -46,45 +46,45 @@ class RoundedBox(Flowable):
 
 class ReportGenerator:
     """
-    Classe para geração de relatórios em PDF e Excel.
+    Class for generating PDF and Excel reports.
     """
     
     @staticmethod
     def generate_amostras_pdf(queryset, title="Relatório de Amostras"):
         """
-        Gera relatório PDF das amostras.
+        Generates PDF report of samples.
         
         Args:
-            queryset: QuerySet das amostras
-            title: Título do relatório
+            queryset: QuerySet of samples
+            title: Report title
             
         Returns:
-            HttpResponse: Resposta HTTP com o PDF
+            HttpResponse: HTTP response with the PDF
         """
         buffer = io.BytesIO()
         doc = SimpleDocTemplate(buffer, pagesize=A4)
         elements = []
         
-        # Estilos
+        # Styles
         styles = getSampleStyleSheet()
         title_style = ParagraphStyle(
             'CustomTitle',
             parent=styles['Heading1'],
             fontSize=18,
             spaceAfter=30,
-            alignment=1  # Centralizado
+            alignment=1  # Centered
         )
         
-        # Título
+        # Title
         elements.append(Paragraph(title, title_style))
         elements.append(Spacer(1, 12))
         
-        # Data de geração
+        # Generation date
         data_geracao = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        elements.append(Paragraph(f"Gerado em: {data_geracao}", styles['Normal']))
+        elements.append(Paragraph(f"Generated at: {data_geracao}", styles['Normal']))
         elements.append(Spacer(1, 20))
         
-        # Dados da tabela
+        # Table data
         data = [['ID Amostra', 'Tipo Grão', 'Peso Bruto (kg)', 'Umidade (%)', 'Impurezas (%)', 'Peso Útil (kg)', 'Status', 'Data Criação']]
         
         for amostra in queryset:
@@ -99,7 +99,7 @@ class ReportGenerator:
                 amostra.data_criacao.strftime("%d/%m/%Y %H:%M")
             ])
         
-        # Criar tabela
+        # Create table
         table = Table(data)
         table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
@@ -114,7 +114,7 @@ class ReportGenerator:
         
         elements.append(table)
         
-        # Estatísticas
+        # Statistics
         elements.append(Spacer(1, 20))
         total_amostras = queryset.count()
         aceitas = queryset.filter(status='ACEITA').count()
@@ -141,16 +141,16 @@ class ReportGenerator:
     @staticmethod
     def generate_amostras_excel(queryset, title="Relatório de Amostras"):
         """
-        Gera relatório Excel das amostras.
+        Generates Excel report of samples.
         
         Args:
-            queryset: QuerySet das amostras
-            title: Título do relatório
+            queryset: QuerySet of samples
+            title: Report title
             
         Returns:
-            HttpResponse: Resposta HTTP com o Excel
+            HttpResponse: HTTP response with the Excel
         """
-        # Preparar dados
+        # Prepare data
         data = []
         for amostra in queryset:
             data.append({
@@ -169,12 +169,12 @@ class ReportGenerator:
         
         df = pd.DataFrame(data)
         
-        # Criar arquivo Excel
+        # Create Excel file
         buffer = io.BytesIO()
         with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
-            df.to_excel(writer, sheet_name='Amostras', index=False)
+            df.to_excel(writer, sheet_name='Samples', index=False)
             
-            # Adicionar estatísticas em uma segunda aba
+            # Add statistics in a second sheet
             stats_data = {
                 'Métrica': ['Total de Amostras', 'Aceitas', 'Rejeitadas', 'Pendentes'],
                 'Valor': [
@@ -201,25 +201,25 @@ class ReportGenerator:
     @staticmethod
     def generate_nota_pdf(nota):
         """
-        Gera o PDF da Ordem de Carregamento para uma única nota.
+        Generates the Loading Order PDF for a single note.
         
         Args:
-            nota: Uma instância do modelo NotaCarregamento
+            nota: An instance of the NotaCarregamento model
             
         Returns:
-            HttpResponse: Resposta HTTP com o PDF
+            HttpResponse: HTTP response with the PDF
         """
         buffer = io.BytesIO()
         doc = SimpleDocTemplate(buffer, pagesize=A4, topMargin=0.5*inch, bottomMargin=0.5*inch)
         elements = []
         
-        # Estilos
+        # Styles
         styles = getSampleStyleSheet()
         styles.add(ParagraphStyle(name='RightAlign', alignment=2))
         styles.add(ParagraphStyle(name='BoldText', fontName='Helvetica-Bold'))
 
-        # --- DADOS (para preencher os campos) ---
-        # Dados do fornecedor (Embarque) - Adicione os dados da sua empresa aqui
+        # --- DATA (to fill fields) ---
+        # Supplier Data (Embarkation) - Add your company data here
         fornecedor_data = {
             "nome": "NOME DA SUA EMPRESA",
             "endereco": "ENDEREÇO DA SUA EMPRESA",
@@ -228,13 +228,13 @@ class ReportGenerator:
             "responsavel": nota.created_by.get_full_name() or nota.created_by.username
         }
 
-        # --- FUNÇÃO PARA CRIAR UMA CÓPIA DA NOTA ---
+        # --- FUNCTION TO CREATE A COPY OF THE NOTE ---
         def create_nota_copy():
-            # Título principal
+            # Main Title
             title = Paragraph("ORDEM DE CARREGAMENTO", ParagraphStyle('CustomTitle', parent=styles['h1'], alignment=1, spaceAfter=10))
             via = Paragraph("Via: Motorista", styles['RightAlign'])
 
-            # Tabela 1: Embarque e Descarga (2 colunas)
+            # Table 1: Embarkation and Discharge (2 columns)
             header_data = [
                 [Paragraph("<b>Embarque</b>", styles['Normal']), Paragraph("<b>Descarga</b>", styles['Normal'])]
             ]
@@ -245,7 +245,7 @@ class ReportGenerator:
                 ('GRID', (0, 0), (-1, -1), 1, colors.black),
             ]))
 
-            # Tabela aninhada para os dados de Embarque
+            # Nested table for Embarkation data
             embarque_details = [
                 [Paragraph(f"<b>Fornecedor:</b> {fornecedor_data['nome']}", styles['Normal'])],
                 [Paragraph(f"<b>Endereço:</b> {fornecedor_data['endereco']}", styles['Normal'])],
@@ -256,7 +256,7 @@ class ReportGenerator:
             embarque_table = Table(embarque_details, colWidths='100%')
             embarque_table.setStyle(TableStyle([('VALIGN', (0, 0), (-1, -1), 'TOP')]))
             
-            # Tabela aninhada para os dados de Descarga
+            # Nested table for Discharge data
             descarga_details = [
                 [Paragraph(f"<b>Fone:</b> {nota.telefone_recebedor or ''}", styles['Normal'])],
                 [Paragraph("<b>CV:</b>", styles['Normal'])],
@@ -264,7 +264,7 @@ class ReportGenerator:
             ]
             descarga_table = Table(descarga_details, colWidths='100%')
             
-            # Montagem da tabela principal de Embarque/Descarga
+            # Assembly of the main Embarkation/Discharge table
             main_details_data = [[embarque_table, descarga_table]]
             main_details_table = Table(main_details_data, colWidths=['50%', '50%'])
             main_details_table.setStyle(TableStyle([
@@ -272,7 +272,7 @@ class ReportGenerator:
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
             ]))
             
-            # Tabela 2: Motorista e Placa
+            # Table 2: Driver and Plate
             motorista_data = [[
                 Paragraph("<b>Motorista:</b>", styles['Normal']),
                 Paragraph(f"<b>Placa - Cavalo:</b> {nota.pesagem.placa if nota.pesagem else ''}", styles['Normal'])
@@ -280,7 +280,7 @@ class ReportGenerator:
             motorista_table = Table(motorista_data, colWidths=['50%', '50%'])
             motorista_table.setStyle(TableStyle([('GRID', (0, 0), (-1, -1), 1, colors.black)]))
 
-            # Tabela 3: Dados de Faturamento
+            # Table 3: Billing Data
             faturamento_data = [
                 [Paragraph("<b>Dados Faturamento</b>", styles['Normal'])],
                 [Paragraph(f"<b>Comprador:</b> {nota.nome_recebedor}", styles['Normal'])],
@@ -294,13 +294,13 @@ class ReportGenerator:
             faturamento_table.setStyle(TableStyle([
                 ('GRID', (0, 0), (-1, -1), 1, colors.black),
                 ('BACKGROUND', (0, 0), (0, 0), colors.lightgrey),
-                ('SPAN', (0, 0), (-1, 0)), # Span do título
-                ('SPAN', (0, 1), (-1, 1)), # Span do comprador
-                ('SPAN', (0, 3), (-1, 3)), # Span do endereço
+                ('SPAN', (0, 0), (-1, 0)), # Span title
+                ('SPAN', (0, 1), (-1, 1)), # Span buyer
+                ('SPAN', (0, 3), (-1, 3)), # Span address
                 ('ALIGN', (0,0), (0,0), 'CENTER'),
             ]))
             
-            # Tabela 4: Informações Finais
+            # Table 4: Final Information
             final_data = [[
                 Paragraph(f"<b>Produto:</b> {nota.get_tipo_grao_display()}", styles['Normal']),
                 Paragraph(f"<b>Data:</b> {nota.data_criacao.strftime('%d/%m/%Y %H:%M')}", styles['Normal'])
@@ -316,9 +316,9 @@ class ReportGenerator:
             
             return [title, via, header_table, main_details_table, Spacer(1, 5), motorista_table, Spacer(1, 5), faturamento_table, Spacer(1, 5), final_table]
 
-        # Adicionar duas cópias da nota ao PDF
+        # Add two note copies to PDF
         elements.extend(create_nota_copy())
-        elements.append(Spacer(1, 20)) # Espaço entre as cópias
+        elements.append(Spacer(1, 20)) # Space between copies
         elements.extend(create_nota_copy())
 
         doc.build(elements)
@@ -451,17 +451,17 @@ class ReportGenerator:
 @permission_classes([IsAuthenticated])
 def export_amostras_pdf(request):
     """
-    Exporta relatório de amostras em PDF.
+    Exports sample report to PDF.
     
     Query Parameters:
-    - tipo_grao: SOJA ou MILHO
+    - tipo_grao: SOJA or MILHO
     - status: ACEITA, REJEITADA, PENDENTE
     - data_inicio: YYYY-MM-DD
     - data_fim: YYYY-MM-DD
     """
     queryset = Amostra.objects.all()
     
-    # Aplicar filtros
+    # Apply filters
     tipo_grao = request.GET.get('tipo_grao')
     if tipo_grao:
         queryset = queryset.filter(tipo_grao=tipo_grao)
@@ -484,17 +484,17 @@ def export_amostras_pdf(request):
 @permission_classes([IsAuthenticated])
 def export_amostras_excel(request):
     """
-    Exporta relatório de amostras em Excel.
+    Exports sample report to Excel.
     
     Query Parameters:
-    - tipo_grao: SOJA ou MILHO
+    - tipo_grao: SOJA or MILHO
     - status: ACEITA, REJEITADA, PENDENTE
     - data_inicio: YYYY-MM-DD
     - data_fim: YYYY-MM-DD
     """
     queryset = Amostra.objects.all()
     
-    # Aplicar filtros
+    # Apply filters
     tipo_grao = request.GET.get('tipo_grao')
     if tipo_grao:
         queryset = queryset.filter(tipo_grao=tipo_grao)

@@ -3,12 +3,12 @@ from django.contrib import messages
 from .forms import ContactForm
 
 def contact(request):
-    """View para o formulário de contato"""
+    """View for the contact form"""
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Mensagem enviada com sucesso! Entrarei em contato em breve.')
+            messages.success(request, 'Message sent successfully! I will contact you soon.')
             return redirect('contact:contact')
     else:
         form = ContactForm()

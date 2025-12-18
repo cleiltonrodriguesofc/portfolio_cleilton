@@ -4,7 +4,7 @@ from django.utils import timezone
 
 class AlunoForm(forms.ModelForm):
     """
-    Formulário para criação e edição de alunos.
+    Form for creating and editing students.
     """
     class Meta:
         model = Aluno
@@ -22,7 +22,7 @@ class AlunoForm(forms.ModelForm):
 
 class PresencaForm(forms.ModelForm):
     """
-    Formulário para registro de presença.
+    Form for attendance registration.
     """
     class Meta:
         model = Presenca
@@ -36,7 +36,7 @@ class PresencaForm(forms.ModelForm):
 
 class PagamentoForm(forms.ModelForm):
     """
-    Formulário para registro de pagamento.
+    Form for payment registration.
     """
     class Meta:
         model = Pagamento
@@ -53,21 +53,21 @@ class PagamentoForm(forms.ModelForm):
 
 class PresencaMultiForm(forms.Form):
     """
-    Formulário para marcação de presença de múltiplos alunos.
+    Form for marking attendance of multiple students.
     """
     data = forms.DateField(
         label="Data",
-        widget=forms.DateInput(attrs={"class": "form-control datepicker", "placeholder": "DD/MM/AAAA"}),
+        widget=forms.DateInput(attrs={"class": "form-control datepicker", "placeholder": "DD/MM/YYYY"}),
         initial=timezone.now().date(),
-        input_formats=["%d/%m/%Y", "%Y-%m-%d"] # Adiciona formatos de entrada
+        input_formats=["%d/%m/%Y", "%Y-%m-%d"] # Adds input formats
     )
     
     def __init__(self, *args, **kwargs):
         alunos = kwargs.pop("alunos", None)
-        data_inicial = kwargs.pop("data_inicial", timezone.now().date()) # Novo parâmetro
+        data_inicial = kwargs.pop("data_inicial", timezone.now().date()) # New parameter
         super(PresencaMultiForm, self).__init__(*args, **kwargs)
         
-        self.fields["data"].initial = data_inicial # Define a data inicial
+        self.fields["data"].initial = data_inicial # Sets initial date
 
         if alunos:
             for aluno in alunos:

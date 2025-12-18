@@ -23,14 +23,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('contato/', include('contact.urls')),
-    # URLs dos projetos integrados
+    # URLs of integrated projects
     path('projetos/reforco/', include('reforco.urls')),
     path("projetos/prograos/", include(("prograos.urls"), namespace="prograos")),
     path('projetos/encyclopedia/', include("encyclopedia.urls")),
     path('projetos/brokerage_analyzer/', include("brokerage_analyzer.urls")),
 ]
 
-# Servir arquivos de media durante o desenvolvimento
+# Serve media files during development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

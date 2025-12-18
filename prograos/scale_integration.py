@@ -8,7 +8,7 @@ from rest_framework import status
 
 class ScaleIntegration:
     """
-    Classe para integração com balança digital via USB/Serial.
+    Class for digital scale integration via USB/Serial.
     """
     
     def __init__(self, port='/dev/ttyUSB0', baudrate=9600, timeout=5):
@@ -19,10 +19,10 @@ class ScaleIntegration:
     
     def connect(self):
         """
-        Estabelece conexão com a balança.
+        Establishes connection with the scale.
         
         Returns:
-            bool: True se conectado com sucesso, False caso contrário
+            bool: True if connected successfully, False otherwise
         """
         try:
             self.connection = serial.Serial(
@@ -30,41 +30,41 @@ class ScaleIntegration:
                 baudrate=self.baudrate,
                 timeout=self.timeout
             )
-            time.sleep(2)  # Aguarda estabilização da conexão
+            time.sleep(2)  # Wait for connection stability
             return True
         except Exception as e:
-            print(f"Erro ao conectar com a balança: {e}")
+            print(f"Error connecting to scale: {e}")
             return False
     
     def disconnect(self):
         """
-        Fecha a conexão com a balança.
+        Closes connection with the scale.
         """
         if self.connection and self.connection.is_open:
             self.connection.close()
     
     def read_weight(self):
         """
-        Lê o peso da balança.
+        Reads weight from the scale.
         
         Returns:
-            float: Peso lido da balança ou None em caso de erro
+            float: Weight read from scale or None in case of error
         """
         if not self.connection or not self.connection.is_open:
             return None
         
         try:
-            # Envia comando para solicitar peso (pode variar conforme o modelo da balança)
+            # Send command to request weight (may vary by scale model)
             self.connection.write(b'W\\r\\n')
             time.sleep(1)
             
-            # Lê a resposta
+            # Read response
             response = self.connection.readline().decode('utf-8').strip()
             
-            # Processa a resposta (formato pode variar conforme o modelo)
-            # Exemplo: "W 1.234 kg" -> extrair 1.234
+            # Process response (format may vary by model)
+            # Example: "W 1.234 kg" -> extract 1.234
             if response:
-                # Remove caracteres não numéricos exceto ponto e vírgula
+                # Remove non-numeric characters except dot and comma
                 weight_str = ''.join(c for c in response if c.isdigit() or c in '.,')
                 weight_str = weight_str.replace(',', '.')
                 
@@ -74,15 +74,15 @@ class ScaleIntegration:
             return None
             
         except Exception as e:
-            print(f"Erro ao ler peso da balança: {e}")
+            print(f"Error reading weight from scale: {e}")
             return None
     
     def get_available_ports(self):
         """
-        Lista as portas seriais disponíveis.
+        Lists available serial ports.
         
         Returns:
-            list: Lista de portas disponíveis
+            list: List of available ports
         """
         import serial.tools.list_ports
         ports = serial.tools.list_ports.comports()
@@ -92,7 +92,7 @@ class ScaleIntegration:
 @permission_classes([IsAuthenticated])
 def list_scale_ports(request):
     """
-    Lista as portas seriais disponíveis para conexão com balança.
+    Lists available serial ports for scale connection.
     """
     scale = ScaleIntegration()
     ports = scale.get_available_ports()
@@ -102,12 +102,12 @@ def list_scale_ports(request):
 @permission_classes([IsAuthenticated])
 def read_scale_weight(request):
     """
-    Lê o peso da balança conectada.
+    Reads weight from connected scale.
     
     Body:
     {
-        "port": "/dev/ttyUSB0",  # opcional, usa padrão se não informado
-        "baudrate": 9600         # opcional, usa padrão se não informado
+        "port": "/dev/ttyUSB0",  # optional, uses default if not provided
+        "baudrate": 9600         # optional, uses default if not provided
     }
     """
     port = request.data.get('port', '/dev/ttyUSB0')
@@ -117,7 +117,7 @@ def read_scale_weight(request):
     
     if not scale.connect():
         return Response(
-            {'error': f'Não foi possível conectar com a balança na porta {port}'},
+            {'error': f'Could not connect using port {port}'},
             status=status.HTTP_400_BAD_REQUEST
         )
     
@@ -133,7 +133,7 @@ def read_scale_weight(request):
             })
         else:
             return Response(
-                {'error': 'Não foi possível ler o peso da balança'},
+                {'error': 'Could not read weight from scale'},
                 status=status.HTTP_400_BAD_REQUEST
             )
     
@@ -144,12 +144,12 @@ def read_scale_weight(request):
 @permission_classes([IsAuthenticated])
 def test_scale_connection(request):
     """
-    Testa a conexão com a balança.
+    Tests connection with the scale.
     
     Body:
     {
-        "port": "/dev/ttyUSB0",  # opcional
-        "baudrate": 9600         # opcional
+        "port": "/dev/ttyUSB0",  # optional
+        "baudrate": 9600         # optional
     }
     """
     port = request.data.get('port', '/dev/ttyUSB0')
@@ -161,11 +161,11 @@ def test_scale_connection(request):
         scale.disconnect()
         return Response({
             'success': True,
-            'message': f'Conexão com a balança estabelecida com sucesso na porta {port}'
+            'message': f'Connection established successfully on port {port}'
         })
     else:
         return Response({
             'success': False,
-            'message': f'Falha ao conectar com a balança na porta {port}'
+            'message': f'Failed to connect on port {port}'
         }, status=status.HTTP_400_BAD_REQUEST)
 

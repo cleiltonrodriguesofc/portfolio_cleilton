@@ -25,7 +25,7 @@ from .utils_demo import get_actor
 
 
 # ------------------------------------------------------------------------------
-# Mixin simples para resolver o "ator" (usuário da query)
+# Simple Mixin to resolve the "actor" (user of the query)
 # ------------------------------------------------------------------------------
 class ActorMixin:
     def actor(self):
@@ -33,7 +33,7 @@ class ActorMixin:
 
 
 # ==============================================================================
-# AUTENTICAÇÃO E DASHBOARD
+# AUTHENTICATION AND DASHBOARD
 # ==============================================================================
 
 class CustomLoginView(LoginView):
@@ -166,7 +166,7 @@ class DashboardView(ActorMixin, ListView):
 
 
 # ==============================================================================
-# FINANCEIRO
+# FINANCIAL
 # ==============================================================================
 
 class RegistroFinanceiroListView(ActorMixin, ListView):
@@ -190,7 +190,7 @@ def financeiro_detail_view(request, nota_pk):
 
 
 # ==============================================================================
-# PAGAMENTOS
+# PAYMENTS
 # ==============================================================================
 
 class PagamentoListView(ActorMixin, ListView):
@@ -284,7 +284,7 @@ def generate_nota_carregamento_pdf_view(request, pk):
 
 
 # ==============================================================================
-# AMOSTRAS (CRUD)
+# SAMPLES (CRUD)
 # ==============================================================================
 
 class AmostraListView(ActorMixin, ListView):
@@ -363,7 +363,7 @@ class AmostraDeleteView(ActorMixin, DeleteView):
 
 
 # ==============================================================================
-# PESAGEM DE CAMINHÃO (CRUD)
+# TRUCK WEIGHING (CRUD)
 # ==============================================================================
 
 class PesagemListView(ActorMixin, ListView):
@@ -450,7 +450,7 @@ class PesagemDeleteView(ActorMixin, DeleteView):
 
 
 # ==============================================================================
-# NOTA DE CARREGAMENTO (CRUD)
+# LOADING ORDER (CRUD)
 # ==============================================================================
 
 class NotaFormContextMixin(ActorMixin):

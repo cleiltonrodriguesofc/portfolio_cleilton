@@ -8,9 +8,9 @@ from django.db.models import Sum, Count, Q
 from django.contrib.auth import logout as auth_logout
 
 def logout(request):
-    #isso encerra a sessão
+    # This ends the session
     auth_logout(request)  
-    # redireciona para a URL de login
+    # Redirects to login URL
     return render(request, 'core/project_list.html')  
 
 
@@ -19,21 +19,21 @@ def logout(request):
 # @login_required
 def dashboard(request):
     """
-    View para a página inicial (dashboard) do sistema.
+    View for the system homepage (dashboard).
     """
-    # Total de alunos ativos
+    # Total active students
     total_alunos = Aluno.objects.filter(status=Aluno.ATIVO).count()
     
-    # Presentes hoje
+    # Present today
     hoje = timezone.now().date()
     presentes_hoje = Presenca.objects.filter(data=hoje, presente=True).select_related('aluno')
     total_presentes = presentes_hoje.count()
     
-    # Pagamentos pendentes
+    # Pending payments
     pagamentos_pendentes = Pagamento.objects.filter(pago=False).select_related('aluno').order_by('mes_referencia')
     total_pendentes = pagamentos_pendentes.count()
     
-    # Aniversariantes do mês
+    # Birthdays of the month
     mes_atual = timezone.now().month
     aniversariantes = Aluno.objects.filter(
         status=Aluno.ATIVO,
@@ -53,13 +53,13 @@ def dashboard(request):
     
     return render(request, 'reforco/dashboard.html', context)
 
-# Views para Alunos
+# Views for Students
 # @login_required
 def aluno_list(request):
     """
-    View para listar todos os alunos.
+    View to list all students.
     """
-    # Filtro por status
+    # Filter by status
     status_filter = request.GET.get('status', None)
     if status_filter:
         alunos = Aluno.objects.filter(status=status_filter)
@@ -79,7 +79,7 @@ def aluno_list(request):
 # @login_required
 def aluno_create(request):
     """
-    View para criar um novo aluno.
+    View to create a new student.
     """
     from .forms import AlunoForm
     
@@ -102,7 +102,7 @@ def aluno_create(request):
 # @login_required
 def aluno_update(request, pk):
     """
-    View para atualizar um aluno existente.
+    View to update an existing student.
     """
     from .forms import AlunoForm
     
@@ -128,14 +128,14 @@ def aluno_update(request, pk):
 # @login_required
 def aluno_detail(request, pk):
     """
-    View para visualizar detalhes de um aluno.
+    View to view student details.
     """
     aluno = get_object_or_404(Aluno, pk=pk)
     
-    # Histórico de presenças
+    # Attendance history
     presencas = Presenca.objects.filter(aluno=aluno).order_by('-data')
     
-    # Histórico de pagamentos
+    # Payment history
     pagamentos = Pagamento.objects.filter(aluno=aluno).order_by('-mes_referencia')
     
     context = {
@@ -146,13 +146,13 @@ def aluno_detail(request, pk):
     
     return render(request, 'reforco/aluno_detail.html', context)
 
-# Views para Presença
+# Views for Attendance
 # @login_required
 def presenca_list(request):
     """
-    View para listar presenças.
+    View to list attendances.
     """
-    # Filtro por data
+    # Filter by date
     data_filter = request.GET.get('data', None)
     if data_filter:
         try:
@@ -173,22 +173,22 @@ def presenca_list(request):
 # @login_required
 def presenca_create(request):
     """
-    View para marcar presença dos alunos.
+    View to mark student attendance.
     """
     from .forms import PresencaMultiForm
     
-    # Obter apenas alunos ativos
+    # Get only active students
     alunos = Aluno.objects.filter(status=Aluno.ATIVO).order_by("nome")
     
-    # Obter a data da requisição (GET ou POST)
+    # Get request date (GET or POST)
     data_selecionada_str = request.GET.get("data") or request.POST.get("data")
     data_selecionada = None
     if data_selecionada_str:
         try:
             data_selecionada = datetime.strptime(data_selecionada_str, "%d/%m/%Y").date()
         except ValueError:
-            messages.error(request, "Formato de data inválido. Use DD/MM/AAAA.")
-            data_selecionada = timezone.now().date()  # Volta para a data de hoje em caso de erro
+            messages.error(request, "Invalid date format. Use DD/MM/YYYY.")
+            data_selecionada = timezone.now().date()  # Back to today in case of error
     else:
         data_selecionada = timezone.now().date()
 
@@ -196,22 +196,22 @@ def presenca_create(request):
         # Validar data
         data = request.POST.get("data")
         if not data:
-            messages.error(request, "Selecione a data.")
+            messages.error(request, "Select the date.")
             return redirect("presenca_create")
 
         try:
             data = datetime.strptime(data, "%d/%m/%Y").date()
         except ValueError:
-            messages.error(request, "Formato de data inválido. Use DD/MM/AAAA.")
+            messages.error(request, "Invalid date format. Use DD/MM/YYYY.")
             return redirect("presenca_create")
         
-        # Recebe os IDs dos alunos marcados como presentes
+        # Receives IDs of students marked as present
         presencas_ids = request.POST.getlist("presencas")
 
-        # Remove presenças já salvas para a data
+        # Removes attendances already saved for the date
         Presenca.objects.filter(data=data).delete()
 
-        # Cria novas presenças (presente=True se marcado, False se não marcado)
+        # Creates new attendances (present=True if marked, False if not marked)
         presencas_criadas = 0
         for aluno in alunos:
             presente = str(aluno.id) in presencas_ids
@@ -225,11 +225,11 @@ def presenca_create(request):
 
         messages.success(
             request,
-            f"Presença registrada com sucesso para {data.strftime('%d/%m/%Y')}! {presencas_criadas} alunos presentes."
+            f"Attendance recorded successfully for {data.strftime('%d/%m/%Y')}! {presencas_criadas} students present."
         )
         return redirect("presenca_create")
     else:
-        # Pré-preencher o formulário com a data selecionada e presenças existentes
+        # Pre-fill the form with the selected date and existing attendances
         initial_data = {"data": data_selecionada}
         form = PresencaMultiForm(initial=initial_data, alunos=alunos, data_inicial=data_selecionada)
         
@@ -247,13 +247,13 @@ def presenca_create(request):
     }
     return render(request, "reforco/presenca_form.html", context)
 
-# Views para Pagamentos
+# Views for Payments
 # @login_required
 def pagamento_list(request):
     """
-    View para listar pagamentos.
+    View to list payments.
     """
-    # Filtro por status (pago/pendente)
+    # Filter by status (paid/pending)
     status_filter = request.GET.get('status', None)
     if status_filter == 'pago':
         pagamentos = Pagamento.objects.filter(pago=True)
@@ -262,15 +262,15 @@ def pagamento_list(request):
     else:
         pagamentos = Pagamento.objects.all()
     
-    # Filtro por aluno
+    # Filter by student
     aluno_filter = request.GET.get('aluno', None)
     if aluno_filter:
         pagamentos = pagamentos.filter(aluno_id=aluno_filter)
     
-    # Ordenação
+    # Sorting
     pagamentos = pagamentos.order_by('-mes_referencia', 'aluno__nome')
     
-    # Lista de alunos para o filtro
+    # List of students for the filter
     alunos = Aluno.objects.filter(status=Aluno.ATIVO).order_by('nome')
     
     context = {
@@ -285,7 +285,7 @@ def pagamento_list(request):
 # @login_required
 def pagamento_create(request):
     """
-    View para registrar um novo pagamento.
+    View to register a new payment.
     """
     from .forms import PagamentoForm
     
@@ -293,10 +293,10 @@ def pagamento_create(request):
         form = PagamentoForm(request.POST)
         if form.is_valid():
             pagamento = form.save()
-            messages.success(request, f'Pagamento registrado com sucesso para {pagamento.aluno.nome}!')
+            messages.success(request, f'Payment successfully registered for {pagamento.aluno.nome}!')
             return redirect('pagamento_list')
     else:
-        # Pré-selecionar o aluno se vier da página de detalhes do aluno
+        # Pre-select student if coming from student details page
         aluno_id = request.GET.get('aluno', None)
         if aluno_id:
             form = PagamentoForm(initial={'aluno': aluno_id})
@@ -313,7 +313,7 @@ def pagamento_create(request):
 # @login_required
 def pagamento_update(request, pk):
     """
-    View para atualizar um pagamento existente.
+    View to update an existing payment.
     """
     from .forms import PagamentoForm
     
@@ -323,7 +323,7 @@ def pagamento_update(request, pk):
         form = PagamentoForm(request.POST, instance=pagamento)
         if form.is_valid():
             pagamento = form.save()
-            messages.success(request, f'Pagamento atualizado com sucesso para {pagamento.aluno.nome}!')
+            messages.success(request, f'Payment successfully updated for {pagamento.aluno.nome}!')
             return redirect('pagamento_list')
     else:
         form = PagamentoForm(instance=pagamento)
@@ -336,28 +336,28 @@ def pagamento_update(request, pk):
     
     return render(request, 'reforco/pagamento_form.html', context)
 
-# Views para Relatórios
+# Views for Reports
 # @login_required
 def relatorio_presenca(request):
     """
-    View para gerar relatório de presenças.
+    View to generate attendance report.
     """
-    # Filtros
+    # Filters
     aluno_id = request.GET.get('aluno', None)
     data_inicio = request.GET.get('data_inicio', None)
     data_fim = request.GET.get('data_fim', None)
     
-    # Lista de alunos para o filtro
+    # List of students for the filter
     alunos = Aluno.objects.filter(status=Aluno.ATIVO).order_by('nome')
     
-    # Inicializar variáveis
+    # Initialize variables
     presencas = None
     aluno_selecionado = None
     total_presencas = 0
     total_faltas = 0
     percentual_presenca = 0
     
-    # Aplicar filtros se fornecidos
+    # Apply filters if provided
     if aluno_id:
         try:
             aluno_selecionado = Aluno.objects.get(pk=aluno_id)
@@ -379,7 +379,7 @@ def relatorio_presenca(request):
             
             presencas = presencas_query.order_by('-data')
             
-            # Calcular estatísticas
+            # Calculate statistics
             total_presencas = presencas.filter(presente=True).count()
             total_faltas = presencas.filter(presente=False).count()
             total_dias = total_presencas + total_faltas
@@ -405,18 +405,18 @@ def relatorio_presenca(request):
 # @login_required
 def relatorio_pagamentos(request):
     """
-    View para gerar relatório de pagamentos.
+    View to generate payment report.
     """
-    # Filtros
+    # Filters
     aluno_id = request.GET.get('aluno', None)
     status = request.GET.get('status', None)
     data_inicio = request.GET.get('data_inicio', None)
     data_fim = request.GET.get('data_fim', None)
     
-    # Lista de alunos para o filtro
+    # List of students for the filter
     alunos = Aluno.objects.filter(status=Aluno.ATIVO).order_by('nome')
     
-    # Inicializar variáveis
+    # Initialize variables
     pagamentos = None
     aluno_selecionado = None
     total_pagos = 0
@@ -424,7 +424,7 @@ def relatorio_pagamentos(request):
     valor_total_pago = 0
     valor_total_pendente = 0
     
-    # Aplicar filtros
+    # Apply filters
     pagamentos_query = Pagamento.objects.all()
     
     if aluno_id:
@@ -456,11 +456,11 @@ def relatorio_pagamentos(request):
     
     pagamentos = pagamentos_query.order_by('-mes_referencia', 'aluno__nome')
     
-    # Calcular estatísticas
+    # Calculate statistics
     total_pagos = pagamentos.filter(pago=True).count()
     total_pendentes = pagamentos.filter(pago=False).count()
     
-    # Calcular valores totais
+    # Calculate total values
     for pagamento in pagamentos:
         if pagamento.pago:
             valor_total_pago += pagamento.valor
@@ -482,20 +482,20 @@ def relatorio_pagamentos(request):
     
     return render(request, 'reforco/relatorio_pagamentos.html', context)
 
-# Views para Mensagens
+# Views for Messages
 # @login_required
 def mensagens(request):
     """
-    View para gerar mensagens para WhatsApp.
+    View to generate WhatsApp messages.
     """
-    # Lista de alunos para o filtro
+    # List of students for the filter
     alunos = Aluno.objects.filter(status=Aluno.ATIVO).order_by('nome')
     
-    # Inicializar variáveis
+    # Initialize variables
     aluno_selecionado = None
     pagamentos_pendentes = None
     
-    # Filtro por aluno
+    # Filter by student
     aluno_id = request.GET.get('aluno', None)
     if aluno_id:
         try:
@@ -507,7 +507,7 @@ def mensagens(request):
         except Aluno.DoesNotExist:
             pass
     
-    # Tipos de mensagens disponíveis
+    # Available message types
     tipos_mensagem = [
         {
             'id': 'cobranca',
