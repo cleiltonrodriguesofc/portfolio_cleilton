@@ -34,3 +34,5 @@ pdfminer.six
 
 # === Type Checking / Linting ===
 flake8
+# === API Documentation ===
+drf-spectacular

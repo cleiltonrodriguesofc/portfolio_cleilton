@@ -57,7 +57,19 @@ INSTALLED_APPS = [
     'encyclopedia',
     'brokerage_analyzer',
     'bootstrap5',
+    'drf_spectacular',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Portfolio API',
+    'DESCRIPTION': 'API documentation for portfolio projects',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
