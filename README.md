@@ -12,6 +12,29 @@ This repository contains the personal portfolio and projects developed by Cleilt
 - **Fully Responsive**: Optimized for desktop, tablet, and mobile devices.
 - **Professional Layout**: Organized sections for a complete profile presentation.
 
+
+## 📂 Project Showcase & Business Value
+
+### 📊 Brokerage Analyzer (Investment Tool)
+**Business Problem:** Manually calculating taxes for Brazilian investments (Stocks, FIIs, Futures) from PDF notes is error-prone and takes hours per month.
+**Solution:** Automated the extraction of financial data from C6 Bank PDF notes using `pdfminer` and `correpy`, generating compliance-ready Excel reports. Reduced tax preparation time by 90%.
+
+### 🌾 ProGrãos (Agro-Industry)
+**Business Problem:** Grain weighting and sampling in warehouses requires manual logging, leading to data inconsistency and fraud risks.
+**Solution:** Integrated directly with weighing scales via serial port (`pyserial`) to capture real-time weight data, ensuring 100% data integrity for grain reception.
+
+### 📚 Reforço Escolar (SaaS)
+**Business Problem:** Private teachers struggle to track student payments and attendance using spreadsheets.
+**Solution:** Built a multi-tenant management system with automated WhatsApp billing messages and attendance tracking.
+
+### 🎓 Academic Projects
+- **Encyclopedia:** A CS50W implementation of a Wikipedia-like clone to demonstrate mastery of Django basics and Markdown parsing.
+
+## 🧪 Quality Assurance
+- **CI/CD:** GitHub Actions pipeline runs tests and linting on every commit.
+- **Testing:** Comprehensive unit tests for business logic (e.g., tax calculations).
+- **Code Quality:** PEP8 enforcement via Flake8.
+
 ## 📁 Project Structure
 
 ```
