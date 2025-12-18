@@ -26,7 +26,8 @@ urlpatterns = [
     # URLs dos projetos integrados
     path('projetos/reforco/', include('reforco.urls')),
     path("projetos/prograos/", include(("prograos.urls"), namespace="prograos")),
-    path('projetos/encyclopedia/', include("encyclopedia.urls"))
+    path('projetos/encyclopedia/', include("encyclopedia.urls")),
+    path('projetos/brokerage_analyzer/', include("brokerage_analyzer.urls")),
 ]
 
 # Servir arquivos de media durante o desenvolvimento

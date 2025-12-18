@@ -6,10 +6,10 @@
     --color-white: #FFFFFF;
     --color-gray: #8892B0;
     --color-light-gray: #F8F9FA;
-    
+
     --font-primary: 'Roboto', sans-serif;
     --font-heading: 'Montserrat', sans-serif;
-    
+
     --transition: all 0.3s ease;
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.15);
@@ -27,10 +27,16 @@ body {
     line-height: 1.6;
     color: var(--color-gray);
     background-color: var(--color-white);
-    padding-top: 76px; /* Para compensar navbar fixa */
+    padding-top: 76px;
+    /* Para compensar navbar fixa */
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: var(--font-heading);
     font-weight: 600;
     color: var(--color-dark-blue);
@@ -346,6 +352,7 @@ footer {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -361,20 +368,20 @@ footer {
     .hero-title {
         font-size: 2.5rem;
     }
-    
+
     .hero-subtitle {
         font-size: 1.2rem;
     }
-    
+
     .profile-image {
         width: 250px;
         height: 250px;
     }
-    
+
     .section {
         padding: 60px 0;
     }
-    
+
     .section-title {
         font-size: 2rem;
     }
@@ -384,16 +391,15 @@ footer {
     .hero-title {
         font-size: 2rem;
     }
-    
+
     .profile-image {
         width: 200px;
         height: 200px;
     }
-    
+
     .btn-primary,
     .btn-outline-primary {
         padding: 10px 25px;
         font-size: 0.9rem;
     }
 }
-

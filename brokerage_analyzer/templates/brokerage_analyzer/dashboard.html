@@ -1,0 +1,92 @@
+{% extends 'brokerage_analyzer/base.html' %}
+{% load bootstrap5 %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">Visão Geral</h2>
+
+<div class="row mb-4 g-4">
+    <!-- Transactions Card -->
+    <div class="col-md-4">
+        <div class="card h-100 border-0 bg-white text-dark">
+            <div class="card-body">
+                <h6 class="text-muted text-uppercase mb-2" style="letter-spacing: 1px; font-size: 0.75rem;">Total de
+                    Transações</h6>
+                <div class="d-flex align-items-center">
+                    <h2 class="display-5 fw-bold mb-0 me-3">{{ total_transactions }}</h2>
+                    <span class="text-muted"><i class="bi bi-receipt"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Result Card -->
+    <div class="col-md-4">
+        <div class="card h-100 border-0 text-white {% if total_liquid >= 0 %}bg-success{% else %}bg-danger{% endif %}"
+            style="background: {% if total_liquid >= 0 %}linear-gradient(135deg, #10b981 0%, #059669 100%){% else %}linear-gradient(135deg, #ef4444 0%, #b91c1c 100%){% endif %};">
+            <div class="card-body">
+                <h6 class="text-white-50 text-uppercase mb-2" style="letter-spacing: 1px; font-size: 0.75rem;">Resultado
+                    Acumulado</h6>
+                <h2 class="display-6 fw-bold mb-3">R$ {{ total_liquid|floatformat:2 }}</h2>
+
+                <div class="bg-white bg-opacity-10 rounded p-2">
+                    {% for stat in category_stats %}
+                    <div class="d-flex justify-content-between small mb-1">
+                        <span class="fw-medium">{{ stat.category }}</span>
+                        <span class="fw-bold">R$ {{ stat.total|floatformat:2 }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions Card -->
+    <div class="col-md-4">
+        <div class="card h-100 border-0 bg-dark text-white"
+            style="background: linear-gradient(135deg, #1f2937 0%, #111827 100%);">
+            <div class="card-body d-flex flex-column justify-content-center align-items-stretch">
+                <h5 class="fw-bold mb-3">Ações Rápidas</h5>
+                <a href="{% url 'upload_notes' %}" class="btn btn-light fw-bold mb-2">Importar Notas (PDF)</a>
+                <a href="{% url 'download_report' %}" class="btn btn-outline-light">Baixar Relatório Excel</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card p-4">
+    <h5 class="fw-bold mb-4">Últimas Movimentações</h5>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr class="text-uppercase small text-muted">
+                    <th class="py-3">Data</th>
+                    <th class="py-3">Ticker</th>
+                    <th class="py-3">Operação</th>
+                    <th class="py-3">Valor Líquido</th>
+                    <th class="py-3 text-end">Categoria</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in transactions %}
+                <tr>
+                    <td class="fw-medium">{{ t.date|date:"d/m/Y" }}</td>
+                    <td><span class="badge bg-light text-dark border">{{ t.ticker }}</span></td>
+                    <td class="small text-muted">{{ t.asset_class }}</td>
+                    <td class="{% if t.liquid_value < 0 %}text-danger{% else %}text-success{% endif %} fw-bold">
+                        R$ {{ t.liquid_value }}
+                    </td>
+                    <td class="text-end"><span class="badge bg-secondary">{{ t.category }}</span></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center py-5 text-muted">
+                        <p class="mb-0">Nenhuma transação encontrada.</p>
+                        <small>Faça o upload das suas notas do C6 Bank para começar.</small>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

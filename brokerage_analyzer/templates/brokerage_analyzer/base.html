@@ -1,0 +1,116 @@
+{% load bootstrap5 %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C6 Brokerage Analyzer</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            /* Slate */
+            --accent-color: #eebb11;
+            /* C6-ish Gold/Yellow hint */
+            --bg-color: #f3f4f6;
+            --text-color: #1f2937;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            /* padding: 2px; */
+            padding-top: 0;
+            margin: 0;
+        }
+
+        .navbar {
+            background-color: #000000 !important;
+            /* C6 Black */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: white !important;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+            border-radius: 0.75rem;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background-color: #000000;
+            border-color: #000000;
+        }
+
+        .btn-primary:hover {
+            background-color: #333333;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding: 2rem 0;
+            color: #6b7280;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    {# Header do portfólio (casca neutra) #}
+    {% include '_header_shell.html' %}
+    <nav class="navbar navbar-expand-lg navbar-dark mb-5">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'dashboard' %}">
+                ⚫ C6 Brokerage Analyzer
+            </a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'upload_notes' %}">Upload</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="min-height: 70vh;">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm rounded-3" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <div class="container">
+            <p><strong>Recurso Não Oficial.</strong> Compatível estritamente com Notas de Corretagem do <strong>C6
+                    Bank</strong>.</p>
+            <p>Os cálculos são estimativas e não substituem o aconselhamento contábil oficial.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

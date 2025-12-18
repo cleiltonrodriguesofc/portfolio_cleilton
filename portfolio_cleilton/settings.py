@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     'reforco',
     'prograos',
     'encyclopedia',
+    'brokerage_analyzer',
+    'bootstrap5',
 ]
 
 MIDDLEWARE = [
