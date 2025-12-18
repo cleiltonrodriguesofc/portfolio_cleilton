@@ -1,6 +1,8 @@
-# Cleilton's Professional Portfolio
+# Portfolio Cleilton Rodrigues
 
-A professional portfolio built with Django, featuring a modern blue-themed design to integrate and showcase development projects.
+![Build Status](https://github.com/cleiltonrodriguesofc/portfolio_cleilton/actions/workflows/ci.yml/badge.svg)
+
+This repository contains the personal portfolio and projects developed by Cleilton Rodrigues. The project is built with **Django** and integrates multiple applications to demonstrate skills in web development, data science, and software engineering via **clean architecture**.
 
 ## 🚀 Features
 

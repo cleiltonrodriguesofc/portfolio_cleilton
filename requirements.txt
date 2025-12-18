@@ -31,3 +31,6 @@ django-bootstrap-v5
 whitenoise
 pdfminer.six
 
+
+# === Type Checking / Linting ===
+flake8
