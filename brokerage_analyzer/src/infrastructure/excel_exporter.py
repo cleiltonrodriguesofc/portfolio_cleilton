@@ -39,8 +39,8 @@ class ExcelExporter:
             # --- SEPARATE SHEETS PER CATEGORY ---
             categories = sorted(df['Category'].unique())
             
-            # Order: Ações, FIIs, ETFs, Futures, Others
-            # We want specific order if possible?
+            # Helper to apply currency format
+            # Order: Stocks, FIIs, ETFs, Futures, Others
             
             for cat in categories:
                 # Sanitize sheet name
@@ -49,16 +49,14 @@ class ExcelExporter:
                 # Filter for this category
                 cat_df = df[df['Category'] == cat].copy()
                 
-                if str(cat).startswith('Futuros'):
-                    # User request: Keep Futures simple ("Don't touch")
-                    # Just show Date, Asset, Liquid, Filename
+                if str(cat).startswith('Futuros') or str(cat).startswith('Futures'):
+                    # Futures logic: Display simpler columns
                     display_cols = ['Date', 'AssetClass', 'LiquidValue', 'Filename']
-                    cat_df = cat_df[display_cols] # Ensure consistent columns
+                    cat_df = cat_df[display_cols]
                     cat_df.to_excel(writer, index=False, sheet_name=sheet_name)
                     
                     ws = writer.sheets[sheet_name]
-                    apply_format(ws, 3, currency_format) # LiquidValue is 3rd col (C)? No 1-based index in openpyxl, but col C is 3.
-                    # Date=A, Asset=B, Liquid=C, File=D
+                    apply_format(ws, 3, currency_format) # Column 3 = LiquidValue
                     
                     ws.column_dimensions['A'].width = 15
                     ws.column_dimensions['B'].width = 25
@@ -89,34 +87,18 @@ class ExcelExporter:
 
 
             # --- SUMMARY SHEET (TAX) ---
-            # Exclude Futures for the "Taxable Assets" summary? 
-            # Or make a consolidated one.
-            # User wants "correct value to put in the irpf".
+            # Exclude Futures for typical Taxable Assets summary
             
-            # Filter Non-Futures
-            tax_df = df[~df['Category'].str.startswith('Futuros', na=False)].copy()
+            tax_df = df[~df['Category'].str.startswith('Futuros', na=False) & ~df['Category'].str.startswith('Futures', na=False)].copy()
             
             if not tax_df.empty:
                 # Aggregate by Year, Month, Category
                 tax_summary = tax_df.groupby(['Year', 'Month', 'Category'])[['BuyValue', 'SellValue', 'LiquidValue']].sum().reset_index()
                 
-                # Add Estimated Tax Columns (Heuristic)
-                # Sales Total = SellValue
-                # Net = LiquidValue (Note: LiquidValue is often Net Cash Flow. 
-                # Profit approx = Sell - Buy? 
-                # Only if Day Trade or fully closed. 
-                # But LiquidValue from parser is usually "Credit - Debit". 
-                # If I buy 1000 and sell 1200, Buy=1000, Sell=1200. Liquid = +200. 
-                # If I only buy 1000, Liquid = -1000.
-                
-                # So "Profit" column for tax estimation:
-                # We can't know REAL profit without Average Price.
-                # But we can show "Sales Total" (for exemption) and "Net Cash Flow".
-                
-                # Let's add explicit columns:
-                # 1. Total Sold (Vendas)
-                # 2. Total Bought (Compras)
-                # 3. Net Result (Fluxo Líquido)
+                # Add explicit columns for Tax Report context:
+                # 1. Total Sold (Sales)
+                # 2. Total Bought (Purchases)
+                # 3. Net Result (Cash Flow)
                 
                 tax_summary.rename(columns={'SellValue': 'Total Vendas', 'BuyValue': 'Total Compras', 'LiquidValue': 'Resultado Líquido'}, inplace=True)
                 
@@ -124,9 +106,7 @@ class ExcelExporter:
                 tax_summary.to_excel(writer, index=False, sheet_name=sheet_name_tax)
                 
                 ws_tax = writer.sheets[sheet_name_tax]
-                # Cols: Year(A), Month(B), Category(C), Buy(D), Sell(E), Liquid(F)
-                # Correction: groupby order -> Year, Month, Category. 
-                # Columns in DF: Year, Month, Category, Total Compras, Total Vendas, Resultado Líquido
+                # Columns: Year, Month, Category, Total Compras, Total Vendas, Resultado Líquido
                 
                 apply_format(ws_tax, 4, currency_format) # Compras
                 apply_format(ws_tax, 5, currency_format) # Vendas
@@ -138,7 +118,7 @@ class ExcelExporter:
                 ws_tax.column_dimensions['F'].width = 18
             
             # --- SUMMARY SHEET (FUTURES) ---
-            fut_df = df[df['Category'].str.startswith('Futuros', na=False)].copy()
+            fut_df = df[df['Category'].str.startswith('Futuros', na=False) | df['Category'].str.startswith('Futures', na=False)].copy()
             if not fut_df.empty:
                 fut_summary = fut_df.groupby(['Category', 'Year', 'Month'])['LiquidValue'].sum().reset_index()
                 fut_summary.sort_values(by=['Category', 'Year', 'Month'], inplace=True)

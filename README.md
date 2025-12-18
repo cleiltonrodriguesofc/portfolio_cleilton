@@ -47,6 +47,27 @@ portfolio_cleilton/                         # Main project folder
 │           ├── home.html
 │           └── project_list.html
 │
+├── brokerage_analyzer/                     # Brokerage Note Analyzer (PDF/Excel)
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   ├── views.py
+│   ├── migrations/
+│   │   └── __init__.py
+│   ├── src/                                # Core Business Logic
+│   │   ├── use_cases/
+│   │   │   └── data_aggregator.py
+│   │   └── infrastructure/
+│   │       ├── pdf_parser.py
+│   │       └── excel_exporter.py
+│   └── templates/brokerage_analyzer/
+│       ├── dashboard.html
+│       └── upload.html
+│
 ├── encyclopedia/                           # CS50Wiki (Markdown-based Encyclopedia)
 │   ├── __init__.py
 │   ├── admin.py
@@ -286,8 +307,9 @@ python manage.py startapp new_project
 ## 📱 Project URLs
 - `/` → Homepage
 - `/projects/` → Project list
-- `/projects/reforco/` → Reforço Escolar (Academic Management System)
-- `/projects/prograos/` → ProgGrãos (Grain Management System)
+- `/projetos/reforco/` → Reforço Escolar (Academic Management System)
+- `/projetos/prograos/` → ProgGrãos (Grain Management System)
+- `/projetos/brokerage_analyzer/` → Brokerage Analyzer (Investment Reports)
 - `/contact/` → Contact page
 
 

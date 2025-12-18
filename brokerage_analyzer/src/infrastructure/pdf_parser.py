@@ -62,8 +62,8 @@ class PdfParser:
             except Exception:
                 pass
         
+        
         # 2. Fallback
-        # logger.info(f"CorrePy returned 0 notes for {file_path}, attempting fallback...")
         return self._parse_fallback(file_path)
 
     def _parse_fallback(self, file_path: str):
@@ -77,15 +77,12 @@ class PdfParser:
             
 
 
-            # --- STRATEGY A: Specific "LÍQUIDO PARA" Extraction (Futures & Stocks) ---
-            # 1. Clean Text (Fix encoding artifacts like □)
+            # Method A: Specific "LÍQUIDO PARA" Extraction (Futures & Stocks)
+            # 1. Clean Text
             clean_text = text.replace('□', '.')
             
-
-
-            # 2. Try strict "LÍQUIDO PARA" regex first
-            # Updated to handle "LQUIDO" aka missing vowels/dots
-            # AND enforce/capture date if present (non-greedy .*?)
+            # 2. Try strict regex
+            # Captures date (optional) and value based on "Líquido para" pattern
             liquid_regex = re.search(r'L[IÍ\.]?.?QUIDO\s*PARA.*?(\d{2}/\d{2}/\d{4})?.*?([\d\.,]+)\s*([CD])', clean_text, re.IGNORECASE | re.DOTALL)
 
 
@@ -153,8 +150,7 @@ class PdfParser:
             # 2. Stocks/Options (Ticker heuristic)
             else:
                 # Look for Ticker: 4 letters + alphanumeric suffixes
-                # e.g., PETR4, BOVA11, PETRB40 (Option), ALUGUEL (Rent?)
-                # Exclude common words like "PARA", "DATA", "NOTA", "PAGTO"
+                # Ignored common words
                 ignored = {'PARA', 'DATA', 'NOTA', 'PAGTO', 'VALOR', 'TOTAL', 'LOCAL', 'PRAZO', 'PRECO', 'FOLHA'}
                 
                 # Regex for potential tickers
@@ -162,36 +158,29 @@ class PdfParser:
                 
                 found_ticker = ""
                 for cand in ticker_candidates:
-                    if cand not in ignored and not re.match(r'^[A-Z]+$', cand): # Must have number if it's strictly letters? 
-                        # Actually standard stocks have numbers: PETR4. 
-                        # Some ETFs might be pure letters? No, usually XXXX11.
-                        # Options: XXXXA12. 
-                        # So requiring at least one digit is a good filter for "words".
+                    if cand not in ignored and not re.match(r'^[A-Z]+$', cand): 
+                        # Require at least one digit to distinguish from words
                         if any(c.isdigit() for c in cand):
                             found_ticker = cand
                             break
                             
                 if found_ticker:
                     # Look for Operation (C/V)
-                    # Heuristic: First isolated C or V in the text? 
-                    # Or 'C/V' string?
                     op = "?"
                     if re.search(r'\bC\b', clean_text) and not re.search(r'\bV\b', clean_text):
                         op = "C"
                     elif re.search(r'\bV\b', clean_text) and not re.search(r'\bC\b', clean_text):
                         op = "V"
                     else:
-                        # Scan common lines? "1-BOVESPA C"
+                        # Scan common lines
                         if "BOVESPA C" in clean_text or "BOVESPA 1 C" in clean_text or "1-BOVESPA C" in clean_text:
                             op = "C"
                         elif "BOVESPA V" in clean_text or "BOVESPA 1 V" in clean_text or "1-BOVESPA V" in clean_text:
                             op = "V"
-
-                    # Fallback: Just look for first C/V pattern near standard keywords
                     
                     # Last Resort: Infer from Value Sign (Net Settlement)
-                    # If Net Value is Debit (Negative) -> We Paid -> We Bought -> C (Compra)
-                    # If Net Value is Credit (Positive) -> We Received -> We Sold -> V (Venda)
+                    # Debit (Negative) -> Purchase (C)
+                    # Credit (Positive) -> Sale (V)
                     if op == "?":
                         if val < 0:
                             op = "C"
@@ -205,7 +194,7 @@ class PdfParser:
                 logger.info(f"Parsed via Heuristic: Date={ref_date}, Value={val}, Obs={observation} from {os.path.basename(file_path)}")
                 return [MockNote(ref_date, float(val), observation)]
 
-            # --- STRATEGY B: Generic R$ (Legacy) ---
+            # Method B: Generic Currency Extraction (Legacy)
             # ... (Existing logic) ...
             matches = re.findall(r'R\$\s*([\d\.,]+)', text)
 

@@ -15,15 +15,14 @@ from io import BytesIO
 from django.db.models import Sum
 
 def dashboard(request):
-    # Stats
+    # Statistics
     total_transactions = Transaction.objects.count()
     total_liquid = Transaction.objects.aggregate(Sum('liquid_value'))['liquid_value__sum'] or 0
     
     # Aggregation by Category
     category_stats = Transaction.objects.values('category').annotate(total=Sum('liquid_value')).order_by('category')
     
-    # Simple aggregations
-    # In a real scenario, use Django Aggregation
+    # Recent Transactions
     transactions = Transaction.objects.all().order_by('-date')[:50]
     
     context = {
@@ -37,13 +36,13 @@ def dashboard(request):
 
 def upload_notes(request):
     if request.method == 'POST':
-        print(f"DEBUG: FILES keys: {request.FILES.keys()}")
+        # print(f"DEBUG: FILES keys: {request.FILES.keys()}")
         form = UploadNotesForm(request.POST, request.FILES)
         if form.is_valid():
             asset_type = form.cleaned_data['asset_type']
             uploaded_files = request.FILES.getlist('files')
             
-            # 1. Setup Temp Dir
+            # 1. Setup Temporary Directory
             temp_dir = os.path.join(settings.BASE_DIR, 'media', 'temp')
             if not os.path.exists(temp_dir):
                 os.makedirs(temp_dir)
@@ -59,44 +58,29 @@ def upload_notes(request):
                 file_path = os.path.join(temp_dir, filename)
                 
                 try:
-                    # Parse using the refactored method
-                    # Logic note: aggregator.records accumulates. We need to clear it or use a fresh instance?
-                    # DataAggregator.__init__ initializes self.records = [].
-                    # So we can keep one aggregator instance ensuring we consume records after loop? 
-                    # OR process one by one and extract. 
-                    # Aggregator appends to self.records.
-                    
+                    # Parse the file
                     aggregator.process_single_pdf(file_path, asset_type)
                     
                 except Exception as e:
-                    messages.error(request, f"Erro ao processar {f.name}: {e}")
+                    messages.error(request, f"Error processing {f.name}: {e}")
                 finally:
-                    # DELETE FILE immediately
+                    # Delete file immediately
                     if os.path.exists(file_path):
                         os.remove(file_path)
             
-            # 3. Save to DB
-            # Aggregator has a list of dicts in self.records
-            records = aggregator.records 
-            # Note: We are currently NOT running get_records() which does the aggregation/sorting.
-            # Do we want to save Raw Lines or Aggregated Daily lines?
-            # User wants "get just the information to save it".
-            # Saving Aggregated Daily is better for storage.
-            # But get_records() aggregates *all current records*.
-            # So if we upload 10 files, we get aggregation for those 10.
-            # Correct.
-            
-            final_records = aggregator.get_records() # This aggregates by Day/Ticker
+            # 3. Save to Database
+            # Retrieve aggregated records
+            # get_records() aggregates by Day/Ticker
+            final_records = aggregator.get_records()
             
             objs = []
             for r in final_records:
-                # Map dict to Model
-                # keys: Date, Category, AssetClass, Ticker, LiquidValue, BuyValue, SellValue, Filename
+                # Map dictionary to Model
                 t = Transaction(
                     date=r['Date'],
                     category=r['Category'],
                     asset_class=r['AssetClass'],
-                    ticker=r.get('Ticker', r['AssetClass'].split(' - ')[0]), # Ticker might be missing in Futures logic
+                    ticker=r.get('Ticker', r['AssetClass'].split(' - ')[0]),
                     liquid_value=r['LiquidValue'],
                     buy_value=r['BuyValue'],
                     sell_value=r['SellValue'],
@@ -107,7 +91,7 @@ def upload_notes(request):
             Transaction.objects.bulk_create(objs)
             count = len(objs)
             
-            messages.success(request, f"{count} registros importados com sucesso!")
+            messages.success(request, f"{count} records imported successfully!")
             
             # Cleanup temp dir if empty
             try:
@@ -128,7 +112,7 @@ def download_report(request):
     transactions = Transaction.objects.all().order_by('date')
     
     if not transactions.exists():
-        messages.warning(request, "Não há dados para gerar o relatório.")
+        messages.warning(request, "No data available to generate report.")
         return redirect('dashboard')
 
     # 2. Format for ExcelExporter
@@ -149,26 +133,14 @@ def download_report(request):
     # 3. Generate Excel in Memory
     exporter = ExcelExporter(records)
     
-    # We need to capture the excel file content. 
-    # ExcelExporter.to_excel takes a filepath. We need to modify it or use a temporary file.
-    # Checking ExcelExporter code... it uses pandas.ExcelWriter(path).
-    # Pandas ExcelWriter can take a buffer (BytesIO).
-    
+    # Use BytesIO buffer to capture the file content
     buffer = BytesIO()
-    # We need to monkey-patch or modify Exporter to accept a buffer, 
-    # OR just pass the buffer if the class supports it. 
-    # Let's verify ExcelExporter.to_excel signature.
-    
-    # If to_excel simply does `with pd.ExcelWriter(file_path, engine='openpyxl') as writer:`
-    # Then passing a BytesIO object usually works for pandas.
     
     try:
         exporter.to_excel(buffer)
     except Exception as e:
-        # Fallback if it fails (e.g. type check on path string)
-        # We might need to refactor ExcelExporter
         print(f"Export Error: {e}")
-        messages.error(request, "Erro ao gerar Excel.")
+        messages.error(request, "Error generating Excel report.")
         return redirect('dashboard')
         
     buffer.seek(0)

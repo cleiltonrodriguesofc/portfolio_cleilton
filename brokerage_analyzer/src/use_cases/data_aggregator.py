@@ -27,7 +27,7 @@ class DataAggregator:
         
         for note in notes:
             try:
-                # Access net value (try different possible attribute names from the mock or real object)
+                # Extract net settlement value
                 liquid_value = note.financial_summary.net_settlement_value
                 ref_date = note.reference_date
                 
@@ -41,10 +41,10 @@ class DataAggregator:
                     
                     # Categorization Logic
                     if asset_class == 'Fundos e Acoes':
-                        # Extract potential ticker from observation (e.g. "PETR4 - V" -> "PETR4")
+                        # Extract ticker part
                         ticker_part = obs.split(' - ')[0].strip().upper()
                         
-                        # List of common Brazilian ETFs (Expanded)
+                        # List of Brazilian ETFs
                         etf_list = {
                             'BOVA11', 'BOVV11', 'BOVB11', 'BBOV11', 'BOVX11', 'SMAL11', 'SMALL11', 
                             'IVVB11', 'SPXI11', 'ACWI11', 'NASD11', 'EWBZ11', 'BLOK11', 'BEST11', 
@@ -60,25 +60,25 @@ class DataAggregator:
                         if ticker_part in etf_list:
                             category = 'ETFs'
                         elif ticker_part.endswith('11'):
-                            category = 'FIIs' # Default assumption for 11 if not in ETF list
+                            category = 'FIIs' # FIIs typically end in 11
                         elif any(ticker_part.endswith(digit) for digit in ['3', '4', '5', '6']):
-                            category = 'Ações'
+                            category = 'Stocks'
                         else:
-                            category = 'Outros' # Fallback -> "Fundos e Ações" original or just "Outros"
+                            category = 'Others'
 
                     elif asset_class == 'Futuros':
-                            # User wants separate sheets for WIN/WDO ("Original Futures")
-                            category = f"Futuros - {obs}"
+                            # Separate Futures by ticker (e.g., WIN, WDO)
+                            category = f"Futures - {obs}"
                             current_asset_class = obs 
                 
                 # Calculate Buy/Sell Values
-                # Only for Stocks/FIIs/Etc. Futures use daily adjustment (LiquidValue).
+                # Futures use daily adjustment (LiquidValue), other assets use gross value if available
                 buy_value = 0.0
                 sell_value = 0.0
                 liq_float = float(liquid_value)
                 
-                # Logic: Futures keep Buy/Sell as 0 because it's not a gross trade.
-                if not str(category).startswith('Futuros'):
+                # Futures operations are typically daily adjustments (LiquidValue only)
+                if not str(category).startswith('Futures') and not str(category).startswith('Futuros'):
                     if liq_float < 0:
                         buy_value = abs(liq_float)
                     else:
@@ -102,10 +102,8 @@ class DataAggregator:
         # Validation Step 1: Sorting
         sorted_records = sorted(self.records, key=lambda x: x['Date'])
         
-        # Validation Step 2: Aggregation for "Fundos e Acoes"
-        # We need to aggregate operations for the same Asset (Ticker) on the same Day.
-        # This handles cases like: Buy 100 PETR4 (Morning) + Buy 100 PETR4 (Afternoon) in one day,
-        # or distinct notes for the same day.
+        # Validation Step 2: Aggregation for "Funds and Stocks"
+        # Aggregates operations for the same Ticker on the same Day.
         
         aggregated_map = defaultdict(lambda: {
             'Date': None, 
@@ -120,13 +118,8 @@ class DataAggregator:
         final_records = []
 
         for record in sorted_records:
-            if str(record['Category']).startswith('Futuros'):
-                # Futures: Keep separate, do not aggregate? 
-                # User said "sometimes we have more operations for the same asset and I want an aggregate".
-                # But for Futures, they usually come as one daily adjustment line per note. 
-                # If there are multiple notes for same day? 
-                # User instruction: "don't touch in futuros, it's good already."
-                # So we pass them through directly.
+            if str(record['Category']).startswith('Futuros') or str(record['Category']).startswith('Futures'):
+                # Futures: Do not aggregate, pass through directly.
                 final_records.append(record)
             else:
                 # Stocks/FIIs/ETFs: Aggregate by Date + Ticker
@@ -144,15 +137,12 @@ class DataAggregator:
         
         # Convert aggregated map back to list
         for key, agg in aggregated_map.items():
-            # Reconstruction of AssetClass string based on net result or just Ticker?
-            # User might want to see if it was a net Buy or Sell.
-            # We can leave "AssetClass" as just the Ticker for the aggregated row, 
-            # or Ticker - C/V based on net.
+            # Reconstruct AssetClass based on net result
             
             ticker = agg['Ticker']
             net_val = agg['LiquidValue']
             op = "C" if net_val < 0 else "V"
-            # If net is 0? Rare, but possible daytrade flat.
+            # If net is 0, it might be a daytrade resulting in 0 net change (unlikely for value), but we handle it.
             
             final_asset_class = f"{ticker} - {op}"
             
