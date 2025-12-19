@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{% block title %}CS50 Network{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'network/icon.png' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Grand+Hotel&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="{% static 'network/styles.css' %}" rel="stylesheet">
+    <script src="{% static 'network/network.js' %}"></script>
+    <style>
+        /* Sidebar/Navbar adjustment for fixed header shell */
+        .navbar {
+            top: 76px;
+            /* Below portfolio header */
+        }
+    </style>
+</head>
+
+<body>
+    {% include '_header_shell.html' %}
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <button id="sidebar-toggle" class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="{% url 'network:index' %}">CS50 Network</a>
+
+            <div class="nav-icons">
+                {% if user.is_authenticated %}
+                <a class="nav-icon" href="{% url 'network:index' %}" title="Home">
+                    <i class="fas fa-home"></i> <span class="nav-label">Home</span>
+                </a>
+                <a class="nav-icon" href="{% url 'network:following' %}" title="Following">
+                    <i class="far fa-compass"></i> <span class="nav-label">Following</span>
+                </a>
+                <a class="nav-icon" href="{% url 'network:profile' user.username %}" title="Profile">
+                    <i class="far fa-user-circle"></i> <span class="nav-label">Profile</span>
+                </a>
+                <a class="nav-icon" href="{% url 'network:logout' %}" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i> <span class="nav-label">Logout</span>
+                </a>
+                {% else %}
+                <a class="nav-icon" href="{% url 'network:login' %}">
+                    <i class="fas fa-sign-in-alt"></i> <span class="nav-label">Log In</span>
+                </a>
+                <a class="nav-icon" href="{% url 'network:register' %}">
+                    <i class="fas fa-user-plus"></i> <span class="nav-label">Sign Up</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 80px;">
+        <div class="feed-column">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </div>
+
+    <!-- Create Post Modal -->
+    <div class="modal fade" id="createPostModal" tabindex="-1" role="dialog" aria-labelledby="createPostModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="background-color: var(--card-bg); color: var(--primary-text);">
+                <div class="modal-header" style="border-bottom: 1px solid var(--border-color);">
+                    <h5 class="modal-title" id="createPostModalLabel">Create new post</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color: var(--primary-text);">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'network:create_post' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <textarea class="form-control" name="content" placeholder="Write a caption..." rows="4"
+                                style="resize:none; background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--primary-text);"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="image" id="modal-image-upload"
+                                    onchange="document.querySelector('#modal-file-name').textContent = this.files[0].name">
+                                <label class="custom-file-label" for="modal-image-upload"
+                                    style="background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--secondary-text);">Choose
+                                    photo</label>
+                            </div>
+                            <small id="modal-file-name" class="form-text text-muted mt-2"></small>
+                        </div>
+                        <div class="text-right">
+                            <input type="submit" class="btn btn-primary" value="Share">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

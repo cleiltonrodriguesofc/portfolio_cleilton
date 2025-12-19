@@ -31,6 +31,7 @@ urlpatterns = [
     path('projetos/brokerage_analyzer/', include("brokerage_analyzer.urls")),
     path('projetos/ecommerce/', include('commerce.urls')),
     path('projetos/mail/', include('mail.urls')),
+    path('projetos/network/', include('network.urls')),
     # API Documentation
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),

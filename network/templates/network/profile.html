@@ -1,0 +1,185 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<div class="profile-header">
+    <div class="profile-avatar">
+        {% if user_profile.profile_photo %}
+        <img src="{{ user_profile.profile_photo.url }}" alt="Profile"
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+        {% endif %}
+    </div>
+    <div class="profile-info">
+        <div class="profile-username-row">
+            <h2 class="profile-username">{{ user_profile.username }}</h2>
+            {% if user.is_authenticated and user != user_profile %}
+            <form action="{% url 'network:follow' user_profile.username %}" method="post">
+                {% csrf_token %}
+                {% if is_following %}
+                <input type="submit" class="btn btn-secondary btn-sm" value="Unfollow"
+                    style="border: 1px solid #dbdbdb; background: transparent; color: black;">
+                {% else %}
+                <input type="submit" class="btn btn-primary btn-sm" value="Follow">
+                {% endif %}
+            </form>
+            {% elif user.is_authenticated and user == user_profile %}
+            <button class="btn btn-secondary btn-sm"
+                style="border: 1px solid #dbdbdb; background: transparent; color: var(--primary-text);"
+                data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</button>
+            {% endif %}
+        </div>
+
+        <div class="profile-stats">
+            <span class="profile-stat"><strong>{{ posts_count|default:posts.paginator.count }}</strong> posts</span>
+            <span class="profile-stat"><strong>{{ followers }}</strong> followers</span>
+            <span class="profile-stat"><strong>{{ following }}</strong> following</span>
+        </div>
+
+        <div class="profile-bio">
+            <strong>{{ user_profile.first_name }} {{ user_profile.last_name }}</strong>
+        </div>
+    </div>
+</div>
+
+<!-- edit profile modal -->
+{% if user == user_profile %}
+<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: var(--card-bg); color: var(--primary-text);">
+            <div class="modal-header" style="border-bottom: 1px solid var(--border-color);">
+                <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'network:edit_profile' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Profile Photo</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" name="profile_photo" id="profile-photo-upload">
+                            <label class="custom-file-label" for="profile-photo-upload"
+                                style="background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--secondary-text);">Change
+                                photo</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-control" name="username" value="{{ user.username }}">
+                    </div>
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" class="form-control" name="first_name" value="{{ user.first_name }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" class="form-control" name="last_name" value="{{ user.last_name }}">
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="profile-posts">
+    {% for post in posts %}
+    <div class="card">
+        <div class="card-header">
+            <div class="user-avatar"></div>
+            <a href="{% url 'network:profile' post.user.username %}" class="username">{{ post.user.username }}</a>
+            {% if user == post.user %}
+            <button class="edit-btn btn btn-sm btn-link ml-auto text-secondary" data-id="{{ post.id }}">Edit</button>
+            {% endif %}
+        </div>
+
+        <div class="card-body">
+            {% if post.image %}
+            <div class="post-image mb-3">
+                <img src="{{ post.image.url }}" alt="Post Image">
+            </div>
+            {% endif %}
+
+            <div class="action-bar">
+                {% if user.is_authenticated %}
+                <i class="{% if user in post.likes.all %}fas liked{% else %}far{% endif %} fa-heart action-icon like-btn"
+                    data-id="{{ post.id }}"></i>
+                <i class="far fa-comment action-icon comment-toggle-btn" data-id="{{ post.id }}"></i>
+                {% else %}
+                <i class="far fa-heart action-icon"></i>
+                <i class="far fa-comment action-icon"></i>
+                {% endif %}
+                <i class="far fa-paper-plane action-icon"></i>
+            </div>
+
+            <span class="likes-count"><span id="like-count-{{ post.id }}">{{ post.likes.count }}</span> likes</span>
+
+            <div id="post-content-{{ post.id }}">
+                <p class="caption">
+                    <a href="{% url 'network:profile' post.user.username %}" class="username">{{ post.user.username
+                        }}</a>
+                    {{ post.content }}
+                </p>
+            </div>
+
+            <!-- comments section -->
+            <div class="comments-section mt-2">
+                {% if post.comments.count > 0 %}
+                <div class="text-muted small mb-1 view-comments-btn" data-id="{{ post.id }}" style="cursor: pointer;">
+                    <i class="far fa-comments"></i> Toggle Comments ({{ post.comments.count }})
+                </div>
+                {% endif %}
+                <div class="comments-list" id="comments-list-{{ post.id }}">
+                    {% for comment in post.comments.all %}
+                    <div class="comment small mb-1">
+                        <strong>{{ comment.user.username }}</strong> {{ comment.content }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% if user.is_authenticated %}
+                <div class="comment-input-wrapper d-flex align-items-center mt-2" id="comment-input-{{ post.id }}"
+                    style="display:none;">
+                    <input type="text" class="form-control form-control-sm comment-input"
+                        style="border:none; background: transparent; padding-left: 0;" data-id="{{ post.id }}"
+                        placeholder="Add a comment...">
+                    <button class="btn btn-link btn-sm text-primary post-comment-btn"
+                        style="text-decoration: none; font-weight: 600;" data-id="{{ post.id }}">Post</button>
+                </div>
+                {% endif %}
+            </div>
+            <div id="edit-area-{{ post.id }}" style="display:none;">
+                <textarea id="edit-textarea-{{ post.id }}" class="form-control mb-2">{{ post.content }}</textarea>
+                <button class="save-btn btn btn-sm btn-primary" data-id="{{ post.id }}">Save</button>
+            </div>
+
+            <span class="timestamp">{{ post.timestamp }}</span>
+        </div>
+    </div>
+    {% empty %}
+    <div class="text-center py-5">
+        <div class="camera-icon mb-3">
+            <i class="fas fa-camera" style="font-size: 3rem; color: #dbdbdb;"></i>
+        </div>
+        <h3>No Posts Yet</h3>
+    </div>
+    {% endfor %}
+</div>
+
+<nav aria-label="Page navigation" class="mt-4 mb-5">
+    <ul class="pagination justify-content-center">
+        {% if posts.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}">Previous</a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Previous</span></li>
+        {% endif %}
+
+        {% if posts.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}">Next</a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Next</span></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endblock %}

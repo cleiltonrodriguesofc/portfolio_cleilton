@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'commerce',
     'mail',
+    'network',
 ]
 
 REST_FRAMEWORK = {
