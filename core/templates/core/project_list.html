@@ -124,6 +124,32 @@
                 </div>
             </div>
 
+            <!-- Commerce Project -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="project-card">
+                    <a href="{% url 'commerce:index' %}">
+                        <img src="{% static 'img/project-commerce.png' %}" alt="Commerce Auction Site"
+                            class="project-image"
+                            onerror="this.src='https://placehold.co/600x400?text=Commerce+Auctions'">
+                    </a>
+                    <div class="project-content">
+                        <h3 class="project-title">Commerce (Auctions)</h3>
+                        <p class="project-description">
+                            An eBay-like e-commerce auction site where users can post auction listings,
+                            place bids, comment on listings, and add listings to a "watchlist".
+                        </p>
+                        <div class="tech-tags mb-3">
+                            <span class="tech-tag">Django</span>
+                            <span class="tech-tag">SQLite</span>
+                            <span class="tech-tag">Bootstrap</span>
+                        </div>
+                        <a href="{% url 'commerce:index' %}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-eye me-2"></i>View Project
+                        </a>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
     </div>

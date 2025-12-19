@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'brokerage_analyzer',
     'bootstrap5',
     'drf_spectacular',
+    'commerce',
 ]
 
 REST_FRAMEWORK = {

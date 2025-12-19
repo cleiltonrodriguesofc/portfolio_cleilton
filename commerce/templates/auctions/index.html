@@ -1,0 +1,46 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container py-4">
+  <h2 class="mb-4">Active Listings</h2>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for listing in listings %}
+    <div class="col">
+      <div class="card h-100 shadow-sm border-0"> <!-- Added shadow-sm and border-0 -->
+        <div class="card-img-top-wrapper"
+          style="height: 200px; overflow: hidden; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center;">
+          {% if listing.image_url %}
+          <img src="{{ listing.image_url }}" class="card-img-top" alt="{{ listing.title }}"
+            style="object-fit: contain; max-height: 100%; width: 100%;">
+          {% else %}
+          <span class="text-muted">No Image</span>
+          {% endif %}
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title text-truncate">
+            <a href="{% url 'commerce:listing' listing.id %}" class="text-decoration-none text-dark stretched-link">
+              {{ listing.title }}</a>
+          </h5>
+          <p class="card-text text-muted small text-truncate">{{ listing.description }}</p>
+
+          <div class="mt-auto">
+            {% if not listing.biggest_bid %}
+            <h6 class="card-subtitle mb-2 text-primary">Price: ${{ listing.starting_bid }}</h6>
+            {% else %}
+            <h6 class="card-subtitle mb-2 text-primary">Current Bid: ${{ listing.biggest_bid.amount }}</h6>
+            {% endif %}
+            <small class="text-muted">Created: {{ listing.created_date|date:"M d, Y" }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+      <div class="alert alert-info">No active listings available.</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

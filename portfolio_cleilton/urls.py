@@ -29,6 +29,7 @@ urlpatterns = [
     path("projetos/prograos/", include(("prograos.urls"), namespace="prograos")),
     path('projetos/encyclopedia/', include("encyclopedia.urls")),
     path('projetos/brokerage_analyzer/', include("brokerage_analyzer.urls")),
+    path('projetos/ecommerce/', include('commerce.urls')),
     # API Documentation
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),

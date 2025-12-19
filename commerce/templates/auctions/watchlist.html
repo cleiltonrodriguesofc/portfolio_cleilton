@@ -1,0 +1,37 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="nav-bar2">
+  <h2>Watchlist</h2>
+</div>
+<div class="container-listings">
+  <ul>
+    <div class="listings">
+      {% for listing in watchlist %}
+      <div class="listing">
+        <div class="listing-image">
+          {% if listing.image_url %}
+          <img class="image" src="{{ listing.image_url }}" alt="{{ listing.tile }}">
+          {% else %}
+          <p>No image available.</p>
+          {% endif %}
+        </div>
+        <div class="listing-info">
+          <li> <a href="{% url 'commerce:listing' listing.id %}">
+              <h2>{{ listing.title }}</h2>
+            </a>
+            <p>{{ listing.description }}</p>
+            {% if not listing.biggest_bid %}
+            <h3>Price: ${{ listing.starting_bid }}</h3>
+            {% else %}
+            <h3>Price: ${{ listing.biggest_bid.amount }}</h3>
+            {% endif %}
+            <p>Created: {{listing.created_date}}</p>
+          </li>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </ul>
+</div>
+{% endblock %}

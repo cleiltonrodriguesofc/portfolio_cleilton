@@ -1,0 +1,20 @@
+<!-- {% extends "auctions/layout.html" %}
+
+{% block body %}
+    
+    {% if user.is_authenticated %}
+        <div class="create-auction">
+            <h1>Create a New Auction</h1>
+        
+            <form action="{% url 'create_auction' %}" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <button id="save-button" type="submit" value="normal">Save</button>
+            </form>
+        </div>
+    {% else %}
+        <div class="create-auction">
+            <h1>Not authorized.</h1>
+        </div>
+    {% endif %}
+{% endblock %} -->
