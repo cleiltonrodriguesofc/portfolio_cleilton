@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'bootstrap5',
     'drf_spectacular',
     'commerce',
+    'mail',
 ]
 
 REST_FRAMEWORK = {

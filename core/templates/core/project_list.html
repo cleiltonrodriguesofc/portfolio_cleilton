@@ -150,6 +150,33 @@
                 </div>
             </div>
 
+            <!-- Mail Project -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="project-card">
+                    <a href="{% url 'mail:index' %}">
+                        <!-- Placeholder image - Please add project-mail.png to static/img/ -->
+                        <img src="{% static 'img/project-mail.png' %}" alt="Mail SPA" class="project-image"
+                            onerror="this.src='https://placehold.co/600x400?text=Mail+App'">
+                    </a>
+                    <div class="project-content">
+                        <h3 class="project-title">Mail</h3>
+                        <p class="project-description">
+                            A Single-Page-App (SPA) email client.
+                            Users can send, archive, and reply to emails without page reloads,
+                            powered by a Django API backend and vanilla JavaScript.
+                        </p>
+                        <div class="tech-tags mb-3">
+                            <span class="tech-tag">Django</span>
+                            <span class="tech-tag">JavaScript (SPA)</span>
+                            <span class="tech-tag">Bootstrap</span>
+                        </div>
+                        <a href="{% url 'mail:index' %}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-eye me-2"></i>View Project
+                        </a>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
     </div>

@@ -1,0 +1,159 @@
+textarea {
+    min-height: 250px;
+    max-height: 250px;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+}
+#email-body {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+}
+.container {
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+.main-page {
+    width: 100%;
+    background-color: rgb(240, 244, 255);
+    position: fixed;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 16%;
+    padding-right: 6%;
+    height: 60px;
+    position: fixed;
+    width: 100%;
+    color: rgb(5, 2, 98);
+}
+
+.page-box {
+    margin-left: 15%;
+    height: 90vh;
+    width: 80%;
+    background-color: rgb(95, 212, 255);
+    margin-top: 45px;
+    border-radius: 25px;
+    color: rgb(5, 2, 98);
+    overflow-y: auto;
+
+}
+/* block title and email header to don't move */
+#emails-view h3, #email-header {
+    position: sticky;
+    top: 0;
+    background-color: rgb(95, 212, 255);
+    z-index: 10;
+    padding: 10px 0;
+}
+
+#reply-view {
+    top: 0;
+    position: relative;
+}
+#reply-view textarea {
+    min-height: 200px;
+    max-height: 200px;
+}
+#compose-view, #emails-view, #reply-view {
+    padding: 2%;
+}
+
+/* Style div email item on box */
+.email-item {
+    margin: 3px;
+    border-radius: 10px;
+    padding: 7px;
+}
+.email-item:hover {
+    cursor: pointer;
+    border: 2px solid black;
+    /* color: rgb(255, 255, 255); */
+    /* box-shadow: 5px 4px 15px rgba(100, 206, 255, 0.3);; */
+}
+
+#compose-submit {
+    margin-top: 1%;
+    width: 15%;
+}
+.form-control {
+    border-radius: 10px;
+}
+
+.sidebar-buttons {
+    padding-top: 20px;
+    width: 15%;
+    height: 100vh;
+    display: flex;
+    position: fixed;    
+    flex-direction: column;
+}
+#menu {
+    margin-top: 0;
+    text-align: center;
+}
+.button {
+    text-align: center;
+    margin-top: 20px;
+}
+.button button, #menu button {
+    margin: 3px;
+    color: rgb(5, 2, 98);
+    border-radius: 10px;
+    background-color: rgb(95, 212, 255);
+    font-size: 16px;
+    width: 80%;
+    height: 50px;
+}
+
+
+/* hide elements on resize screen */
+@media (max-width: 600px){
+    .sidebar-buttons .button, .logout span {
+        display: none;
+    }
+}
+@media (max-width: 800px) {
+    .email-item span {
+        display: none;
+    }
+}
+
+
+.logout {
+    margin-top: 5px;
+}
+
+
+/* reply button */
+#reply, #unread, #archive_email, .logout a {
+    background-color: rgb(7, 69, 238);
+    color: rgb(240, 244, 255);
+}
+#reply:hover, 
+#unread:hover, 
+#archive_email:hover,
+.logout a:hover {
+    color: rgb(5, 2, 98);
+    background-color: rgb(201, 241, 255);
+}
+
+.login, .register {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+.login-form, .register-form {
+    place-content: center;
+    text-align: center;
+    padding: 20px;
+    width: 50%;
+}
+.button-login input, .button-register input {
+    width: 100%;
+}

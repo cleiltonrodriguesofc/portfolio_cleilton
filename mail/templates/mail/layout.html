@@ -1,0 +1,27 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}Mail{% endblock %}</title>
+        <!-- Use project bootstrap or BS5 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'mail/styles.css' %}">
+        {% block script %}
+        {% endblock %}
+
+</head>
+
+<body>
+    {# Header do portfólio (casca neutra) #}
+    {% include '_header_shell.html' %}
+
+    <div class="container">
+        {% block body %}
+        {% endblock %}
+    </div>
+</body>
+
+</html>
