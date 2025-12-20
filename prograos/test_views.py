@@ -8,7 +8,7 @@ from django.middleware.csrf import get_token
 @api_view(['GET'])
 def get_csrf_token(request):
     """
-    Endpoint para obter token CSRF para testes.
+    endpoint to get csrf token for tests.
     """
     token = get_token(request)
     return Response({'csrf_token': token})
@@ -16,7 +16,7 @@ def get_csrf_token(request):
 @api_view(['GET'])
 def health_check(request):
     """
-    Endpoint para verificar se a API está funcionando.
+    endpoint to verify if api is working.
     """
     return Response({
         'status': 'OK',

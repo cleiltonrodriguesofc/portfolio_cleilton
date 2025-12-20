@@ -21,19 +21,19 @@ def dashboard(request):
     """
     View for the system homepage (dashboard).
     """
-    # Total active students
+    # total active students
     total_alunos = Aluno.objects.filter(status=Aluno.ATIVO).count()
     
-    # Present today
+    # present today
     hoje = timezone.now().date()
     presentes_hoje = Presenca.objects.filter(data=hoje, presente=True).select_related('aluno')
     total_presentes = presentes_hoje.count()
     
-    # Pending payments
+    # pending payments
     pagamentos_pendentes = Pagamento.objects.filter(pago=False).select_related('aluno').order_by('mes_referencia')
     total_pendentes = pagamentos_pendentes.count()
     
-    # Birthdays of the month
+    # birthdays of the month
     mes_atual = timezone.now().month
     aniversariantes = Aluno.objects.filter(
         status=Aluno.ATIVO,
@@ -47,7 +47,7 @@ def dashboard(request):
         'total_pendentes': total_pendentes,
         'total_aniversariantes': total_aniversariantes,
         'presentes_hoje': presentes_hoje,
-        'pagamentos_pendentes': pagamentos_pendentes[:5],  # Limita a 5 para não sobrecarregar o dashboard
+        'pagamentos_pendentes': pagamentos_pendentes[:5],  # limit to 5 to avoid overloading the dashboard
         'aniversariantes': aniversariantes,
     }
     
@@ -66,7 +66,7 @@ def aluno_list(request):
     else:
         alunos = Aluno.objects.all()
     
-    # Ordenação
+    # sorting
     alunos = alunos.order_by('nome')
     
     context = {
@@ -193,7 +193,7 @@ def presenca_create(request):
         data_selecionada = timezone.now().date()
 
     if request.method == "POST":
-        # Validar data
+        # validate date
         data = request.POST.get("data")
         if not data:
             messages.error(request, "Select the date.")
@@ -205,7 +205,7 @@ def presenca_create(request):
             messages.error(request, "Invalid date format. Use DD/MM/YYYY.")
             return redirect("presenca_create")
         
-        # Receives IDs of students marked as present
+        # receives ids of students marked as present
         presencas_ids = request.POST.getlist("presencas")
 
         # Removes attendances already saved for the date
@@ -242,7 +242,7 @@ def presenca_create(request):
     context = {
         "form": form,
         "alunos": alunos,
-        "data_selecionada": data_selecionada.strftime("%d/%m/%Y"),  # Formato DD/MM/YYYY para input do datepicker
+        "data_selecionada": data_selecionada.strftime("%d/%m/%Y"),  # dd/mm/yyyy format for datepicker input
         "alunos_presentes_ids": alunos_presentes_ids,
     }
     return render(request, "reforco/presenca_form.html", context)
@@ -512,25 +512,25 @@ def mensagens(request):
         {
             'id': 'cobranca',
             'nome': 'Cobrança de Pagamento',
-            'descricao': 'Mensagem para cobrar pagamentos pendentes.',
+            'descricao': 'message to charge pending payments.',
             'icone': 'fas fa-money-bill-wave',
         },
         {
             'id': 'aniversario',
             'nome': 'Felicitação de Aniversário',
-            'descricao': 'Mensagem para parabenizar pelo aniversário.',
+            'descricao': 'message to congratulate on birthday.',
             'icone': 'fas fa-birthday-cake',
         },
         {
             'id': 'ausencia',
             'nome': 'Aviso de Ausência',
-            'descricao': 'Mensagem para avisar sobre ausências recentes.',
+            'descricao': 'message to notify about recent absences.',
             'icone': 'fas fa-user-clock',
         },
         {
             'id': 'informativo',
             'nome': 'Informativo Geral',
-            'descricao': 'Mensagem para informações gerais.',
+            'descricao': 'message for general information.',
             'icone': 'fas fa-info-circle',
         },
     ]

@@ -2,13 +2,15 @@
 {% load static %}
 
 {% block title %}
-{% if form.instance.id %}Editar Nota de Carregamento #{{ form.instance.id }}{% else %}Nova Nota de Carregamento{% endif %}
+{% if form.instance.id %}Editar Nota de Carregamento #{{ form.instance.id }}{% else %}Nova Nota de Carregamento{% endif
+%}
 {% endblock %}
 
 {% block content %}
 <div class="container mt-4">
     <h1 class="mb-4">
-        {% if form.instance.id %}Editar Nota de Carregamento #{{ form.instance.id }}{% else %}Nova Nota de Carregamento{% endif %}
+        {% if form.instance.id %}Editar Nota de Carregamento #{{ form.instance.id }}{% else %}Nova Nota de
+        Carregamento{% endif %}
     </h1>
     <div class="card">
         <div class="card-header">
@@ -17,56 +19,72 @@
         <div class="card-body">
             <form method="post" class="needs-validation" novalidate>
                 {% csrf_token %}
-                
+
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="{{ form.nome_recebedor.id_for_label }}" class="form-label">{{ form.nome_recebedor.label }}</label>
+                        <label for="{{ form.nome_recebedor.id_for_label }}" class="form-label">{{
+                            form.nome_recebedor.label }}</label>
                         {{ form.nome_recebedor }}
-                        {% if form.nome_recebedor.errors %}<div class="invalid-feedback d-block">{{ form.nome_recebedor.errors|join:", " }}</div>{% endif %}
+                        {% if form.nome_recebedor.errors %}<div class="invalid-feedback d-block">{{
+                            form.nome_recebedor.errors|join:", " }}</div>{% endif %}
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="{{ form.cpf_cnpj_recebedor.id_for_label }}" class="form-label">{{ form.cpf_cnpj_recebedor.label }} (Opcional)</label>
+                        <label for="{{ form.cpf_cnpj_recebedor.id_for_label }}" class="form-label">{{
+                            form.cpf_cnpj_recebedor.label }} (Opcional)</label>
                         {{ form.cpf_cnpj_recebedor }}
-                        {% if form.cpf_cnpj_recebedor.errors %}<div class="invalid-feedback d-block">{{ form.cpf_cnpj_recebedor.errors|join:", " }}</div>{% endif %}
+                        {% if form.cpf_cnpj_recebedor.errors %}<div class="invalid-feedback d-block">{{
+                            form.cpf_cnpj_recebedor.errors|join:", " }}</div>{% endif %}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="{{ form.telefone_recebedor.id_for_label }}" class="form-label">{{ form.telefone_recebedor.label }} (Opcional)</label>
+                        <label for="{{ form.telefone_recebedor.id_for_label }}" class="form-label">{{
+                            form.telefone_recebedor.label }} (Opcional)</label>
                         {{ form.telefone_recebedor }}
-                        {% if form.telefone_recebedor.errors %}<div class="invalid-feedback d-block">{{ form.telefone_recebedor.errors|join:", " }}</div>{% endif %}
+                        {% if form.telefone_recebedor.errors %}<div class="invalid-feedback d-block">{{
+                            form.telefone_recebedor.errors|join:", " }}</div>{% endif %}
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="{{ form.pesagem.id_for_label }}" class="form-label">{{ form.pesagem.label }} (Opcional)</label>
+                        <label for="{{ form.pesagem.id_for_label }}" class="form-label">{{ form.pesagem.label }}
+                            (Opcional)</label>
                         {{ form.pesagem }}
-                        {% if form.pesagem.errors %}<div class="invalid-feedback d-block">{{ form.pesagem.errors|join:", " }}</div>{% endif %}
+                        {% if form.pesagem.errors %}<div class="invalid-feedback d-block">{{ form.pesagem.errors|join:",
+                            " }}</div>{% endif %}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="{{ form.tipo_grao.id_for_label }}" class="form-label">{{ form.tipo_grao.label }}</label>
+                        <label for="{{ form.tipo_grao.id_for_label }}" class="form-label">{{ form.tipo_grao.label
+                            }}</label>
                         {{ form.tipo_grao }}
-                        {% if form.tipo_grao.errors %}<div class="invalid-feedback d-block">{{ form.tipo_grao.errors|join:", " }}</div>{% endif %}
+                        {% if form.tipo_grao.errors %}<div class="invalid-feedback d-block">{{
+                            form.tipo_grao.errors|join:", " }}</div>{% endif %}
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="{{ form.quantidade_sacos.id_for_label }}" class="form-label">{{ form.quantidade_sacos.label }}</label>
+                        <label for="{{ form.quantidade_sacos.id_for_label }}" class="form-label">{{
+                            form.quantidade_sacos.label }}</label>
                         {{ form.quantidade_sacos }}
-                        {% if form.quantidade_sacos.errors %}<div class="invalid-feedback d-block">{{ form.quantidade_sacos.errors|join:", " }}</div>{% endif %}
+                        {% if form.quantidade_sacos.errors %}<div class="invalid-feedback d-block">{{
+                            form.quantidade_sacos.errors|join:", " }}</div>{% endif %}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="{{ form.preco_por_saco.id_for_label }}" class="form-label">{{ form.preco_por_saco.label }} (R$)</label>
+                        <label for="{{ form.preco_por_saco.id_for_label }}" class="form-label">{{
+                            form.preco_por_saco.label }} (R$)</label>
                         {{ form.preco_por_saco }}
-                        {% if form.preco_por_saco.errors %}<div class="invalid-feedback d-block">{{ form.preco_por_saco.errors|join:", " }}</div>{% endif %}
+                        {% if form.preco_por_saco.errors %}<div class="invalid-feedback d-block">{{
+                            form.preco_por_saco.errors|join:", " }}</div>{% endif %}
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="{{ form.endereco_recebedor.id_for_label }}" class="form-label">{{ form.endereco_recebedor.label }} (Opcional)</label>
+                        <label for="{{ form.endereco_recebedor.id_for_label }}" class="form-label">{{
+                            form.endereco_recebedor.label }} (Opcional)</label>
                         {{ form.endereco_recebedor }}
-                        {% if form.endereco_recebedor.errors %}<div class="invalid-feedback d-block">{{ form.endereco_recebedor.errors|join:", " }}</div>{% endif %}
+                        {% if form.endereco_recebedor.errors %}<div class="invalid-feedback d-block">{{
+                            form.endereco_recebedor.errors|join:", " }}</div>{% endif %}
                     </div>
                 </div>
 
@@ -79,53 +97,53 @@
 
 {% if pesagens_json %}
 <script>
-// Executa o script quando o conteúdo da página estiver totalmente carregado.
-document.addEventListener('DOMContentLoaded', function() {
-    try {
-        const pesagensData = JSON.parse('{{ pesagens_json|escapejs }}');
-        const pesagemSelect = document.getElementById('id_pesagem');
-        const tipoGraoField = document.getElementById('id_tipo_grao');
-        const quantidadeSacosField = document.getElementById('id_quantidade_sacos');
+    // executes the script when the page content is fully loaded.
+    document.addEventListener('DOMContentLoaded', function () {
+        try {
+            const pesagensData = JSON.parse('{{ pesagens_json|escapejs }}');
+            const pesagemSelect = document.getElementById('id_pesagem');
+            const tipoGraoField = document.getElementById('id_tipo_grao');
+            const quantidadeSacosField = document.getElementById('id_quantidade_sacos');
 
-        function atualizarCampos() {
-            const pesagemId = pesagemSelect.value;
+            function atualizarCampos() {
+                const pesagemId = pesagemSelect.value;
 
-            if (pesagemId && pesagensData[pesagemId]) {
-                const data = pesagensData[pesagemId];
-                
-                // Preenche os valores dos campos
-                tipoGraoField.value = data.tipo_grao || '';
-                const netWeight = (data.peso_carregado - data.tara) || 0;
-                quantidadeSacosField.value = netWeight.toFixed(3);
-                
-                // *** CORREÇÃO PRINCIPAL ***
-                // Trava os campos usando 'readOnly' para que os dados sejam enviados.
-                tipoGraoField.readOnly = true;
-                quantidadeSacosField.readOnly = true;
+                if (pesagemId && pesagensData[pesagemId]) {
+                    const data = pesagensData[pesagemId];
 
-            } else {
-                // Se nenhuma pesagem for selecionada, limpa os valores
-                // e permite a edição novamente.
-                tipoGraoField.value = '';
-                quantidadeSacosField.value = '';
-                
-                // Remove a trava 'readOnly'
-                tipoGraoField.readOnly = false;
-                quantidadeSacosField.readOnly = false;
+                    // fills field values
+                    tipoGraoField.value = data.tipo_grao || '';
+                    const netWeight = (data.peso_carregado - data.tara) || 0;
+                    quantidadeSacosField.value = netWeight.toFixed(3);
+
+                    // *** main correction ***
+                    // locks fields using 'readOnly' so data is sent.
+                    tipoGraoField.readOnly = true;
+                    quantidadeSacosField.readOnly = true;
+
+                } else {
+                    // if no weighing is selected, clears values
+                    // and allows editing again.
+                    tipoGraoField.value = '';
+                    quantidadeSacosField.value = '';
+
+                    // removes 'readOnly' lock
+                    tipoGraoField.readOnly = false;
+                    quantidadeSacosField.readOnly = false;
+                }
             }
+
+            // adds a "listener" that calls the function whenever the weighing dropdown changes.
+            pesagemSelect.addEventListener('change', atualizarCampos);
+
+            // calls the function once on page load.
+            // this is important to fill fields if you are editing a note that already has a weighing.
+            atualizarCampos();
+
+        } catch (e) {
+            console.error('error in weighing script:', e);
         }
-
-        // Adiciona um "ouvinte" que chama a função sempre que o dropdown de pesagem mudar.
-        pesagemSelect.addEventListener('change', atualizarCampos);
-
-        // Chama a função uma vez no carregamento da página.
-        // Isso é importante para preencher os campos se você estiver editando uma nota que já tem uma pesagem.
-        atualizarCampos();
-        
-    } catch (e) {
-        console.error('Erro no script de pesagem:', e);
-    }
-});
+    });
 </script>
 {% endif %}
 {% endblock %}

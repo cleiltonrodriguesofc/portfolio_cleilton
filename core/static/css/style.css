@@ -28,7 +28,7 @@ body {
     color: var(--color-gray);
     background-color: var(--color-white);
     padding-top: 76px;
-    /* Para compensar navbar fixa */
+    /* To compensate for fixed navbar */
 }
 
 h1,

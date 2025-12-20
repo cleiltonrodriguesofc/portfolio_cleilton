@@ -1,9 +1,13 @@
-# cleiltonrodriguesofc
-This project is a Google Search Clone using HTML and CSS.
+# Search
 
-The index.html file is the main page of the Google Search Clone. There are also two additional pages:
+## Overview
+A front-end implementation of Google Search, Google Image Search, and Google Advanced Search.
 
-1. g_images.html for Google Images, and
-2. advanced_search.html for the Advanced Search page.
+## Features
+- **Search**: Standard Google search functionality.
+- **Images**: Google Image search.
+- **Advanced**: Advanced search filters.
+- **Styling**: Mimics Google's aesthetic.
 
-All styles are defined in a single file, style.css, which contains the styles for all three pages.
+## Context
+This project is an implementation of "Search" from CS50’s Web Programming with Python and JavaScript.

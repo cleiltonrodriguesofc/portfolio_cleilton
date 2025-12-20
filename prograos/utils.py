@@ -2,26 +2,26 @@ from decimal import Decimal
 
 class GrainCalculator:
     """
-    Classe para realizar cálculos automáticos específicos para soja e milho.
+    class to perform specific automatic calculations for soybean and corn.
     """
     
     @staticmethod
     def calcular_peso_util(peso_bruto, umidade, impurezas):
         """
-        Calcula o peso útil baseado no peso bruto, umidade e impurezas.
+    calculates net weight based on gross weight, moisture, and impurities.
+    
+    args:
+        peso_bruto (decimal): sample gross weight
+        umidade (decimal): moisture percentage
+        impurezas (decimal): impurities percentage
         
-        Args:
-            peso_bruto (Decimal): Peso bruto da amostra
-            umidade (Decimal): Percentual de umidade
-            impurezas (Decimal): Percentual de impurezas
-            
-        Returns:
-            Decimal: Peso útil calculado
+    returns:
+        decimal: calculated net weight
         """
         if not all([peso_bruto, umidade, impurezas]):
             return None
             
-        # Fórmula: Peso Útil = Peso Bruto * (1 - umidade/100) * (1 - impurezas/100)
+        # formula: net weight = gross weight * (1 - moisture/100) * (1 - impurities/100)
         fator_umidade = 1 - (umidade / 100)
         fator_impurezas = 1 - (impurezas / 100)
         peso_util = peso_bruto * fator_umidade * fator_impurezas
@@ -43,7 +43,7 @@ class GrainCalculator:
         if umidade is None or impurezas is None:
             return 'PENDENTE'
             
-        # Critérios para soja (valores exemplo - ajustar conforme necessário)
+        # criteria for soybean (example values - adjust as needed)
         if umidade <= 14 and impurezas <= 1:
             return 'ACEITA'
         elif umidade > 18 or impurezas > 3:
@@ -66,7 +66,7 @@ class GrainCalculator:
         if umidade is None or impurezas is None:
             return 'PENDENTE'
             
-        # Critérios para milho (valores exemplo - ajustar conforme necessário)
+        # criteria for corn (example values - adjust as needed)
         if umidade <= 15 and impurezas <= 1.5:
             return 'ACEITA'
         elif umidade > 20 or impurezas > 4:
@@ -77,7 +77,7 @@ class GrainCalculator:
     @staticmethod
     def aplicar_calculos(amostra):
         """
-        Aplica todos os cálculos automáticos para uma amostra.
+        applies all automatic calculations for a sample.
         
         Args:
             amostra: Instância do modelo Amostra
@@ -87,7 +87,7 @@ class GrainCalculator:
         """
         resultado = {}
         
-        # Calcular peso útil
+        # calculate net weight
         peso_util = GrainCalculator.calcular_peso_util(
             amostra.peso_bruto, 
             amostra.umidade, 
@@ -95,7 +95,7 @@ class GrainCalculator:
         )
         resultado['peso_util'] = peso_util
         
-        # Calcular classificação baseada no tipo de grão
+        # calculate classification based on grain type
         if amostra.tipo_grao == 'SOJA':
             status = GrainCalculator.calcular_classificacao_soja(
                 amostra.umidade, 

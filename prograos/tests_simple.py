@@ -1,5 +1,5 @@
 """
-Testes unitários simplificados para o Sistema de Classificação de Grãos
+simplified unit tests for grain classification system
 """
 import json
 from decimal import Decimal
@@ -12,7 +12,7 @@ from .utils import GrainCalculator
 
 
 class AmostraModelTest(TestCase):
-    """Testes para o modelo Amostra"""
+    """tests for amostra model"""
     
     def setUp(self):
         self.user = User.objects.create_user(
@@ -21,7 +21,7 @@ class AmostraModelTest(TestCase):
         )
         
     def test_criar_amostra_soja(self):
-        """Testa criação de amostra de soja"""
+        """tests soybean sample creation"""
         amostra = Amostra.objects.create(
             tipo_grao='SOJA',
             peso_bruto=1000.500,
@@ -37,7 +37,7 @@ class AmostraModelTest(TestCase):
         self.assertEqual(amostra.created_by, self.user)
         
     def test_criar_amostra_milho(self):
-        """Testa criação de amostra de milho"""
+        """tests corn sample creation"""
         amostra = Amostra.objects.create(
             tipo_grao='MILHO',
             peso_bruto=2000.750,
@@ -50,7 +50,7 @@ class AmostraModelTest(TestCase):
         self.assertEqual(amostra.peso_bruto, Decimal('2000.750'))
         
     def test_str_representation(self):
-        """Testa representação string do modelo"""
+        """tests string representation of the model"""
         amostra = Amostra.objects.create(
             tipo_grao='SOJA',
             peso_bruto=1000.0,
@@ -63,7 +63,7 @@ class AmostraModelTest(TestCase):
 
 
 class ActivityLogModelTest(TestCase):
-    """Testes para o modelo ActivityLog"""
+    """tests for activitylog model"""
     
     def setUp(self):
         self.user = User.objects.create_user(
@@ -72,26 +72,26 @@ class ActivityLogModelTest(TestCase):
         )
         
     def test_criar_activity_log(self):
-        """Testa criação de log de atividade"""
+        """tests activity log creation"""
         log = ActivityLog.objects.create(
             user=self.user,
-            action='CREATE_AMOSTRA',
+            action='CREATE_SAMPLE',
             object_id='1',
-            object_type='Amostra',
-            details='Criou nova amostra de soja'
+            object_type='Sample',
+            details='Created new soybean sample'
         )
         
         self.assertEqual(log.user, self.user)
-        self.assertEqual(log.action, 'CREATE_AMOSTRA')
-        self.assertEqual(log.object_type, 'Amostra')
+        self.assertEqual(log.action, 'CREATE_SAMPLE')
+        self.assertEqual(log.object_type, 'Sample')
         self.assertIsNotNone(log.timestamp)
 
 
 class GrainCalculatorTest(TestCase):
-    """Testes para o calculador de grãos"""
+    """tests for grain calculator"""
     
     def test_calcular_peso_util(self):
-        """Testa cálculo do peso útil"""
+        """tests net weight calculation"""
         calculator = GrainCalculator()
         peso_util = calculator.calcular_peso_util(
             peso_bruto=Decimal('1000.0'),
@@ -99,11 +99,11 @@ class GrainCalculatorTest(TestCase):
             impurezas=Decimal('2.0')
         )
         
-        # Peso útil = 1000 * (1 - 14/100) * (1 - 2/100) = 1000 * 0.86 * 0.98 = 842.8
+        # net weight = 1000 * (1 - 14/100) * (1 - 2/100) = 1000 * 0.86 * 0.98 = 842.8
         self.assertEqual(peso_util, Decimal('842.800'))
         
     def test_classificar_soja_aceita(self):
-        """Testa classificação de soja aceita"""
+        """tests accepted soybean classification"""
         calculator = GrainCalculator()
         resultado = calculator.calcular_classificacao_soja(
             umidade=Decimal('14.0'),
@@ -113,10 +113,10 @@ class GrainCalculatorTest(TestCase):
         self.assertEqual(resultado, 'ACEITA')
         
     def test_classificar_soja_rejeitada(self):
-        """Testa classificação de soja rejeitada"""
+        """tests rejected soybean classification"""
         calculator = GrainCalculator()
         resultado = calculator.calcular_classificacao_soja(
-            umidade=Decimal('19.0'),  # Acima do limite
+            umidade=Decimal('19.0'),  # above limit
             impurezas=Decimal('1.0')
         )
         
@@ -124,7 +124,7 @@ class GrainCalculatorTest(TestCase):
 
 
 class ViewsTest(TestCase):
-    """Testes para as views do sistema"""
+    """tests for system views"""
     
     def setUp(self):
         self.client = Client()
@@ -158,9 +158,9 @@ class ViewsTest(TestCase):
             'impurezas': '2.0'
         }
         response = self.client.post(reverse('amostra_create'), data)
-        self.assertEqual(response.status_code, 302)  # Redirect após criação
+        self.assertEqual(response.status_code, 302)  # redirect after creation
         
-        # Verificar se amostra foi criada
+        # verify sample was created
         amostra = Amostra.objects.get(tipo_grao='SOJA')
         self.assertEqual(amostra.peso_bruto, Decimal('1000.500'))
         
@@ -168,11 +168,11 @@ class ViewsTest(TestCase):
         """Testa se login é obrigatório"""
         self.client.logout()
         response = self.client.get(reverse('dashboard'))
-        self.assertEqual(response.status_code, 302)  # Redirect para login
+        self.assertEqual(response.status_code, 302)  # redirect to login
 
 
 class IntegrationTest(TestCase):
-    """Testes de integração do sistema completo"""
+    """full system integration tests"""
     
     def setUp(self):
         self.client = Client()
@@ -183,8 +183,8 @@ class IntegrationTest(TestCase):
         self.client.login(username='testuser', password='testpass123')
         
     def test_fluxo_completo_amostra(self):
-        """Testa fluxo completo de amostra"""
-        # 1. Criar amostra
+        """tests full sample flow"""
+        # 1. create sample
         data_amostra = {
             'tipo_grao': 'SOJA',
             'peso_bruto': '1000.500',
@@ -196,17 +196,17 @@ class IntegrationTest(TestCase):
         
         amostra = Amostra.objects.get(tipo_grao='SOJA')
         
-        # 2. Verificar que amostra foi criada
+        # 2. verify sample was created
         self.assertEqual(amostra.peso_bruto, Decimal('1000.500'))
         self.assertEqual(amostra.umidade, Decimal('14.5'))
         self.assertEqual(amostra.impurezas, Decimal('2.0'))
         
-        # 3. Verificar auditoria
+        # 3. verify audit
         self.assertEqual(amostra.created_by, self.user)
         self.assertIsNotNone(amostra.data_criacao)
         
     def test_sistema_auditoria(self):
-        """Testa sistema de auditoria"""
+        """tests audit system"""
         # Criar amostra
         data_amostra = {
             'tipo_grao': 'SOJA',
@@ -219,12 +219,12 @@ class IntegrationTest(TestCase):
         
         amostra = Amostra.objects.get(tipo_grao='SOJA')
         
-        # Verificar se foi registrado quem criou
+        # verify who created it was recorded
         self.assertEqual(amostra.created_by, self.user)
         self.assertIsNotNone(amostra.data_criacao)
         
     def test_busca_e_filtros(self):
-        """Testa funcionalidade de busca e filtros"""
+        """tests search and filter functionality"""
         # Criar amostras de teste
         Amostra.objects.create(
             tipo_grao='SOJA',
@@ -242,7 +242,7 @@ class IntegrationTest(TestCase):
             created_by=self.user
         )
         
-        # Testar filtro por tipo de grão
+        # test filter by grain type
         response = self.client.get(reverse('amostra_list') + '?tipo_grao=SOJA')
         self.assertEqual(response.status_code, 200)
         
@@ -252,7 +252,7 @@ class IntegrationTest(TestCase):
 
 
 class ScaleIntegrationTest(TestCase):
-    """Testes para integração com balança"""
+    """tests for scale integration"""
     
     @patch('serial.Serial')
     def test_conectar_balanca_usb(self, mock_serial):
@@ -269,7 +269,7 @@ class ScaleIntegrationTest(TestCase):
             self.assertTrue(resultado)
             mock_serial.assert_called_once()
         except ImportError:
-            # Se o módulo não existir, pular o teste
+            # if module does not exist, skip test
             self.skipTest("ScaleReader module not available")
             
     @patch('serial.Serial')
@@ -288,12 +288,12 @@ class ScaleIntegrationTest(TestCase):
             
             self.assertEqual(peso, 1234.567)
         except ImportError:
-            # Se o módulo não existir, pular o teste
+            # if module does not exist, skip test
             self.skipTest("ScaleReader module not available")
 
 
 class ReportsTest(TestCase):
-    """Testes para geração de relatórios"""
+    """tests for report generation"""
     
     def setUp(self):
         self.user = User.objects.create_user(
@@ -322,12 +322,12 @@ class ReportsTest(TestCase):
             self.assertIsInstance(pdf_content, bytes)
             self.assertTrue(len(pdf_content) > 0)
         except ImportError:
-            # Se o módulo não existir, pular o teste
+            # if module does not exist, skip test
             self.skipTest("AmostrasPDFGenerator module not available")
 
 
 class APITest(TestCase):
-    """Testes para API REST"""
+    """tests for rest api"""
     
     def setUp(self):
         self.client = Client()
@@ -353,7 +353,7 @@ class APITest(TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response['Content-Type'], 'application/pdf')
         except:
-            # Se a URL não existir, pular o teste
+            # if URL does not exist, skip test
             self.skipTest("export_amostras_pdf URL not available")
             
     def test_export_amostras_excel(self):
@@ -372,6 +372,6 @@ class APITest(TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertIn('application/vnd.openxmlformats', response['Content-Type'])
         except:
-            # Se a URL não existir, pular o teste
+            # if URL does not exist, skip test
             self.skipTest("export_amostras_excel URL not available")
 

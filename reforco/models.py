@@ -3,7 +3,7 @@ from django.utils import timezone
 
 class Aluno(models.Model):
     """
-    Modelo para armazenar informações dos alunos.
+    model to store student information.
     """
     ATIVO = 'A'
     INATIVO = 'I'
@@ -31,7 +31,7 @@ class Aluno(models.Model):
     
     def get_status_display_badge(self):
         """
-        Retorna uma classe CSS para exibir o status como um badge.
+        returns a css class to display status as a badge.
         """
         if self.status == self.ATIVO:
             return 'badge bg-success'
@@ -39,7 +39,7 @@ class Aluno(models.Model):
     
     def is_aniversariante_mes(self):
         """
-        Verifica se o aluno faz aniversário no mês atual.
+        checks if the student has a birthday in the current month.
         """
         if not self.data_nascimento:
             return False
@@ -48,7 +48,7 @@ class Aluno(models.Model):
 
 class Presenca(models.Model):
     """
-    Modelo para registrar a presença dos alunos.
+    model to register student attendance.
     """
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE, related_name='presencas', verbose_name='Aluno')
     data = models.DateField(default=timezone.now, verbose_name='Data')
@@ -58,7 +58,7 @@ class Presenca(models.Model):
         verbose_name = 'Presença'
         verbose_name_plural = 'Presenças'
         ordering = ['-data', 'aluno__nome']
-        unique_together = ['aluno', 'data']  # Um aluno só pode ter uma presença por dia
+        unique_together = ['aluno', 'data']  # one student can only have one attendance record per day
     
     def __str__(self):
         status = 'Presente' if self.presente else 'Ausente'
@@ -67,7 +67,7 @@ class Presenca(models.Model):
 
 class Pagamento(models.Model):
     """
-    Modelo para registrar os pagamentos dos alunos.
+    model to record student payments.
     """
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE, related_name='pagamentos', verbose_name='Aluno')
     mes_referencia = models.DateField(verbose_name='Mês de Referência')
@@ -80,7 +80,7 @@ class Pagamento(models.Model):
         verbose_name = 'Pagamento'
         verbose_name_plural = 'Pagamentos'
         ordering = ['-mes_referencia', 'aluno__nome']
-        unique_together = ['aluno', 'mes_referencia']  # Um aluno só pode ter um pagamento por mês
+        unique_together = ['aluno', 'mes_referencia']  # one student can only have one payment per month
     
     def __str__(self):
         status = 'Pago' if self.pago else 'Pendente'
@@ -88,7 +88,7 @@ class Pagamento(models.Model):
     
     def get_status_display_badge(self):
         """
-        Retorna uma classe CSS para exibir o status como um badge.
+        returns a css class to display status as a badge.
         """
         if self.pago:
             return 'badge bg-success'

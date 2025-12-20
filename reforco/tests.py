@@ -6,19 +6,19 @@ from datetime import date
 
 class CoreViewsTest(TestCase):
     def setUp(self):
-        # Criar usuário e logar
+        # create user and login
         self.user = User.objects.create_user(username='testuser', password='12345')
         self.client = Client()
         self.client.login(username='testuser', password='12345')
 
-        # Criar aluno para testes
+        # create student for tests
         self.aluno = Aluno.objects.create(
             nome='Teste Aluno',
             status=Aluno.ATIVO,
             data_nascimento=date(2000, 1, 1)
         )
 
-        # Criar pagamento para o aluno
+        # create payment for the student
         self.pagamento = Pagamento.objects.create(
             aluno=self.aluno,
             mes_referencia=date(2025, 6, 1),
@@ -26,7 +26,7 @@ class CoreViewsTest(TestCase):
             pago=False
         )
 
-        # Criar presença para o aluno
+        # create attendance for the student
         self.presenca = Presenca.objects.create(
             aluno=self.aluno,
             data=date.today(),
@@ -41,7 +41,7 @@ class CoreViewsTest(TestCase):
         self.assertTemplateUsed(response, 'core/dashboard.html')
         self.assertIn('total_alunos', response.context)
 
-    # Aluno list
+    # student list
     def test_aluno_list_view(self):
         url = reverse('aluno_list')
         response = self.client.get(url)
@@ -63,7 +63,7 @@ class CoreViewsTest(TestCase):
             'telefone': '11999999999',
             'status': Aluno.ATIVO,
             'data_entrada': '2025-06-08',
-            # campos opcionais podem ficar de fora
+            # optional fields can be omitted
         }
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
@@ -112,7 +112,7 @@ class CoreViewsTest(TestCase):
         url = reverse('presenca_create')
         data = {
             'data': date.today().strftime('%d/%m/%Y'),
-            'presencas': [str(self.aluno.id)],  # marcar aluno presente
+            'presencas': [str(self.aluno.id)],  # mark student present
         }
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
@@ -169,21 +169,21 @@ class CoreViewsTest(TestCase):
         self.pagamento.refresh_from_db()
         self.assertEqual(self.pagamento.valor, 200)
 
-    # Relatório de presença
+    # attendance report
     def test_relatorio_presenca_view(self):
         url = reverse('relatorio_presenca')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'core/relatorio_presenca.html')
 
-    # Relatório de pagamentos
+    # payments report
     def test_relatorio_pagamentos_view(self):
         url = reverse('relatorio_pagamentos')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'core/relatorio_pagamentos.html')
 
-    # Mensagens view
+    # messages view
     def test_mensagens_view(self):
         url = reverse('mensagens')
         response = self.client.get(url)

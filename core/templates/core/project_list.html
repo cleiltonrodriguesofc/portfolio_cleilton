@@ -13,7 +13,8 @@
             login requests were removed to provide a faster experience.
         </div>
 
-        <div class="row">
+        <div class="row mb-5">
+            <h3 class="mb-4 text-dark-blue border-bottom pb-2">Professional Projects</h3>
 
             <!-- Reforço Escolar -->
             <div class="col-lg-4 col-md-6 mb-4">
@@ -25,18 +26,25 @@
                     <div class="project-content">
                         <h3 class="project-title">Reforço Escolar Tia Damires</h3>
                         <p class="project-description">
-                            Academic management system for tutoring schools,
-                            featuring a modern dashboard, attendance tracking,
-                            payment management, and detailed reports.
+                            A complete <strong>SaaS-ready</strong> management system for tutoring schools.
+                            It automates <strong>student attendance</strong>, manages <strong>monthly tuition
+                                payments</strong>,
+                            and generates <strong>financial performance reports</strong>.
+                            Built with a focus on usability and data integrity.
                         </p>
                         <div class="tech-tags mb-3">
-                            <span class="tech-tag">Django</span>
+                            <span class="tech-tag">Django 5</span>
                             <span class="tech-tag">PostgreSQL</span>
-                            <span class="tech-tag">Bootstrap</span>
+                            <span class="tech-tag">Financial Dashboards</span>
                         </div>
-                        <a href="/projetos/reforco/" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye me-2"></i>View Project
-                        </a>
+                        <div class="d-flex gap-2">
+                            <a href="/projetos/reforco/" class="btn btn-primary btn-sm">
+                                <i class="fas fa-eye me-2"></i>Live Demo
+                            </a>
+                            <a href="#" class="btn btn-outline-dark btn-sm">
+                                <i class="fab fa-github me-2"></i>Repository
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -51,46 +59,25 @@
                     <div class="project-content">
                         <h3 class="project-title">ProGrãos</h3>
                         <p class="project-description">
-                            Grain management system with truck weighing (tare and final), PDF tickets and loading notes,
-                            a KPI dashboard (revenue, cost, profit), financial controls and payments, and reports.
+                            A robust <strong>Agro-Tech solution</strong> for grain storage logistics.
+                            Handles <strong>truck weighing (Tare/Gross)</strong>, issues <strong>digital receipts
+                                (PDF)</strong>,
+                            and provides real-time <strong>Profit & Loss (P&L) analysis</strong> for grain shipments.
+                            Optimized for high-volume transactions.
                         </p>
                         <div class="tech-tags mb-3">
                             <span class="tech-tag">Django</span>
-                            <span class="tech-tag">PostgreSQL</span>
-                            <span class="tech-tag">Bootstrap</span>
+                            <span class="tech-tag">Logic & Math</span>
+                            <span class="tech-tag">PDF Generation</span>
                         </div>
-                        <a href="{% url 'prograos:dashboard' %}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye me-2"></i>View Project
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Encyclopedia Project -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="project-card">
-                    <a href="{% url 'encyclopedia:index' %}">
-                        <img src="{% static 'img/project-encyclopedia.png' %}" alt="Encyclopedia Wiki Project"
-                            class="project-image">
-                    </a>
-                    <div class="project-content">
-                        <h3 class="project-title">Encyclopedia (CS50Wiki)</h3>
-                        <p class="project-description">
-                            A Markdown-based wiki system inspired by Wikipedia, built with Django.
-                            It allows users to create, edit, search, and browse entries using a clean
-                            custom storage architecture and a fully dynamic rendering engine.
-                        </p>
-
-                        <div class="tech-tags mb-3">
-                            <span class="tech-tag">Django</span>
-                            <span class="tech-tag">Markdown</span>
-                            <span class="tech-tag">Custom File Storage</span>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'prograos:dashboard' %}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-eye me-2"></i>Live Demo
+                            </a>
+                            <a href="#" class="btn btn-outline-dark btn-sm">
+                                <i class="fab fa-github me-2"></i>Repository
+                            </a>
                         </div>
-
-                        <a href="{% url 'encyclopedia:index' %}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye me-2"></i>View Project
-                        </a>
                     </div>
                 </div>
             </div>
@@ -107,19 +94,90 @@
                     <div class="project-content">
                         <h3 class="project-title">Brokerage Note Analyzer</h3>
                         <p class="project-description">
-                            A specialized tool to parse brokerage PDFs, extracting trading data (Stocks, FIIs, Futures)
-                            to generate accurate financial reports for Income Tax (IRPF). Features include automatic
-                            PDF parsing and Excel export.
+                            A specialized <strong>Fintech tool</strong> that uses <strong>Regex and PDF Parsing</strong>
+                            to extract trading data (Stocks, Options, Futures) from brokerage notes.
+                            It calculates <strong>Income Tax (IRPF)</strong> liabilities automatically, eliminating
+                            manual errors.
+                        </p>
+                        <div class="tech-tags mb-3">
+                            <span class="tech-tag">Python & Pandas</span>
+                            <span class="tech-tag">Data Engineering</span>
+                            <span class="tech-tag">Automation</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="/projetos/brokerage_analyzer/" class="btn btn-primary btn-sm">
+                                <i class="fas fa-eye me-2"></i>Live Demo
+                            </a>
+                            <a href="#" class="btn btn-outline-dark btn-sm">
+                                <i class="fab fa-github me-2"></i>Repository
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Harvard CS50W Projects -->
+        <div class="row">
+            <h3 class="mb-4 text-dark-blue border-bottom pb-2">Academic Projects (Harvard CS50W)</h3>
+
+            <!-- Search Project -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="project-card">
+                    <a href="{% url 'search:index' %}">
+                        <img src="{% static 'img/project-search.png' %}" alt="Google Search Clone" class="project-image"
+                            onerror="this.src='https://placehold.co/600x400?text=Search+Clone'">
+                    </a>
+                    <div class="project-content">
+                        <h3 class="project-title">Search (Project 0)</h3>
+                        <p class="project-description">
+                            A pixel-perfect clone of Google Search.
+                            Demonstrates mastery of <strong>CSS Flexbox/Grid</strong>, responsive design,
+                            and query parameter handling for GET requests.
+                        </p>
+                        <div class="tech-tags mb-3">
+                            <span class="tech-tag">HTML5 & CSS3</span>
+                            <span class="tech-tag">Responsive</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'search:index' %}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-eye me-2"></i>Live Demo
+                            </a>
+                            <a href="#" class="btn btn-outline-dark btn-sm">
+                                <i class="fab fa-github me-2"></i>Repository
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Encyclopedia Project -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="project-card">
+                    <a href="{% url 'encyclopedia:index' %}">
+                        <img src="{% static 'img/project-encyclopedia.png' %}" alt="Encyclopedia Wiki Project"
+                            class="project-image">
+                    </a>
+                    <div class="project-content">
+                        <h3 class="project-title">Encyclopedia (Wiki)</h3>
+                        <p class="project-description">
+                            A <strong>Markdown-based</strong> wiki system.
+                            Parses Markdown-to-HTML on the fly. users can create entries,
+                            edit content, and even click "Random Page" to explore.
+                            Uses a custom file-based storage backend.
                         </p>
                         <div class="tech-tags mb-3">
                             <span class="tech-tag">Django</span>
-                            <span class="tech-tag">PDF Parsing</span>
-                            <span class="tech-tag">Pandas</span>
-                            <span class="tech-tag">Data Analysis</span>
+                            <span class="tech-tag">Markdown Parsing</span>
                         </div>
-                        <a href="/projetos/brokerage_analyzer/" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye me-2"></i>View Project
-                        </a>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'encyclopedia:index' %}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-eye me-2"></i>Live Demo
+                            </a>
+                            <a href="#" class="btn btn-outline-dark btn-sm">
+                                <i class="fab fa-github me-2"></i>Repository
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,17 +193,23 @@
                     <div class="project-content">
                         <h3 class="project-title">Commerce (Auctions)</h3>
                         <p class="project-description">
-                            An eBay-like e-commerce auction site where users can post auction listings,
-                            place bids, comment on listings, and add listings to a "watchlist".
+                            An eBay-style marketplace featuring <strong>complex relational models</strong> (SQL).
+                            Users can create listings, place <strong>competitive bids</strong>, manage watchlists,
+                            and categorize items. Demonstrates strong backend logic and database design.
                         </p>
                         <div class="tech-tags mb-3">
-                            <span class="tech-tag">Django</span>
-                            <span class="tech-tag">SQLite</span>
-                            <span class="tech-tag">Bootstrap</span>
+                            <span class="tech-tag">Django Models</span>
+                            <span class="tech-tag">SQL Relations</span>
+                            <span class="tech-tag">Auth System</span>
                         </div>
-                        <a href="{% url 'commerce:index' %}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye me-2"></i>View Project
-                        </a>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'commerce:index' %}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-eye me-2"></i>Live Demo
+                            </a>
+                            <a href="#" class="btn btn-outline-dark btn-sm">
+                                <i class="fab fa-github me-2"></i>Repository
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -154,25 +218,29 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="project-card">
                     <a href="{% url 'mail:index' %}">
-                        <!-- Placeholder image - Please add project-mail.png to static/img/ -->
                         <img src="{% static 'img/project-mail.png' %}" alt="Mail SPA" class="project-image"
                             onerror="this.src='https://placehold.co/600x400?text=Mail+App'">
                     </a>
                     <div class="project-content">
                         <h3 class="project-title">Mail</h3>
                         <p class="project-description">
-                            A Single-Page-App (SPA) email client.
-                            Users can send, archive, and reply to emails without page reloads,
-                            powered by a Django API backend and vanilla JavaScript.
+                            A <strong>Single-Page Application (SPA)</strong> that mimics Gmail.
+                            Uses <strong>JavaScript Fetch API</strong> to load emails asynchronously without refreshing.
+                            State is managed via History API, providing a seamless user experience.
                         </p>
                         <div class="tech-tags mb-3">
-                            <span class="tech-tag">Django</span>
-                            <span class="tech-tag">JavaScript (SPA)</span>
-                            <span class="tech-tag">Bootstrap</span>
+                            <span class="tech-tag">JavaScript SPA</span>
+                            <span class="tech-tag">REST API</span>
+                            <span class="tech-tag">Async/Await</span>
                         </div>
-                        <a href="{% url 'mail:index' %}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye me-2"></i>View Project
-                        </a>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'mail:index' %}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-eye me-2"></i>Live Demo
+                            </a>
+                            <a href="#" class="btn btn-outline-dark btn-sm">
+                                <i class="fab fa-github me-2"></i>Repository
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -181,58 +249,34 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="project-card">
                     <a href="{% url 'network:index' %}">
-                        <!-- Placeholder image - Please add project-network.png to static/img/ -->
                         <img src="{% static 'img/project-network.png' %}" alt="Network Social App" class="project-image"
                             onerror="this.src='https://placehold.co/600x400?text=Network+App'">
                     </a>
                     <div class="project-content">
                         <h3 class="project-title">Network</h3>
                         <p class="project-description">
-                            A Twitter-like social network. Features creating posts, following users,
-                            liking posts, and asynchronous editing/commenting using a modern
-                            Follow/User model architecture.
+                            A modern social network. Features <strong>asynchronous posts</strong>,
+                            <strong>"Like" functionality</strong> with instant UI updates, and a dynamic <strong>Follow
+                                system</strong>.
+                            Built to demonstrate advanced DOM manipulation and API integration.
                         </p>
                         <div class="tech-tags mb-3">
-                            <span class="tech-tag">Django</span>
-                            <span class="tech-tag">JavaScript</span>
-                            <span class="tech-tag">Model Relationships</span>
+                            <span class="tech-tag">Full Stack</span>
+                            <span class="tech-tag">AJAX</span>
+                            <span class="tech-tag">Dynamic UI</span>
                         </div>
-                        <a href="{% url 'network:index' %}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye me-2"></i>View Project
-                        </a>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'network:index' %}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-eye me-2"></i>Live Demo
+                            </a>
+                            <a href="#" class="btn btn-outline-dark btn-sm">
+                                <i class="fab fa-github me-2"></i>Repository
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
-            <!-- Search Project -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="project-card">
-                    <a href="{% url 'search:index' %}">
-                        <!-- Placeholder image - Please add project-search.png to static/img/ -->
-                        <img src="{% static 'img/project-search.png' %}" alt="Google Search Clone" class="project-image"
-                            onerror="this.src='https://placehold.co/600x400?text=Search+Clone'">
-                    </a>
-                    <div class="project-content">
-                        <h3 class="project-title">Search</h3>
-                        <p class="project-description">
-                            A front-end clone of Google Search, Google Image Search, and Google Advanced Search.
-                            Demonstrates HTML/CSS proficiency and responsive design.
-                        </p>
-                        <div class="tech-tags mb-3">
-                            <span class="tech-tag">HTML5</span>
-                            <span class="tech-tag">CSS3</span>
-                            <span class="tech-tag">Responsive Design</span>
-                        </div>
-                        <a href="{% url 'search:index' %}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye me-2"></i>View Project
-                        </a>
-                    </div>
-                </div>
-            </div>
-
         </div>
-    </div>
 </section>
 
 {% endblock %}

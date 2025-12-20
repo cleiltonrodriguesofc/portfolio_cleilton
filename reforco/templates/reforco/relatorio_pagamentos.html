@@ -22,7 +22,8 @@
                     <select name="aluno" id="aluno" class="form-select">
                         <option value="">Todos os alunos</option>
                         {% for aluno in alunos %}
-                            <option value="{{ aluno.id }}" {% if aluno_selecionado and aluno.id == aluno_selecionado.id %}selected{% endif %}>{{ aluno.nome }}</option>
+                        <option value="{{ aluno.id }}" {% if aluno_selecionado and aluno.id==aluno_selecionado.id
+                            %}selected{% endif %}>{{ aluno.nome }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -30,17 +31,19 @@
                     <label for="status" class="form-label">Status</label>
                     <select name="status" id="status" class="form-select">
                         <option value="">Todos</option>
-                        <option value="pago" {% if status == 'pago' %}selected{% endif %}>Pagos</option>
-                        <option value="pendente" {% if status == 'pendente' %}selected{% endif %}>Pendentes</option>
+                        <option value="pago" {% if status=='pago' %}selected{% endif %}>Pagos</option>
+                        <option value="pendente" {% if status=='pendente' %}selected{% endif %}>Pendentes</option>
                     </select>
                 </div>
                 <div class="col-md-2">
                     <label for="data_inicio" class="form-label">Data Início</label>
-                    <input type="date" name="data_inicio" id="data_inicio" class="form-control" value="{{ data_inicio|default:'' }}">
+                    <input type="date" name="data_inicio" id="data_inicio" class="form-control"
+                        value="{{ data_inicio|default:'' }}">
                 </div>
                 <div class="col-md-2">
                     <label for="data_fim" class="form-label">Data Fim</label>
-                    <input type="date" name="data_fim" id="data_fim" class="form-control" value="{{ data_fim|default:'' }}">
+                    <input type="date" name="data_fim" id="data_fim" class="form-control"
+                        value="{{ data_fim|default:'' }}">
                 </div>
                 <div class="col-md-3 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary me-2">
@@ -54,57 +57,56 @@
                 </div>
             </form>
         </div>
-        
+
         {% if pagamentos %}
-            <!-- Resumo -->
-            <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="card bg-light">
-                        <div class="card-body">
-                            <h5 class="card-title">Resumo Financeiro</h5>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-3">
-                                            <i class="fas fa-check-circle text-success fa-2x"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Pagamentos Realizados</h6>
-                                            <h4 class="mb-0">{{ total_pagos }}</h4>
-                                        </div>
+        <!-- Resumo -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Resumo Financeiro</h5>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-check-circle text-success fa-2x"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Pagamentos Realizados</h6>
+                                        <h4 class="mb-0">{{ total_pagos }}</h4>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-3">
-                                            <i class="fas fa-times-circle text-danger fa-2x"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Pagamentos Pendentes</h6>
-                                            <h4 class="mb-0">{{ total_pendentes }}</h4>
-                                        </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-times-circle text-danger fa-2x"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Pagamentos Pendentes</h6>
+                                        <h4 class="mb-0">{{ total_pendentes }}</h4>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-3">
-                                            <i class="fas fa-money-bill-wave text-success fa-2x"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Valor Total Pago</h6>
-                                            <h4 class="mb-0">R$ {{ valor_total_pago|floatformat:2 }}</h4>
-                                        </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-money-bill-wave text-success fa-2x"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Valor Total Pago</h6>
+                                        <h4 class="mb-0">R$ {{ valor_total_pago|floatformat:2 }}</h4>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-3">
-                                            <i class="fas fa-money-bill-wave text-danger fa-2x"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Valor Total Pendente</h6>
-                                            <h4 class="mb-0">R$ {{ valor_total_pendente|floatformat:2 }}</h4>
-                                        </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-money-bill-wave text-danger fa-2x"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Valor Total Pendente</h6>
+                                        <h4 class="mb-0">R$ {{ valor_total_pendente|floatformat:2 }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -112,52 +114,53 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Tabela de Pagamentos -->
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Aluno</th>
-                            <th>Mês/Ano</th>
-                            <th>Valor</th>
-                            <th>Status</th>
-                            <th>Data Pagamento</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for pagamento in pagamentos %}
-                            <tr>
-                                <td>{{ pagamento.aluno.nome }}</td>
-                                <td>{{ pagamento.mes_referencia|date:"m/Y" }}</td>
-                                <td>R$ {{ pagamento.valor }}</td>
-                                <td>
-                                    <span class="{{ pagamento.get_status_display_badge }}">
-                                        {{ pagamento.pago|yesno:"Pago,Pendente" }}
-                                    </span>
-                                </td>
-                                <td>{{ pagamento.data_pagamento|date:"d/m/Y"|default:"-" }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            
-            <!-- Botões de Exportação -->
-            <div class="mt-4">
-                <button type="button" class="btn btn-success" onclick="exportToExcel()">
-                    <i class="fas fa-file-excel me-2"></i>
-                    Exportar para Excel
-                </button>
-                <button type="button" class="btn btn-danger" onclick="exportToPDF()">
-                    <i class="fas fa-file-pdf me-2"></i>
-                    Exportar para PDF
-                </button>
-            </div>
+        </div>
+
+        <!-- Tabela de Pagamentos -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Aluno</th>
+                        <th>Mês/Ano</th>
+                        <th>Valor</th>
+                        <th>Status</th>
+                        <th>Data Pagamento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pagamento in pagamentos %}
+                    <tr>
+                        <td>{{ pagamento.aluno.nome }}</td>
+                        <td>{{ pagamento.mes_referencia|date:"m/Y" }}</td>
+                        <td>R$ {{ pagamento.valor }}</td>
+                        <td>
+                            <span class="{{ pagamento.get_status_display_badge }}">
+                                {{ pagamento.pago|yesno:"Pago,Pendente" }}
+                            </span>
+                        </td>
+                        <td>{{ pagamento.data_pagamento|date:"d/m/Y"|default:"-" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Botões de Exportação -->
+        <div class="mt-4">
+            <button type="button" class="btn btn-success" onclick="exportToExcel()">
+                <i class="fas fa-file-excel me-2"></i>
+                Exportar para Excel
+            </button>
+            <button type="button" class="btn btn-danger" onclick="exportToPDF()">
+                <i class="fas fa-file-pdf me-2"></i>
+                Exportar para PDF
+            </button>
+        </div>
         {% else %}
-            <div class="alert alert-info">
-                Nenhum pagamento encontrado para os filtros selecionados.
-            </div>
+        <div class="alert alert-info">
+            Nenhum pagamento encontrado para os filtros selecionados.
+        </div>
         {% endif %}
     </div>
 </div>
@@ -166,15 +169,15 @@
 {% block extra_js %}
 <script>
     function exportToExcel() {
-        // Implementação básica para exportar para Excel
+        // basic implementation to export to excel
         let table = document.querySelector('table');
         let html = table.outerHTML;
-        
-        // Criar um blob com o HTML da tabela
-        let blob = new Blob([html], {type: 'application/vnd.ms-excel'});
+
+        // create a blob with the table html
+        let blob = new Blob([html], { type: 'application/vnd.ms-excel' });
         let url = URL.createObjectURL(blob);
-        
-        // Criar um link para download
+
+        // create a download link
         let a = document.createElement('a');
         a.href = url;
         a.download = 'relatorio_pagamentos.xls';
@@ -182,11 +185,10 @@
         a.click();
         document.body.removeChild(a);
     }
-    
+
     function exportToPDF() {
-        // Alerta informando que a funcionalidade está em desenvolvimento
+        // alert informing that the feature is in development
         alert('Funcionalidade em desenvolvimento. Por favor, use a exportação para Excel por enquanto.');
     }
 </script>
 {% endblock %}
-

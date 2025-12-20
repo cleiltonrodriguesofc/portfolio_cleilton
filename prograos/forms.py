@@ -8,10 +8,10 @@ class PagamentoForm(forms.ModelForm):
         widgets = {
             'valor': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
             
-            # --- CORREÇÃO APLICADA AQUI ---
+            # --- correction applied here ---
             'data_pagamento': forms.DateTimeInput(
                 attrs={'class': 'form-control', 'type': 'datetime-local'},
-                format='%Y-%m-%dT%H:%M'  # <-- FORMATO ADICIONADO
+                format='%Y-%m-%dT%H:%M'  # <-- format added
             ),
             # -----------------------------
 
@@ -83,7 +83,7 @@ class NotaCarregamentoForm(forms.ModelForm):
             raise forms.ValidationError("O preço por saco deve ser maior que zero.")
         return preco
 
-# --- Formulário para a Etapa 1: Captura dos dados iniciais e da tara ---
+# --- form for step 1: capture of initial data and tare ---
 class PesagemTaraForm(forms.ModelForm):
     class Meta:
         model = PesagemCaminhao
@@ -112,7 +112,7 @@ class PesagemTaraForm(forms.ModelForm):
             'valor_custo_por_saco': 'Custo por Saco (R$)',
         }
 
-# --- Formulário para a Etapa 2: Captura apenas do peso final carregado ---
+# --- form for step 2: capture only of final loaded weight ---
 class PesagemFinalForm(forms.ModelForm):
     class Meta:
         model = PesagemCaminhao
@@ -125,9 +125,9 @@ class PesagemFinalForm(forms.ModelForm):
         }
 
     def clean_peso_carregado(self):
-        # Validação para garantir que o peso carregado é maior que a tara
+        # validation to ensure loaded weight is greater than tare
         peso_carregado = self.cleaned_data.get('peso_carregado')
-        tara = self.instance.tara # Acessa a tara do objeto que está sendo editado
+        tara = self.instance.tara # accesses the tare of the object being edited
         if peso_carregado is not None and tara is not None:
             if tara >= peso_carregado:
                 raise forms.ValidationError("O peso carregado deve ser maior que o peso da tara.")

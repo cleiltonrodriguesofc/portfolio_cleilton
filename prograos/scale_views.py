@@ -9,7 +9,7 @@ import time
 
 class ScaleIntegration:
     """
-    Classe para integração com balança digital via USB/Serial.
+    class for digital scale integration via usb/serial.
     """
     
     def __init__(self, port='/dev/ttyUSB0', baudrate=9600, timeout=5):
@@ -20,7 +20,7 @@ class ScaleIntegration:
     
     def connect(self):
         """
-        Estabelece conexão com a balança.
+        establishes connection with the scale.
         
         Returns:
             bool: True se conectado com sucesso, False caso contrário
@@ -31,7 +31,7 @@ class ScaleIntegration:
                 baudrate=self.baudrate,
                 timeout=self.timeout
             )
-            time.sleep(2)  # Aguarda estabilização da conexão
+            time.sleep(2)  # wait for connection stabilization
             return True
         except Exception as e:
             print(f"Erro ao conectar com a balança: {e}")
@@ -39,14 +39,14 @@ class ScaleIntegration:
     
     def disconnect(self):
         """
-        Fecha a conexão com a balança.
+        closes the connection with the scale.
         """
         if self.connection and self.connection.is_open:
             self.connection.close()
     
     def read_weight(self):
         """
-        Lê o peso da balança.
+        reads the weight from the scale.
         
         Returns:
             float: Peso lido da balança ou None em caso de erro
@@ -55,7 +55,7 @@ class ScaleIntegration:
             return None
         
         try:
-            # Envia comando para solicitar peso (pode variar conforme o modelo da balança)
+            # sends command to request weight (may vary by scale model)
             self.connection.write(b'W\r\n')
             time.sleep(1)
             
@@ -65,7 +65,7 @@ class ScaleIntegration:
             # Processa a resposta (formato pode variar conforme o modelo)
             # Exemplo: "W 1.234 kg" -> extrair 1.234
             if response:
-                # Remove caracteres não numéricos exceto ponto e vírgula
+                # remove non-numeric characters except dot and comma
                 weight_str = ''.join(c for c in response if c.isdigit() or c in '.,')
                 weight_str = weight_str.replace(',', '.')
                 
@@ -80,7 +80,7 @@ class ScaleIntegration:
     
     def get_available_ports(self):
         """
-        Lista as portas seriais disponíveis.
+        lists available serial ports.
         
         Returns:
             list: Lista de portas disponíveis
@@ -90,14 +90,14 @@ class ScaleIntegration:
             ports = serial.tools.list_ports.comports()
             return [port.device for port in ports]
         except ImportError:
-            # Se pyserial não estiver instalado, retorna portas comuns
+            # if pyserial is not installed, return common ports
             return ['/dev/ttyUSB0', '/dev/ttyUSB1', '/dev/ttyACM0', 'COM1', 'COM2', 'COM3']
 
 @login_required
 @require_http_methods(["POST"])
 def read_scale_weight(request):
     """
-    Lê o peso da balança conectada.
+    reads the weight from the connected scale.
     """
     try:
         data = json.loads(request.body)
@@ -108,7 +108,7 @@ def read_scale_weight(request):
         
         if not scale.connect():
             return JsonResponse({
-                'error': f'Não foi possível conectar com a balança na porta {port}'
+                'error': f'could not connect to scale on port {port}'
             }, status=400)
         
         try:
@@ -123,14 +123,14 @@ def read_scale_weight(request):
                 })
             else:
                 return JsonResponse({
-                    'error': 'Não foi possível ler o peso da balança'
+                    'error': 'could not read weight from scale'
                 }, status=400)
         
         finally:
             scale.disconnect()
             
     except json.JSONDecodeError:
-        return JsonResponse({'error': 'Dados JSON inválidos'}, status=400)
+        return JsonResponse({'error': 'invalid json data'}, status=400)
     except Exception as e:
         return JsonResponse({'error': f'Erro interno: {str(e)}'}, status=500)
 
@@ -138,7 +138,7 @@ def read_scale_weight(request):
 @require_http_methods(["GET"])
 def list_scale_ports(request):
     """
-    Lista as portas seriais disponíveis para conexão com balança.
+    lists available serial ports for scale connection.
     """
     scale = ScaleIntegration()
     ports = scale.get_available_ports()
@@ -148,7 +148,7 @@ def list_scale_ports(request):
 @require_http_methods(["POST"])
 def test_scale_connection(request):
     """
-    Testa a conexão com a balança.
+    tests connection with the scale.
     """
     try:
         data = json.loads(request.body)

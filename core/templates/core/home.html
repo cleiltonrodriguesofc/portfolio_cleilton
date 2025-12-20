@@ -2,7 +2,8 @@
 {% load static %}
 
 {% block title %}Cleilton Rodrigues — Investment Analyst & Full-Stack Developer{% endblock %}
-{% block description %}Investment Analyst (CEA, CPA-20, CNPI Candidate) and Full-Stack Developer. Specialized in portfolio analytics, risk management, and AI-powered dashboards.{% endblock %}
+{% block description %}Investment Analyst (CEA, CPA-20, CNPI Candidate) and Full-Stack Developer. Specialized in
+portfolio analytics, risk management, and AI-powered dashboards.{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
@@ -11,10 +12,13 @@
     <div class="row align-items-center">
       <div class="col-lg-6 hero-content">
         <h1 class="hero-title">Cleilton Rodrigues</h1>
-        <h2 class="hero-subtitle typing-effect">Investment Analyst (CEA, CPA-20) • CNPI Candidate • Full-Stack Developer</h2>
+        <h2 class="hero-subtitle typing-effect">Investment Analyst (CEA, CPA-20) • CNPI Candidate • Full-Stack Developer
+        </h2>
         <p class="hero-description">
-          I connect <strong>finance</strong> and <strong>technology</strong> to create real-world solutions that simplify analysis and decision-making.
-          Certified by <strong>ANBIMA</strong> (CEA, CPA-20) and a member of an <strong>RPPS Investment Committee</strong>,
+          I connect <strong>finance</strong> and <strong>technology</strong> to create real-world solutions that
+          simplify analysis and decision-making.
+          Certified by <strong>ANBIMA</strong> (CEA, CPA-20) and a member of an <strong>RPPS Investment
+            Committee</strong>,
           I design products that transform data into insight—using Django, React, and AI.
         </p>
         <div class="hero-buttons">
@@ -32,12 +36,11 @@
         <div class="mt-4">
           <p class="text-muted"><i class="fas fa-map-marker-alt me-2"></i>Brazil</p>
           <div class="social-links-hero">
-            <a href="https://www.linkedin.com/in/cleilton-rodrigues-1347551a5/" 
-               class="btn btn-outline-primary btn-sm me-2" 
-               title="LinkedIn" aria-label="LinkedIn profile"><i class="fab fa-linkedin"></i></a>
-            <a href="https://github.com/cleiltonrodriguesofc" 
-               class="btn btn-outline-primary btn-sm me-2" 
-               title="GitHub" aria-label="GitHub profile"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/cleilton-rodrigues-1347551a5/"
+              class="btn btn-outline-primary btn-sm me-2" title="LinkedIn" aria-label="LinkedIn profile"><i
+                class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/cleiltonrodriguesofc" class="btn btn-outline-primary btn-sm me-2" title="GitHub"
+              aria-label="GitHub profile"><i class="fab fa-github"></i></a>
           </div>
         </div>
       </div>
@@ -54,7 +57,8 @@
         <div class="card">
           <div class="card-body">
             <p class="lead">
-              I’m a finance professional and developer passionate about transforming complex information into actionable intelligence.
+              I’m a finance professional and developer passionate about transforming complex information into actionable
+              intelligence.
               With a <strong>Technology degree in Public Management (IFMA, 2022)</strong> and ongoing studies in
               <strong>Information Systems (UFPI)</strong> and <strong>Letters – English (Uniasselvi)</strong>,
               I blend technical depth with communication clarity.
@@ -67,7 +71,8 @@
             </p>
             <p>
               In technology, I specialize in <strong>Django, React, PostgreSQL, and AI integrations</strong>,
-              developing dashboards, analytics systems, and web apps that automate reporting and accelerate decision-making.
+              developing dashboards, analytics systems, and web apps that automate reporting and accelerate
+              decision-making.
             </p>
             <div class="text-center mt-4">
               <a href="{% url 'core:about' %}" class="btn btn-primary">
@@ -106,7 +111,8 @@
       <div class="col-lg-6 mb-4">
         <div class="project-card h-100">
           <div class="project-content p-4">
-            <h3 class="project-title mb-2"><i class="fas fa-chart-line me-2"></i>RPPS Committee — Portfolio Analytics</h3>
+            <h3 class="project-title mb-2"><i class="fas fa-chart-line me-2"></i>RPPS Committee — Portfolio Analytics
+            </h3>
             <p>
               I support investment policy (PAI) execution through monitoring, risk review, and documentation.
               Each month, I prepare reports covering allocation, benchmarks, and performance attribution.
@@ -210,19 +216,29 @@
       <div class="col-lg-4 col-md-6 mb-4">
         <div class="project-card">
           <a href="/projetos/reforco/">
-            <img src="{% static 'img/project-reforco.png' %}" alt="Reforço Escolar Dashboard" class="project-image" loading="lazy">
+            <img src="{% static 'img/project-reforco.png' %}" alt="Reforço Escolar Dashboard" class="project-image"
+              loading="lazy">
           </a>
           <div class="project-content">
-            <h3 class="project-title">Reforço Escolar</h3>
-            <p>Education management system with dashboards, attendance, billing, and reports.</p>
+            <h3 class="project-title">Reforço Escolar Tia Damires</h3>
+            <p class="project-description">
+              A complete <strong>SaaS-ready</strong> management system for tutoring schools.
+              It automates <strong>student attendance</strong>, manages <strong>monthly tuition payments</strong>,
+              and generates <strong>financial performance reports</strong>.
+            </p>
             <div class="tech-tags mb-3">
-              <span class="tech-tag">Django</span>
+              <span class="tech-tag">Django 5</span>
               <span class="tech-tag">PostgreSQL</span>
-              <span class="tech-tag">Bootstrap</span>
+              <span class="tech-tag">Financial Dashboards</span>
             </div>
-            <a href="/projetos/reforco/" class="btn btn-primary btn-sm">
-              <i class="fas fa-eye me-2"></i>View Project
-            </a>
+            <div class="d-flex gap-2">
+              <a href="/projetos/reforco/" class="btn btn-primary btn-sm">
+                <i class="fas fa-eye me-2"></i>Live Demo
+              </a>
+              <a href="#" class="btn btn-outline-dark btn-sm">
+                <i class="fab fa-github me-2"></i>Repository
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -230,19 +246,58 @@
       <div class="col-lg-4 col-md-6 mb-4">
         <div class="project-card">
           <a href="/projetos/prograos/">
-            <img src="{% static 'img/project-prograos.png' %}" alt="ProGrãos Dashboard" class="project-image" loading="lazy">
+            <img src="{% static 'img/project-prograos.png' %}" alt="ProGrãos Dashboard" class="project-image"
+              loading="lazy">
           </a>
           <div class="project-content">
             <h3 class="project-title">ProGrãos</h3>
-            <p>Grain operations system with weighing, PDF tickets, KPI dashboards, and financial control.</p>
+            <p class="project-description">
+              A robust <strong>Agro-Tech solution</strong> for grain storage logistics.
+              Handles <strong>truck weighing</strong>, issues <strong>digital receipts (PDF)</strong>,
+              and provides real-time <strong>P&L analysis</strong>.
+            </p>
             <div class="tech-tags mb-3">
               <span class="tech-tag">Django</span>
-              <span class="tech-tag">PostgreSQL</span>
-              <span class="tech-tag">Bootstrap</span>
+              <span class="tech-tag">Logic & Math</span>
+              <span class="tech-tag">PDF Generation</span>
             </div>
-            <a href="{% url 'prograos:dashboard' %}" class="btn btn-primary btn-sm">
-              <i class="fas fa-eye me-2"></i>View Project
-            </a>
+            <div class="d-flex gap-2">
+              <a href="{% url 'prograos:dashboard' %}" class="btn btn-primary btn-sm">
+                <i class="fas fa-eye me-2"></i>Live Demo
+              </a>
+              <a href="#" class="btn btn-outline-dark btn-sm">
+                <i class="fab fa-github me-2"></i>Repository
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="project-card">
+          <a href="/projetos/brokerage_analyzer/">
+            <img src="{% static 'img/project-brokerage_analyzer.png' %}" alt="Brokerage Analyzer Dashboard"
+              class="project-image" onerror="this.src='https://placehold.co/600x400?text=Brokerage+Analyzer'">
+          </a>
+          <div class="project-content">
+            <h3 class="project-title">Brokerage Note Analyzer</h3>
+            <p class="project-description">
+              A specialized <strong>Fintech tool</strong> that uses <strong>Regex and PDF Parsing</strong>
+              to extract trading data from brokerage notes and calculate <strong>Income Tax (IRPF)</strong> liabilities.
+            </p>
+            <div class="tech-tags mb-3">
+              <span class="tech-tag">Python & Pandas</span>
+              <span class="tech-tag">Data Engineering</span>
+              <span class="tech-tag">Automation</span>
+            </div>
+            <div class="d-flex gap-2">
+              <a href="/projetos/brokerage_analyzer/" class="btn btn-primary btn-sm">
+                <i class="fas fa-eye me-2"></i>Live Demo
+              </a>
+              <a href="#" class="btn btn-outline-dark btn-sm">
+                <i class="fab fa-github me-2"></i>Repository
+              </a>
+            </div>
           </div>
         </div>
       </div>

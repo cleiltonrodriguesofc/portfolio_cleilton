@@ -22,17 +22,20 @@
                     <select name="aluno" id="aluno" class="form-select" required>
                         <option value="">Selecione um aluno</option>
                         {% for aluno in alunos %}
-                            <option value="{{ aluno.id }}" {% if aluno_selecionado and aluno.id == aluno_selecionado.id %}selected{% endif %}>{{ aluno.nome }}</option>
+                        <option value="{{ aluno.id }}" {% if aluno_selecionado and aluno.id==aluno_selecionado.id
+                            %}selected{% endif %}>{{ aluno.nome }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="col-md-3">
                     <label for="data_inicio" class="form-label">Data Início</label>
-                    <input type="date" name="data_inicio" id="data_inicio" class="form-control" value="{{ data_inicio|default:'' }}">
+                    <input type="date" name="data_inicio" id="data_inicio" class="form-control"
+                        value="{{ data_inicio|default:'' }}">
                 </div>
                 <div class="col-md-3">
                     <label for="data_fim" class="form-label">Data Fim</label>
-                    <input type="date" name="data_fim" id="data_fim" class="form-control" value="{{ data_fim|default:'' }}">
+                    <input type="date" name="data_fim" id="data_fim" class="form-control"
+                        value="{{ data_fim|default:'' }}">
                 </div>
                 <div class="col-md-2 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary w-100">
@@ -42,46 +45,45 @@
                 </div>
             </form>
         </div>
-        
+
         {% if aluno_selecionado %}
-            <!-- Resumo -->
-            <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="card bg-light">
-                        <div class="card-body">
-                            <h5 class="card-title">Resumo para {{ aluno_selecionado.nome }}</h5>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-3">
-                                            <i class="fas fa-check-circle text-success fa-2x"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Total de Presenças</h6>
-                                            <h4 class="mb-0">{{ total_presencas }}</h4>
-                                        </div>
+        <!-- Resumo -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Resumo para {{ aluno_selecionado.nome }}</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-check-circle text-success fa-2x"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Total de Presenças</h6>
+                                        <h4 class="mb-0">{{ total_presencas }}</h4>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-3">
-                                            <i class="fas fa-times-circle text-danger fa-2x"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Total de Faltas</h6>
-                                            <h4 class="mb-0">{{ total_faltas }}</h4>
-                                        </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-times-circle text-danger fa-2x"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Total de Faltas</h6>
+                                        <h4 class="mb-0">{{ total_faltas }}</h4>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-3">
-                                            <i class="fas fa-percentage text-primary fa-2x"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Percentual de Presença</h6>
-                                            <h4 class="mb-0">{{ percentual_presenca|floatformat:1 }}%</h4>
-                                        </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-percentage text-primary fa-2x"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Percentual de Presença</h6>
+                                        <h4 class="mb-0">{{ percentual_presenca|floatformat:1 }}%</h4>
                                     </div>
                                 </div>
                             </div>
@@ -89,52 +91,53 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Tabela de Presenças -->
-            {% if presencas %}
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Data</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for presenca in presencas %}
-                                <tr>
-                                    <td>{{ presenca.data|date:"d/m/Y" }}</td>
-                                    <td>
-                                        <span class="badge {% if presenca.presente %}bg-success{% else %}bg-danger{% endif %}">
-                                            {{ presenca.presente|yesno:"Presente,Ausente" }}
-                                        </span>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                
-                <!-- Botões de Exportação -->
-                <div class="mt-4">
-                    <button type="button" class="btn btn-success" onclick="exportToExcel()">
-                        <i class="fas fa-file-excel me-2"></i>
-                        Exportar para Excel
-                    </button>
-                    <button type="button" class="btn btn-danger" onclick="exportToPDF()">
-                        <i class="fas fa-file-pdf me-2"></i>
-                        Exportar para PDF
-                    </button>
-                </div>
-            {% else %}
-                <div class="alert alert-info">
-                    Nenhuma presença encontrada para o período selecionado.
-                </div>
-            {% endif %}
+        </div>
+
+        <!-- Tabela de Presenças -->
+        {% if presencas %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for presenca in presencas %}
+                    <tr>
+                        <td>{{ presenca.data|date:"d/m/Y" }}</td>
+                        <td>
+                            <span class="badge {% if presenca.presente %}bg-success{% else %}bg-danger{% endif %}">
+                                {{ presenca.presente|yesno:"Presente,Ausente" }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Botões de Exportação -->
+        <div class="mt-4">
+            <button type="button" class="btn btn-success" onclick="exportToExcel()">
+                <i class="fas fa-file-excel me-2"></i>
+                Exportar para Excel
+            </button>
+            <button type="button" class="btn btn-danger" onclick="exportToPDF()">
+                <i class="fas fa-file-pdf me-2"></i>
+                Exportar para PDF
+            </button>
+        </div>
         {% else %}
-            <div class="alert alert-info">
-                Selecione um aluno para gerar o relatório.
-            </div>
+        <div class="alert alert-info">
+            Nenhuma presença encontrada para o período selecionado.
+        </div>
+        {% endif %}
+        {% else %}
+        <div class="alert alert-info">
+            Selecione um aluno para gerar o relatório.
+        </div>
         {% endif %}
     </div>
 </div>
@@ -143,15 +146,15 @@
 {% block extra_js %}
 <script>
     function exportToExcel() {
-        // Implementação básica para exportar para Excel
+        // basic implementation to export to excel
         let table = document.querySelector('table');
         let html = table.outerHTML;
-        
-        // Criar um blob com o HTML da tabela
-        let blob = new Blob([html], {type: 'application/vnd.ms-excel'});
+
+        // create a blob with the table html
+        let blob = new Blob([html], { type: 'application/vnd.ms-excel' });
         let url = URL.createObjectURL(blob);
-        
-        // Criar um link para download
+
+        // create a download link
         let a = document.createElement('a');
         a.href = url;
         a.download = 'relatorio_presenca_{{ aluno_selecionado.nome }}.xls';
@@ -159,11 +162,10 @@
         a.click();
         document.body.removeChild(a);
     }
-    
+
     function exportToPDF() {
-        // Alerta informando que a funcionalidade está em desenvolvimento
+        // alert informing that the feature is in development
         alert('Funcionalidade em desenvolvimento. Por favor, use a exportação para Excel por enquanto.');
     }
 </script>
 {% endblock %}
-

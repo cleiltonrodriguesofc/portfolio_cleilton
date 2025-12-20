@@ -4,12 +4,12 @@ from django.contrib.auth import get_user_model
 
 def get_demo_user():
     """
-    Retorna o usuário de demonstração. Cria se não existir.
-    Usa senha inutilizável para evitar login acidental.
+    returns demo user. creates if not exists.
+    uses unusable password to avoid accidental login.
     """
     User = get_user_model()
 
-    # Se preferir amarrar por ID:
+    # if prefer binding by id:
     if hasattr(settings, "DEMO_USER_ID"):
         demo = User.objects.get(pk=settings.DEMO_USER_ID)
         if not demo.has_usable_password():
@@ -30,12 +30,12 @@ def get_demo_user():
 
 def get_actor(request):
     """
-    Resolve o "dono" dos dados desta request:
-      - se estiver autenticado, usa request.user;
-      - senão, usa o usuário tester.
+    resolves data "owner" of this request:
+      - if authenticated, uses request.user;
+      - else, uses tester user.
     """
     user = getattr(request, "user", None)
     if user and user.is_authenticated:
         return user
-    # público/anônimo → usa tester
+    # public/anonymous -> uses tester
     return get_demo_user()

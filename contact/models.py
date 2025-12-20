@@ -1,7 +1,7 @@
 from django.db import models
 
 class Contact(models.Model):
-    """Modelo para armazenar mensagens de contato"""
+    """model to store contact messages"""
     
     name = models.CharField(max_length=100, verbose_name="Nome")
     email = models.EmailField(verbose_name="Email")

@@ -339,7 +339,7 @@ python manage.py startapp new_project
 
 
 ## 🎯 Next Steps
-1. **Integrate Projects**: Follow `INTEGRACAO_PROJETOS.md` for existing projects.
+1. **Integrate Projects**: See the Integration Guide below.
 2. **Personalize**: Update with your real details.
 3. **Add Photo**: Replace `static/img/profile-placeholder.jpg`.
 4. **Test Projects**: Verify each project locally.
@@ -356,3 +356,137 @@ This project is a personal portfolio created by Cleilton.
 ---
 
 **Built with ❤️ using Django and plenty of coffee ☕**
+
+---
+
+# Existing Projects Integration Guide
+
+This document explains how to integrate your existing projects into the Django portfolio.
+
+## Created Structure
+
+The portfolio has been configured with the following apps for your projects:
+
+e.g.
+- `sindsebsystem/` - For the SindsebSystem project
+
+## How to Integrate Each Project
+
+### 1. For Existing Django Projects (e.g., SindsebSystem)
+
+**Step 1:** Copy files from your existing project
+```bash
+# Copy models
+cp /path/to/your_project/models.py sindsebsystem/models.py
+
+# Copy views
+cp /path/to/your_project/views.py sindsebsystem/views.py
+
+# Copy templates
+cp -r /path/to/your_project/templates/* templates/sindsebsystem/
+
+# Copy static files
+cp -r /path/to/your_project/static/* static/
+```
+
+**Step 2:** Update URLs
+- Edit `sindsebsystem/urls.py` with your project's URLs
+- URLs are already configured at `/projects/sindseb/`
+
+**Step 3:** Run migrations if necessary
+```bash
+python manage.py makemigrations sindsebsystem
+python manage.py migrate
+```
+
+### 2. For React/Frontend Projects (e.g., E-commerce)
+
+**Option A - Static Build:**
+```bash
+# Build your React project
+npm run build
+
+# Copy files to Django
+cp -r build/* static/ecommerce/
+
+# Create a template that loads the build
+```
+
+**Option B - Iframe:**
+- Keep your project running on a separate port
+- Use an iframe in the Django template to display it
+
+### 3. For Mobile Projects (e.g., TaQuanto)
+
+- Create demo pages (already done for TaQuanto)
+- Show screenshots, features, and code
+- Link to GitHub repository
+
+### 4. For CS50W Projects
+
+- Each project can be a subdirectory
+- Configure URLs like `/projects/cs50w/project1/`
+- Integrate as separate Django projects
+
+## Configured URLs
+
+Your projects will be accessible at:
+
+- `/projects/taquanto/` - TaQuanto
+- `/projects/sindseb/` - SindsebSystem
+- `/projects/cs50w/` - CS50W Projects
+- `/projects/ecommerce/` - E-commerce
+- `/projects/finance-tracker/` - Finance Tracker
+
+## Updating the Main Portfolio
+
+To make projects appear on the home page, update:
+
+1.  **Database:** Add projects via Django admin
+2.  **Templates:** Links are already configured in templates
+
+## Useful Commands
+
+```bash
+# Run server
+python manage.py runserver 0.0.0.0:8000
+
+# Create superuser for admin
+python manage.py createsuperuser
+
+# Make migrations
+python manage.py makemigrations
+python manage.py migrate
+
+# Collect static files
+python manage.py collectstatic
+```
+
+## File Structure
+
+```
+portfolio_cleilton/
+├── core/                 # Main portfolio app
+├── projects/            # App to manage project list
+├── contact/             # Contact app
+├── taquanto/           # Your TaQuanto project
+├── sindsebsystem/      # Your SindsebSystem project
+├── cs50w_projects/     # Your CS50W projects
+├── ecommerce/          # Your E-commerce project
+├── finance_tracker/    # Your Finance Tracker project
+├── templates/          # Global templates
+├── static/             # Global static files
+└── media/              # File uploads
+```
+
+## Next Steps
+
+1.  Copy your existing projects to the corresponding apps
+2.  Update URLs as needed
+3.  Test each project individually
+4.  Add projects in Django admin
+5.  Customize templates as needed
+
+## Support
+
+If you need help integrating a specific project, consult the Django documentation or get in touch.

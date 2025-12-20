@@ -66,7 +66,7 @@ class PesagemCaminhao(models.Model):
     tipo_grao = models.CharField(max_length=10, choices=GRAO_CHOICES)
     quantidade_sacos = models.DecimalField(max_digits=10, decimal_places=3, null=True, blank=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='pesagens_criadas', null=True, blank=True)
-    #Calcular lucro com base no custo 
+    # Calculate profit based on cost 
     valor_custo_por_saco = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00, verbose_name="Custo por Saco (R$)")
     # CHANGED: The save logic is now safer
     def save(self, *args, **kwargs):
@@ -110,8 +110,8 @@ class NotaCarregamento(models.Model):
 
 class RegistroFinanceiro(models.Model):
     """
-    Representa o registro financeiro completo de uma Nota de Carregamento.
-    Este model NÃO altera o NotaCarregamento, apenas se relaciona com ele.
+    represents the complete financial record of a loading note.
+    this model does not alter notacarregamento, only relates to it.
     """
     class StatusPagamento(models.TextChoices):
         PENDENTE = 'PENDENTE', 'Pendente'
@@ -135,15 +135,15 @@ class RegistroFinanceiro(models.Model):
     lucro = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="Lucro da Operação")
 
     def calcular_valor_restante(self):
-        """Calcula o valor restante com base no valor total da nota."""
+        """calculates the remaining amount based on the total note value."""
         return self.nota.valor_total - self.valor_pago
 
     def atualizar_status(self):
-        """Soma os pagamentos filhos e atualiza o status e os totais."""
-        # self.pagamentos se refere ao related_name do model Pagamento
+        """sums child payments and updates status and totals."""
+        # self.pagamentos refers to the related_name of the pagamento model
         total_pago = sum(p.valor for p in self.pagamentos.all())
         self.valor_pago = total_pago
-        # --- NOVAS LINHAS PARA CÁLCULO DE CUSTO E LUCRO ---
+        # --- new lines for cost and profit calculation ---
         if self.nota.pesagem and self.nota.pesagem.valor_custo_por_saco is not None:
             self.valor_custo_total = self.nota.pesagem.valor_custo_por_saco * self.nota.quantidade_sacos
             self.lucro = self.nota.valor_total - self.valor_custo_total
@@ -163,12 +163,12 @@ class RegistroFinanceiro(models.Model):
         return f"Financeiro da Nota #{self.nota.id}"
 
 def comprovante_upload_path(instance, filename):
-    """Gera um caminho único para o arquivo para evitar nomes duplicados."""
+    """generates a unique file path to avoid duplicate names."""
     # Exemplo de output: uploads/comprovantes/nota_101/pagamento_1_comprovante.pdf
     return f'uploads/comprovantes/nota_{instance.registro_financeiro.nota.id}/pagamento_{instance.id}_{filename}'
 
 class Pagamento(models.Model):
-    """Registra uma parcela de pagamento individual."""
+    """registers an individual payment installment."""
     class MetodoPagamento(models.TextChoices):
         PIX = 'PIX', 'Pix'
         BOLETO = 'BOLETO', 'Boleto'
@@ -193,18 +193,18 @@ class Pagamento(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        # Ao salvar, avisa o "pai" (RegistroFinanceiro) para se atualizar.
+        # when saving, notify the "parent" (registrofinanceiro) to update.
         self.registro_financeiro.atualizar_status()
 
     def delete(self, *args, **kwargs):
         registro = self.registro_financeiro
         super().delete(*args, **kwargs)
-        # Ao deletar, também avisa o "pai" para se atualizar.
+        # when deleting, also notify the "parent" to update.
         registro.atualizar_status()
 
     def __str__(self):
         return f"Pagamento de R$ {self.valor} para a Nota #{self.registro_financeiro.nota.id}"
-    # --- NOVO CAMPO OPCIONAL PARA COMPROVANTE ---
+    # --- new optional field for receipt ---
     comprovante = models.FileField(
         upload_to=comprovante_upload_path, 
         blank=True, # Permite que o campo fique em branco no formulário

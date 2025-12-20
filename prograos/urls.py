@@ -47,7 +47,7 @@ api_patterns = [
 
 # ------------------ UI (HTML) URLs — todas públicas ------------------
 ui_patterns = [
-    # Admin (deixe apenas em dev; comente em produção se não quiser expor)
+    # Admin (leave only in dev; comment in production if you don't want to expose)
     path("admin/", admin.site.urls),
 
     # Dashboard / Home
