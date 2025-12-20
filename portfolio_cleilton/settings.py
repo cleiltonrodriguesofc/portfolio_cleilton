@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'commerce',
     'mail',
     'network',
+    'search',
 ]
 
 REST_FRAMEWORK = {

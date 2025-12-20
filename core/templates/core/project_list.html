@@ -205,6 +205,32 @@
             </div>
 
 
+            <!-- Search Project -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="project-card">
+                    <a href="{% url 'search:index' %}">
+                        <!-- Placeholder image - Please add project-search.png to static/img/ -->
+                        <img src="{% static 'img/project-search.png' %}" alt="Google Search Clone" class="project-image"
+                            onerror="this.src='https://placehold.co/600x400?text=Search+Clone'">
+                    </a>
+                    <div class="project-content">
+                        <h3 class="project-title">Search</h3>
+                        <p class="project-description">
+                            A front-end clone of Google Search, Google Image Search, and Google Advanced Search.
+                            Demonstrates HTML/CSS proficiency and responsive design.
+                        </p>
+                        <div class="tech-tags mb-3">
+                            <span class="tech-tag">HTML5</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">Responsive Design</span>
+                        </div>
+                        <a href="{% url 'search:index' %}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-eye me-2"></i>View Project
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
