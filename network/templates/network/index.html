@@ -39,8 +39,9 @@
 
             <div id="post-content-{{ post.id }}">
                 <p class="caption">
-                    <a href="{% url 'network:profile' post.user.username %}" class="username">{{ post.user.username
-                        }}</a>
+                    <a href="{% url 'network:profile' post.user.username %}" class="username">
+                        {{ post.user.username }}
+                    </a>
                     {{ post.content }}
                 </p>
             </div>
@@ -49,7 +50,7 @@
             <div class="comments-section mt-2">
                 {% if post.comments.count > 0 %}
                 <div class="text-muted small mb-1 view-comments-btn" data-id="{{ post.id }}" style="cursor: pointer;">
-                    <i class="far fa-comments"></i> Toggle Comments ({{ post.comments.count }})
+                    <i class="far fa-comments"></i> Comments ({{ post.comments.count }})
                 </div>
                 {% endif %}
                 <!-- removed display:none to fix disappearing issue -->

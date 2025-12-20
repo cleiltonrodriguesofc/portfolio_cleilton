@@ -30,10 +30,14 @@
             <button id="sidebar-toggle" class="sidebar-toggle">
                 <i class="fas fa-bars"></i>
             </button>
-            <a class="navbar-brand" href="{% url 'network:index' %}">CS50 Network</a>
+            <a class="navbar-brand" href="{% url 'network:index' %}"
+                style="justify-content: center; align-items: center; display: flex; flex-direction: column;">CS50<br>Network</a>
 
             <div class="nav-icons">
                 {% if user.is_authenticated %}
+                <a class="nav-icon" href="#" data-bs-toggle="modal" data-bs-target="#createPostModal" title="New Post">
+                    <i class="far fa-plus-square"></i> <span class="nav-label">New Post</span>
+                </a>
                 <a class="nav-icon" href="{% url 'network:index' %}" title="Home">
                     <i class="fas fa-home"></i> <span class="nav-label">Home</span>
                 </a>
@@ -72,9 +76,7 @@
             <div class="modal-content" style="background-color: var(--card-bg); color: var(--primary-text);">
                 <div class="modal-header" style="border-bottom: 1px solid var(--border-color);">
                     <h5 class="modal-title" id="createPostModalLabel">Create new post</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" style="color: var(--primary-text);">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="{% url 'network:create_post' %}" method="post" enctype="multipart/form-data">

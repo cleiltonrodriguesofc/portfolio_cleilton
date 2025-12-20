@@ -196,6 +196,7 @@ body.sidebar-collapsed .container {
     margin-bottom: 24px;
     padding: 0;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    color: var(--primary-text);
 }
 
 .card-header {
@@ -267,6 +268,7 @@ body.sidebar-collapsed .container {
 .caption {
     font-size: 14px;
     margin-bottom: 4px;
+    color: var(--primary-text);
 }
 
 .timestamp {
