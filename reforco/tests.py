@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
-from core.models import Aluno, Presenca, Pagamento
+from .models import Aluno, Presenca, Pagamento
 from datetime import date
 
 class CoreViewsTest(TestCase):
@@ -35,10 +35,10 @@ class CoreViewsTest(TestCase):
 
     # Dashboard
     def test_dashboard_view(self):
-        url = reverse('dashboard')
+        url = reverse('reforco_dashboard')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'core/dashboard.html')
+        self.assertTemplateUsed(response, 'reforco/dashboard.html')
         self.assertIn('total_alunos', response.context)
 
     # student list
@@ -46,7 +46,7 @@ class CoreViewsTest(TestCase):
         url = reverse('aluno_list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'core/aluno_list.html')
+        self.assertTemplateUsed(response, 'reforco/aluno_list.html')
         self.assertIn(self.aluno, response.context['alunos'])
 
     # Aluno create GET
@@ -54,7 +54,7 @@ class CoreViewsTest(TestCase):
         url = reverse('aluno_create')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'core/aluno_form.html')
+        self.assertTemplateUsed(response, 'reforco/aluno_form.html')
 
     def test_aluno_create_post_valid(self):
         url = reverse('aluno_create')
@@ -89,7 +89,7 @@ class CoreViewsTest(TestCase):
         url = reverse('aluno_detail', args=[self.aluno.pk])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'core/aluno_detail.html')
+        self.assertTemplateUsed(response, 'reforco/aluno_detail.html')
         self.assertEqual(response.context['aluno'], self.aluno)
 
     # Presenca list
@@ -97,7 +97,7 @@ class CoreViewsTest(TestCase):
         url = reverse('presenca_list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'core/presenca_list.html')
+        self.assertTemplateUsed(response, 'reforco/presenca_list.html')
         self.assertIn(self.presenca, response.context['presencas'])
 
     # Presenca create GET
@@ -105,7 +105,7 @@ class CoreViewsTest(TestCase):
         url = reverse('presenca_create')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'core/presenca_form.html')
+        self.assertTemplateUsed(response, 'reforco/presenca_form.html')
 
     # Presenca create POST (marcar presença)
     def test_presenca_create_post(self):
@@ -125,7 +125,7 @@ class CoreViewsTest(TestCase):
         url = reverse('pagamento_list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'core/pagamento_list.html')
+        self.assertTemplateUsed(response, 'reforco/pagamento_list.html')
         self.assertIn(self.pagamento, response.context['pagamentos'])
 
     # Pagamento create GET
@@ -133,7 +133,7 @@ class CoreViewsTest(TestCase):
         url = reverse('pagamento_create')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'core/pagamento_form.html')
+        self.assertTemplateUsed(response, 'reforco/pagamento_form.html')
 
     # Pagamento create POST válido
     def test_pagamento_create_post_valid(self):
@@ -153,7 +153,7 @@ class CoreViewsTest(TestCase):
         url = reverse('pagamento_update', args=[self.pagamento.pk])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'core/pagamento_form.html')
+        self.assertTemplateUsed(response, 'reforco/pagamento_form.html')
 
     # Pagamento update POST válido
     def test_pagamento_update_post_valid(self):
@@ -174,18 +174,18 @@ class CoreViewsTest(TestCase):
         url = reverse('relatorio_presenca')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'core/relatorio_presenca.html')
+        self.assertTemplateUsed(response, 'reforco/relatorio_presenca.html')
 
     # payments report
     def test_relatorio_pagamentos_view(self):
         url = reverse('relatorio_pagamentos')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'core/relatorio_pagamentos.html')
+        self.assertTemplateUsed(response, 'reforco/relatorio_pagamentos.html')
 
     # messages view
     def test_mensagens_view(self):
         url = reverse('mensagens')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'core/mensagens.html')
+        self.assertTemplateUsed(response, 'reforco/mensagens.html')

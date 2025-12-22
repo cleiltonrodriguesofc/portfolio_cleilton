@@ -161,9 +161,9 @@ class ReportGenerator:
                 'Impurezas (%)': float(amostra.impurezas) if amostra.impurezas else None,
                 'Peso Útil (kg)': float(amostra.peso_util) if amostra.peso_util else None,
                 'Status': amostra.status,
-                'Data Criação': amostra.data_criacao,
+                'Data Criação': amostra.data_criacao.replace(tzinfo=None) if amostra.data_criacao else None,
                 'Criado Por': amostra.created_by.username if amostra.created_by else '-',
-                'Última Atualização': amostra.ultima_atualizacao,
+                'Última Atualização': amostra.ultima_atualizacao.replace(tzinfo=None) if amostra.ultima_atualizacao else None,
                 'Atualizado Por': amostra.last_updated_by.username if amostra.last_updated_by else '-'
             })
         

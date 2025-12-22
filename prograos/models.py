@@ -22,7 +22,14 @@ class Amostra(models.Model):
     last_updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='amostras_atualizadas', null=True, blank=True)
 
     def __str__(self):
-        return f'{self.id_amostra} - {self.tipo_grao}'
+        return f'Amostra {self.id_amostra} - {self.tipo_grao}'
+
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+        if is_new and not self.id_amostra:
+            self.id_amostra = f"AMS-{self.id:04d}"
+            super().save(update_fields=['id_amostra'])
 
 class ActivityLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)

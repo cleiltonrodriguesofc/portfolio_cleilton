@@ -22,8 +22,9 @@
                     <select name="aluno" id="aluno" class="form-select">
                         <option value="">Todos os alunos</option>
                         {% for aluno in alunos %}
-                        <option value="{{ aluno.id }}" {% if aluno_selecionado and aluno.id==aluno_selecionado.id
-                            %}selected{% endif %}>{{ aluno.nome }}</option>
+                        <option value="{{ aluno.id }}" {% if aluno_selecionado and aluno.id == aluno_selecionado.id                             %}selected{% endif %}>
+                            {{ aluno.nome }}
+                        </option>
                         {% endfor %}
                     </select>
                 </div>
@@ -31,8 +32,8 @@
                     <label for="status" class="form-label">Status</label>
                     <select name="status" id="status" class="form-select">
                         <option value="">Todos</option>
-                        <option value="pago" {% if status=='pago' %}selected{% endif %}>Pagos</option>
-                        <option value="pendente" {% if status=='pendente' %}selected{% endif %}>Pendentes</option>
+                        <option value="pago" {% if status == 'pago' %}selected{% endif %}>Pagos</option>
+                        <option value="pendente" {% if status == 'pendente' %}selected{% endif %}>Pendentes</option>
                     </select>
                 </div>
                 <div class="col-md-2">

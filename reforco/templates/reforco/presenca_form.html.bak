@@ -61,7 +61,8 @@
                                 <td>{{ aluno.nome }}</td>
                                 <td class="text-center">
                                     <input type="checkbox" name="presencas" value="{{ aluno.id }}"
-                                        id="id_aluno_{{ aluno.id }}" {% if aluno.id in alunos_presentes_ids %}checked{%                                         endif %}>
+                                        id="id_aluno_{{ aluno.id }}" {% if aluno.id in alunos_presentes_ids %}checked{%
+                                        endif %}>
                                 </td>
                             </tr>
                             {% empty %}

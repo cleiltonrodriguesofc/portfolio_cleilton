@@ -84,9 +84,13 @@ class ScaleIntegration:
         Returns:
             list: List of available ports
         """
-        import serial.tools.list_ports
-        ports = serial.tools.list_ports.comports()
-        return [port.device for port in ports]
+        try:
+            import serial.tools.list_ports
+            ports = serial.tools.list_ports.comports()
+            return [port.device for port in ports]
+        except Exception:
+            # if pyserial is not installed, return common ports
+            return ['/dev/ttyUSB0', '/dev/ttyUSB1', '/dev/ttyACM0', 'COM1', 'COM2', 'COM3']
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

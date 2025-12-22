@@ -6,7 +6,7 @@ urlpatterns = [
     # logout
     path('logout/', views.logout, name='logout'),
     # home page (dashboard)
-    path('', views.dashboard, name='dashboard'),
+    path('', views.dashboard, name='reforco_dashboard'),
     
     # urls for students
     path('alunos/', views.aluno_list, name='aluno_list'),

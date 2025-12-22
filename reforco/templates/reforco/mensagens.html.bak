@@ -22,7 +22,8 @@
                     <select name="aluno" id="aluno" class="form-select" onchange="this.form.submit()">
                         <option value="">Selecione um aluno</option>
                         {% for aluno in alunos %}
-                        <option value="{{ aluno.id }}" {% if aluno_selecionado and aluno.id == aluno_selecionado.id                             %}selected{% endif %}>
+                        <option value="{{ aluno.id }}" {% if aluno_selecionado and aluno.id==aluno_selecionado.id
+                            %}selected{% endif %}>
                             {{ aluno.nome }}
                         </option>
                         {% endfor %}
@@ -44,9 +45,10 @@
                         <p><strong>Telefone/WhatsApp:</strong> {{ aluno_selecionado.telefone }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p><strong>Responsável:</strong>
-                            {{ aluno_selecionado.nome_responsavel|default:"Não informado" }}</p>
-                        <p><strong>Status:</strong> <span class="{{ aluno_selecionado.get_status_display_badge }}">{{                                 aluno_selecionado.get_status_display }}</span></p>
+                        <p><strong>Responsável:</strong> {{ aluno_selecionado.nome_responsavel|default:"Não informado"
+                            }}</p>
+                        <p><strong>Status:</strong> <span class="{{ aluno_selecionado.get_status_display_badge }}">{{
+                                aluno_selecionado.get_status_display }}</span></p>
                     </div>
                 </div>
             </div>

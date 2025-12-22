@@ -22,8 +22,12 @@
                     <select name="aluno" id="aluno" class="form-select" required>
                         <option value="">Selecione um aluno</option>
                         {% for aluno in alunos %}
-                        <option value="{{ aluno.id }}" {% if aluno_selecionado and aluno.id==aluno_selecionado.id
-                            %}selected{% endif %}>{{ aluno.nome }}</option>
+                        <option value="{{ aluno.id }}" 
+                        {% if aluno_selecionado and aluno.id==aluno_selecionado.id %}
+                             selected 
+                        {% endif %}>
+                            {{ aluno.nome }}
+                        </option>
                         {% endfor %}
                     </select>
                 </div>
