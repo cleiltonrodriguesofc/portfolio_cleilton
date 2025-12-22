@@ -1,6 +1,6 @@
 <div class="portfolio-shell">
   <style>
-    /* === Tokens do seu design (escopados) === */
+    /* === Tokens === */
     .portfolio-shell {
       --color-dark-blue: #0A192F;
       --color-blue: #4A90E2;
@@ -20,7 +20,7 @@
       box-sizing: border-box;
     }
 
-    /* === NAVBAR (visual idêntico ao seu) === */
+    /* === NAVBAR === */
     .ps-navbar {
       position: fixed;
       top: 0;
@@ -31,7 +31,6 @@
       box-shadow: 0 2px 20px rgba(0, 0, 0, .1);
       transition: var(--transition);
       z-index: 2147483647;
-      /* sempre acima da sidebar/overlay */
     }
 
     .ps-nav-wrap {
@@ -44,11 +43,10 @@
       gap: 12px;
     }
 
-    /* .navbar-brand → mesmo tamanho/peso */
+    /* .navbar-brand */
     .ps-brand {
       font-family: var(--font-heading);
       font-size: 1.5rem;
-      /* igual ao teu .navbar-brand */
       font-weight: 700;
       color: var(--color-white);
       text-decoration: none;
@@ -58,7 +56,7 @@
       color: var(--color-blue);
     }
 
-    /* .nav-link → mesmo peso/margem/animação underline */
+    /* .nav-link */
     .ps-nav {
       display: flex;
       align-items: center;
@@ -68,11 +66,8 @@
     .ps-link {
       font-family: var(--font-primary);
       font-weight: 500;
-      /* igual ao teu .nav-link */
       margin: 0 10px;
-      /* igual ao teu .nav-link */
       position: relative;
-      /* underline animado */
       color: var(--color-light-blue);
       text-decoration: none;
       padding: 8px 0;
@@ -99,12 +94,12 @@
       width: 100%;
     }
 
-    /* Compensação da barra fixa — igual ao teu 76px */
+    /* Compensação da barra fixa */
     .ps-offset {
       height: 76px;
     }
 
-    /* === Messages (sem depender de Bootstrap) === */
+    /* === Messages === */
     .ps-alerts {
       max-width: 1120px;
       margin: 8px auto 0;
