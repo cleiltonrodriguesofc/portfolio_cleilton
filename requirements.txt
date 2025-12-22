@@ -19,7 +19,7 @@ Markdown==3.8
 
 # === ProGrãos (data analysis, PDF, hardware serial) ===
 numpy==2.3.0
-pandas==2.2.0
+pandas==2.3.0
 reportlab==4.4.1
 pyserial==3.5
 
