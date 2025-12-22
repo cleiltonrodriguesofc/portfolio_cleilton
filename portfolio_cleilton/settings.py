@@ -27,6 +27,19 @@ SECRET_KEY = config('SECRET_KEY')
 # On Render, we will set DEBUG to 'False'.
 DEBUG = config('DEBUG', default=False, cast=bool)
 
+if not DEBUG:
+    # Production Security Settings
+    # 1. Force SSL
+    SECURE_SSL_REDIRECT = True
+    # 2. Secure Cookies
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    # 3. HSTS (HTTP Strict Transport Security)
+    # Set to 1 year (31536000 seconds)
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
 # Allowed hosts will be your Render URL in production.
 # The 'RENDER_EXTERNAL_HOSTNAME' is an environment variable Render provides automatically.
 # Fixed ALLOWED_HOSTS (list). Add here the hosts that AlwaysData uses.
