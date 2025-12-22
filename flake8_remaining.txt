@@ -1,8 +1,0 @@
-.\brokerage_analyzer\src\use_cases\data_aggregator.py:91:121: E501 line too long (123 > 120 characters)
-.\prograos\apps.py:9:9: F401 'prograos.signals' imported but unused
-.\prograos\forms.py:20:121: E501 line too long (144 > 120 characters)
-.\prograos\reports.py:14:1: F811 redefinition of unused 'colors' from line 5
-.\prograos\reports.py:176:121: E501 line too long (126 > 120 characters)
-.\prograos\reports.py:324:121: E501 line too long (127 > 120 characters)
-.\prograos\reports.py:388:121: E501 line too long (129 > 120 characters)
-.\prograos\reports.py:424:24: F541 f-string is missing placeholders
