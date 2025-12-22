@@ -391,8 +391,7 @@ class PesagemCreateView(ActorMixin, CreateView):
         form.instance.data_tara = timezone.now()
         form.instance.status = PesagemCaminhao.Status.PENDENTE
         messages.success(
-            self.request, f"Pesagem inicial para a placa {
-                form.instance.placa} salva. Agora, insira o peso final.")
+            self.request, f"Pesagem inicial para a placa {form.instance.placa} salva. Agora, insira o peso final.")
         return super().form_valid(form)
 
     def get_success_url(self):

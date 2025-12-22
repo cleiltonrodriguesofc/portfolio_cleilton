@@ -190,8 +190,8 @@ class PdfParser:
 
             if val != 0:
                 logger.info(
-                    f"Parsed via Heuristic: Date={ref_date}, Value={val}, Obs={observation} from {
-                        os.path.basename(file_path)}")
+                    f"Parsed via Heuristic: Date={ref_date}, Value={val}, Obs={observation} from "
+                    f"{os.path.basename(file_path)}")
                 return [MockNote(ref_date, float(val), observation)]
 
             # Method B: Generic Currency Extraction (Legacy)
