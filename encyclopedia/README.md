@@ -1,13 +1,19 @@
-# Encyclopedia (Wiki)
+# Encyclopedia (Wiki) - CS50W
 
-## Overview
-A Wikipedia-like online encyclopedia that allows users to create and edit encyclopedia entries using Markdown.
+## 🎓 Academic Context
+This project was developed as part of **CS50’s Web Programming with Python and JavaScript** (Harvard University) curriculum. The goal was to build a Wikipedia-like online encyclopedia where users can search for, read, create, and edit encyclopedia entries using Markdown.
 
-## Features
-- **Entry Management**: Create and edit markdown entries.
-- **Markdown Conversion**: Automatically parses Markdown to HTML.
-- **Search**: Find entries by title.
-- **Random Page**: Discover random entries.
+## ✨ Features Implemented
+- **Entry Pages:** Renders Markdown content into HTML for each encyclopedia entry.
+- **Index Page:** Lists all available encyclopedia entries.
+- **Search:** Allows users to query entries; exact matches redirect to the page, while partial matches show a list of results.
+- **New Page:** Users can create new entries with a Markdown editor.
+- **Edit Page:** Users can edit existing entries through a pre-populated textarea.
+- **Random Page:** Redirects the user to a random entry in the encyclopedia.
+- **Markdown Conversion:** Backend logic to convert Markdown title/content to HTML.
 
-## Context
-This project is an implementation of "Wiki" from CS50’s Web Programming with Python and JavaScript.
+## 💻 Tech Highlights
+- **Regular Expressions:** Used in the conversion logic to process Markdown syntax.
+- **File I/O:** Entries are stored as flat Markdown files (`.md`) on the disk, not a database, demonstrating file manipulation fundamentals.
+- **Django Forms:** Handling user input for search and content creation.
+
