@@ -1,5 +1,4 @@
 from django.core.files.storage import FileSystemStorage
-import os
 
 ENTRIES_PATH = r"encyclopedia/entries"
 

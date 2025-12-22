@@ -1,7 +1,9 @@
 from django.shortcuts import render
 
+
 def project_list(request):
-    return render(request, 'core/project_list.html') 
+    return render(request, 'core/project_list.html')
+
 
 def home(request):
     """View for the portfolio homepage."""
@@ -10,6 +12,7 @@ def home(request):
         'description': 'Portfólio profissional de Cleilton, desenvolvedor apaixonado por tecnologia e investimentos.',
     }
     return render(request, 'core/home.html', context)
+
 
 def about(request):
     """View for the about page."""

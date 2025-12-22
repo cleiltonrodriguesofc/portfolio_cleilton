@@ -1,5 +1,6 @@
 import os
 
+
 def check_files():
     files_to_fix = []
     for root, dirs, files in os.walk('.'):
@@ -7,7 +8,7 @@ def check_files():
             dirs.remove('.venv')
         if '.git' in dirs:
             dirs.remove('.git')
-            
+
         for file in files:
             if file.endswith('.html'):
                 path = os.path.join(root, file)
@@ -23,10 +24,11 @@ def check_files():
                             # print(f"No static: {path}")
                 except Exception as e:
                     print(f"Error reading {path}: {e}")
-                    
+
     print(f"Scanned {len(files_to_fix)} files missing load static:")
     for f in files_to_fix:
         print(f)
+
 
 if __name__ == '__main__':
     check_files()

@@ -3,28 +3,31 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 # import Forbiden to unauthorized request
-from django.http import  HttpResponseRedirect #HttpResponseForbidden, HttpResponseNotAllowed
-from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseRedirect  # HttpResponseForbidden, HttpResponseNotAllowed
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.models import User
 from .models import Listing, Bid, Comment
 from .forms import BidForm, CommentForm
 # import messages
-from django.contrib import messages
 
 
 # create a global variable to render categories in all pages
 categories_bar = [category[0] for category in Listing.CATEGORIES]
+
+
 def index(request):
     # render active listings
     active_listings = Listing.objects.filter(is_active=True)
     # listings = Listing.objects.all()
     return render(request, "auctions/index.html", {
-        "listings": active_listings, 
+        "listings": active_listings,
         "categories": categories_bar,
     })
 
-# toggle listing 
+# toggle listing
+
+
 @login_required
 def toggle_listing(request, listing_id):
     if request.method == 'POST':
@@ -43,7 +46,7 @@ def toggle_listing(request, listing_id):
 # ensure user is authenticated
 # create a function to render watchlist
 @login_required(login_url='commerce:login')
-def watchlist(request): 
+def watchlist(request):
     watchlist = request.user.watchlist.all()
     return render(request, "auctions/watchlist.html", {
         "watchlist": watchlist,
@@ -51,6 +54,8 @@ def watchlist(request):
     })
 
 # create a function to toggle listing
+
+
 @login_required(login_url='commerce:login')
 def toggle_watchlist(request, listing_id):
     if request.method == 'POST':
@@ -67,21 +72,21 @@ def toggle_watchlist(request, listing_id):
         return HttpResponseRedirect(reverse("commerce:listing", args=(listing_id,)))
 
 
-
 # show listings in category
 def category_listings(request, category_name):
     listings = Listing.objects.filter(category=category_name).all()
     return render(request, "auctions/category_listings.html", {
         "listings": listings,
-        "category_name": category_name, 
+        "category_name": category_name,
         "categories": categories_bar
     })
+
 
 @login_required(login_url='commerce:login')
 def listing(request, listing_id):
     listing = get_object_or_404(Listing, pk=listing_id)
     # render comments
-    comments = Comment.objects.filter(listing=listing).order_by('-created_date').all() 
+    comments = Comment.objects.filter(listing=listing).order_by('-created_date').all()
     # get a listing
     listing = Listing.objects.get(id=listing_id)
     # list bids
@@ -93,11 +98,11 @@ def listing(request, listing_id):
         # render bid form and biggest bid
         form_bid = BidForm(request.POST)
         if form_bid.is_valid():
-             # Create bid but don't save yet
-            bid = form_bid.save(commit=False) 
+            # Create bid but don't save yet
+            bid = form_bid.save(commit=False)
             # Get current highest bid
-            biggest_bid = listing.biggest_bid() 
-            if biggest_bid is None or bid.amount > biggest_bid.amount:  
+            biggest_bid = listing.biggest_bid()
+            if biggest_bid is None or bid.amount > biggest_bid.amount:
                 bid.user = request.user
                 bid.listing = listing
                 if listing not in request.user.watchlist.all():
@@ -118,32 +123,32 @@ def listing(request, listing_id):
                     "category_listings": category_listings,
                     "categories": categories_bar,
                     'comment_form': comment_form
-                 })
+                })
 
-            return HttpResponseRedirect(reverse("commerce:listing", args=(listing_id,)))   
+            return HttpResponseRedirect(reverse("commerce:listing", args=(listing_id,)))
 
         # render comment form and comments
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.user = request.user
-            comment.listing =  listing
+            comment.listing = listing
             comment.save()
             return HttpResponseRedirect(reverse("commerce:listing", args=(listing_id,)))
-    
+
     else:
         form_bid = BidForm()
         comment_form = CommentForm()
 
         return render(request, "auctions/listing.html", {
-        "listing": listing,
-        "bids": bids,
-        "biggest_bid": biggest_bid,
-        "form_bid": form_bid,
-        "comments": comments,
-        "category_listings": category_listings,
-        "categories": categories_bar,
-        'comment_form': comment_form,
+            "listing": listing,
+            "bids": bids,
+            "biggest_bid": biggest_bid,
+            "form_bid": form_bid,
+            "comments": comments,
+            "category_listings": category_listings,
+            "categories": categories_bar,
+            'comment_form': comment_form,
         })
 
 
@@ -162,20 +167,19 @@ def create_listing(request):
         listing = Listing.objects.create(
             user=request.user,
             title=title,
-            starting_bid=starting_bid, 
-            image_url=image_url, 
-            description=description, 
+            starting_bid=starting_bid,
+            image_url=image_url,
+            description=description,
             category=category
-            )
+        )
         listing.user = request.user
         listing.save()
         return HttpResponseRedirect(reverse("commerce:index"))
-   
+
     return render(request, "auctions/create_listing.html", {
         # "form": form,
         "categories": categories_bar
     })
-
 
 
 def login_view(request):
@@ -222,7 +226,6 @@ def register(request):
                 "categories": categories_bar
             })
 
-
         # Ensure password matches confirmation
         if password != confirmation:
             return render(request, "auctions/register.html", {
@@ -242,7 +245,7 @@ def register(request):
                 "message": "Username already taken.",
                 "categories": categories_bar
             })
-        
+
         login(request, user)
         return HttpResponseRedirect(reverse("commerce:index"))
     else:

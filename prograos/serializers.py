@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Amostra, ActivityLog
 from django.contrib.auth.models import User
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -10,6 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
             'username',
             'email',
         )
+
 
 class AmostraSerializer(serializers.ModelSerializer):
     created_by = UserSerializer(read_only=True)
@@ -28,6 +30,7 @@ class AmostraSerializer(serializers.ModelSerializer):
             'last_updated_by',
         )
 
+
 class ActivityLogSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
 
@@ -38,5 +41,3 @@ class ActivityLogSerializer(serializers.ModelSerializer):
             'timestamp',
             'user',
         )
-
-

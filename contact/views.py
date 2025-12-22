@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import ContactForm
 
+
 def contact(request):
     """View for the contact form"""
     if request.method == 'POST':
@@ -12,7 +13,7 @@ def contact(request):
             return redirect('contact:contact')
     else:
         form = ContactForm()
-    
+
     context = {
         'title': 'Contato - Cleilton',
         'description': 'Entre em contato comigo para projetos, oportunidades ou dúvidas.',

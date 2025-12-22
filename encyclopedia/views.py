@@ -1,11 +1,9 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from markdown import Markdown
 from django import forms
 from . import util
 from django.http import HttpResponseRedirect
 import random
-from django.urls import reverse
-
 
 
 def index(request):
@@ -15,6 +13,8 @@ def index(request):
     })
 
 # Render entry page
+
+
 def entry(request, name):
     entry_content = util.get_entry(name)
     markdowner = Markdown()
@@ -24,7 +24,7 @@ def entry(request, name):
         content = None
 
     if entry_content:
-        return render(request, "encyclopedia/entry.html",  {
+        return render(request, "encyclopedia/entry.html", {
             "title": name.title(),
             "content": content,
             "search_form": SearchEntryForm()
@@ -34,7 +34,7 @@ def entry(request, name):
             "message": "This entry was not found.",
             "search_form": SearchEntryForm()
         })
-    
+
 
 # Create a class to input new markdown file
 class NewMarkdownFile(forms.Form):
@@ -77,8 +77,10 @@ def newpage(request):
             "form": form,
             "search_form": SearchEntryForm()
         })
- 
+
 # Random page function
+
+
 def randompage(request):
     names = util.list_entries()
     if not names:
@@ -97,10 +99,12 @@ class SearchEntryForm(forms.Form):
     search_entry = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control-search',
         'placeholder': 'Search page',
-        }),
+    }),
         label='')
-    
+
 # Search function to render the page
+
+
 def search(request):
     result = []
     entries = util.list_entries()
@@ -158,7 +162,7 @@ def edit_entry(request, name):
             # Get updated content
             updated_content = form.cleaned_data["content"].encode('utf-8')
             # Create a entry copy changing title(name)
-            name = form.cleaned_data['title']            
+            name = form.cleaned_data['title']
             # Save updated entry
             util.save_entry(name, updated_content)
             # Redirect to the updated entry page

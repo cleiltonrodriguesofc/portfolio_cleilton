@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 
+
 def get_demo_user():
     """
     returns demo user. creates if not exists.

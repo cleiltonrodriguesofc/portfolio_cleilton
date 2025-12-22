@@ -1,5 +1,6 @@
 from django import forms
-from .models import Amostra, PesagemCaminhao, NotaCarregamento, RegistroFinanceiro, Pagamento
+from .models import Amostra, PesagemCaminhao, NotaCarregamento, Pagamento
+
 
 class PagamentoForm(forms.ModelForm):
     class Meta:
@@ -7,7 +8,7 @@ class PagamentoForm(forms.ModelForm):
         fields = ['valor', 'data_pagamento', 'metodo_pagamento', 'observacoes', 'comprovante']
         widgets = {
             'valor': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
-            
+
             # --- correction applied here ---
             'data_pagamento': forms.DateTimeInput(
                 attrs={'class': 'form-control', 'type': 'datetime-local'},
@@ -16,7 +17,11 @@ class PagamentoForm(forms.ModelForm):
             # -----------------------------
 
             'metodo_pagamento': forms.Select(attrs={'class': 'form-select'}),
-            'observacoes': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Detalhes do pagamento, se necessário...'}),
+            'observacoes': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Detalhes do pagamento, se necessário...'
+            }),
             'comprovante': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
         labels = {
@@ -27,6 +32,7 @@ class PagamentoForm(forms.ModelForm):
             'comprovante': 'Comprovante (Opcional)',
         }
 
+
 class NotaCarregamentoForm(forms.ModelForm):
     class Meta:
         model = NotaCarregamento
@@ -35,14 +41,40 @@ class NotaCarregamentoForm(forms.ModelForm):
             'endereco_recebedor', 'tipo_grao', 'quantidade_sacos', 'preco_por_saco', 'pesagem'
         ]
         widgets = {
-            'nome_recebedor': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome do recebedor'}),
-            'cpf_cnpj_recebedor': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '000.000.000-00 ou 00.000.000/0000-00'}),
-            'telefone_recebedor': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(00) 00000-0000'}),
-            'endereco_recebedor': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Endereço completo'}),
-            'tipo_grao': forms.Select(attrs={'class': 'form-select'}, choices=NotaCarregamento.GRAO_CHOICES),
-            'quantidade_sacos': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.001', 'placeholder': '0.000'}),
-            'preco_por_saco': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': '0.00'}),
-            'pesagem': forms.Select(attrs={'class': 'form-select'}),
+            'nome_recebedor': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Nome do recebedor'}),
+            'cpf_cnpj_recebedor': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': '000.000.000-00 ou 00.000.000/0000-00'}),
+            'telefone_recebedor': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': '(00) 00000-0000'}),
+            'endereco_recebedor': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'rows': 4,
+                    'placeholder': 'Endereço completo'}),
+            'tipo_grao': forms.Select(
+                attrs={
+                    'class': 'form-select'},
+                choices=NotaCarregamento.GRAO_CHOICES),
+            'quantidade_sacos': forms.NumberInput(
+                attrs={
+                    'class': 'form-control',
+                    'step': '0.001',
+                    'placeholder': '0.000'}),
+            'preco_por_saco': forms.NumberInput(
+                attrs={
+                    'class': 'form-control',
+                    'step': '0.01',
+                    'placeholder': '0.00'}),
+            'pesagem': forms.Select(
+                attrs={
+                    'class': 'form-select'}),
         }
         labels = {
             'nome_recebedor': 'Nome do Recebedor',
@@ -84,11 +116,13 @@ class NotaCarregamentoForm(forms.ModelForm):
         return preco
 
 # --- form for step 1: capture of initial data and tare ---
+
+
 class PesagemTaraForm(forms.ModelForm):
     class Meta:
         model = PesagemCaminhao
         fields = [
-            'placa', 'placa_cavalo', 'motorista', 'transportadora', 
+            'placa', 'placa_cavalo', 'motorista', 'transportadora',
             'operador', 'tara', 'tipo_grao', 'valor_custo_por_saco'
         ]
         widgets = {
@@ -99,7 +133,7 @@ class PesagemTaraForm(forms.ModelForm):
             'operador': forms.TextInput(attrs={'class': 'form-control'}),
             'tara': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.001'}),
             'tipo_grao': forms.Select(attrs={'class': 'form-select'}),
-            'valor_custo_por_saco': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}), 
+            'valor_custo_por_saco': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
         }
         labels = {
             'placa': 'Placa Carreta/Placa',
@@ -113,6 +147,8 @@ class PesagemTaraForm(forms.ModelForm):
         }
 
 # --- form for step 2: capture only of final loaded weight ---
+
+
 class PesagemFinalForm(forms.ModelForm):
     class Meta:
         model = PesagemCaminhao
@@ -127,11 +163,12 @@ class PesagemFinalForm(forms.ModelForm):
     def clean_peso_carregado(self):
         # validation to ensure loaded weight is greater than tare
         peso_carregado = self.cleaned_data.get('peso_carregado')
-        tara = self.instance.tara # accesses the tare of the object being edited
+        tara = self.instance.tara  # accesses the tare of the object being edited
         if peso_carregado is not None and tara is not None:
             if tara >= peso_carregado:
                 raise forms.ValidationError("O peso carregado deve ser maior que o peso da tara.")
         return peso_carregado
+
 
 class AmostraForm(forms.ModelForm):
     class Meta:

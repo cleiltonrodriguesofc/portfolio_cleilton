@@ -30,6 +30,7 @@ class Post(models.Model):
             "image": self.image.url if self.image else None
         }
 
+
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="comments")
     post = models.ForeignKey("Post", on_delete=models.CASCADE, related_name="comments")

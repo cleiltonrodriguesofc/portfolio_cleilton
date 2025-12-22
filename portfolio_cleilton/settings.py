@@ -6,8 +6,6 @@ from decouple import config
 import dj_database_url
 
 
-
-
 # --- Public demo flags ---
 DEMO_PUBLIC_MODE = True
 DEMO_USER_USERNAME = "tester"
@@ -17,7 +15,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 ENTRIES_DIR = os.path.join(BASE_DIR, "encyclopedia", "entries")
-
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -114,7 +111,7 @@ DATABASES = {
     'default': dj_database_url.config(
         # Fallback to SQLite for local development if DATABASE_URL is not set
         default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
-        conn_max_age=600 # Enables persistent database connections
+        conn_max_age=600  # Enables persistent database connections
     )
 }
 

@@ -2,6 +2,8 @@ from django import forms
 from .models import Listing, Bid, Comment
 
 # create a form to create a listing
+
+
 class ListingForm(forms.ModelForm):
     class Meta:
         model = Listing
@@ -11,12 +13,16 @@ class ListingForm(forms.ModelForm):
         }
 
 # craete a form to place a bid
+
+
 class BidForm(forms.ModelForm):
     class Meta:
         model = Bid
         fields = ['amount']
 
 # create a form to comments
+
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment

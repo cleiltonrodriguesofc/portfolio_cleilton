@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from .models import Aluno, Presenca, Pagamento
 from datetime import date
 
+
 class CoreViewsTest(TestCase):
     def setUp(self):
         # create user and login
@@ -83,8 +84,8 @@ class CoreViewsTest(TestCase):
         self.assertEqual(self.aluno.nome, 'Aluno Atualizado')
         self.assertEqual(self.aluno.telefone, '11988888888')
 
-
     # Aluno detail
+
     def test_aluno_detail_view(self):
         url = reverse('aluno_detail', args=[self.aluno.pk])
         response = self.client.get(url)

@@ -100,17 +100,17 @@ class DashboardView(ActorMixin, ListView):
         )
 
         receita_by_month = {row['m']: float(row['receita'] or 0) for row in notas_agg}
-        custo_by_month   = {row['m']: float(row['custo']   or 0) for row in custos_agg}
+        custo_by_month = {row['m']: float(row['custo'] or 0) for row in custos_agg}
         all_months = sorted(set(list(receita_by_month.keys()) + list(custo_by_month.keys())))
 
         def label_pt(dt):
-            meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
-            return f"{meses[dt.month-1]}/{str(dt.year)[-2:]}"
+            meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+            return f"{meses[dt.month - 1]}/{str(dt.year)[-2:]}"
 
-        monthly_labels  = [label_pt(m) for m in all_months]
+        monthly_labels = [label_pt(m) for m in all_months]
         monthly_receita = [receita_by_month.get(m, 0.0) for m in all_months]
-        monthly_custo   = [custo_by_month.get(m, 0.0)   for m in all_months]
-        monthly_lucro   = [r - c for r, c in zip(monthly_receita, monthly_custo)]
+        monthly_custo = [custo_by_month.get(m, 0.0) for m in all_months]
+        monthly_lucro = [r - c for r, c in zip(monthly_receita, monthly_custo)]
 
         now = timezone.now()
         start_30 = now - timedelta(days=30)
@@ -150,12 +150,12 @@ class DashboardView(ActorMixin, ListView):
             if tg in mix_map:
                 mix_map[tg] = row['c'] or 0
 
-        context['monthly_labels_json']  = json.dumps(monthly_labels, ensure_ascii=False)
+        context['monthly_labels_json'] = json.dumps(monthly_labels, ensure_ascii=False)
         context['monthly_receita_json'] = json.dumps(monthly_receita, ensure_ascii=False)
-        context['monthly_custo_json']   = json.dumps(monthly_custo, ensure_ascii=False)
-        context['monthly_lucro_json']   = json.dumps(monthly_lucro, ensure_ascii=False)
+        context['monthly_custo_json'] = json.dumps(monthly_custo, ensure_ascii=False)
+        context['monthly_lucro_json'] = json.dumps(monthly_lucro, ensure_ascii=False)
         context['status_pagamentos_json'] = json.dumps(status_counts_map, ensure_ascii=False)
-        context['mix_graos_json']         = json.dumps(mix_map, ensure_ascii=False)
+        context['mix_graos_json'] = json.dumps(mix_map, ensure_ascii=False)
         context['kpis_json'] = json.dumps({
             'receita_30': float(receita_30),
             'custo_30': float(custo_30),
@@ -277,6 +277,7 @@ def generate_pesagem_ticket_pdf_view(request, pk):
     pesagem = get_object_or_404(PesagemCaminhao, id=pk, created_by=user)
     return ReportGenerator.generate_pesagem_ticket_pdf(pesagem)
 
+
 def generate_nota_carregamento_pdf_view(request, pk):
     user = get_actor(request)
     nota = get_object_or_404(NotaCarregamento, id=pk, created_by=user)
@@ -389,7 +390,9 @@ class PesagemCreateView(ActorMixin, CreateView):
         form.instance.created_by = user
         form.instance.data_tara = timezone.now()
         form.instance.status = PesagemCaminhao.Status.PENDENTE
-        messages.success(self.request, f"Pesagem inicial para a placa {form.instance.placa} salva. Agora, insira o peso final.")
+        messages.success(
+            self.request, f"Pesagem inicial para a placa {
+                form.instance.placa} salva. Agora, insira o peso final.")
         return super().form_valid(form)
 
     def get_success_url(self):

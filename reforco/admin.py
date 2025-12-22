@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Aluno, Presenca, Pagamento
 
+
 @admin.register(Aluno)
 class AlunoAdmin(admin.ModelAdmin):
     list_display = ('nome', 'telefone', 'nome_responsavel', 'status', 'data_nascimento')
@@ -26,4 +27,3 @@ class PagamentoAdmin(admin.ModelAdmin):
     search_fields = ('aluno__nome',)
     date_hierarchy = 'mes_referencia'
     list_per_page = 50
-

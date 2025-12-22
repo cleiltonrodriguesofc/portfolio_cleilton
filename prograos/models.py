@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.conf import settings
 
+
 class Amostra(models.Model):
     GRAO_CHOICES = [
         ('SOJA', 'Soja'),
@@ -15,11 +16,21 @@ class Amostra(models.Model):
     umidade = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     impurezas = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     peso_util = models.DecimalField(max_digits=10, decimal_places=3, null=True, blank=True)
-    status = models.CharField(max_length=20, default='PENDENTE') # ACEITA, REJEITADA, PENDENTE
+    status = models.CharField(max_length=20, default='PENDENTE')  # ACEITA, REJEITADA, PENDENTE
     data_criacao = models.DateTimeField(auto_now_add=True)
     ultima_atualizacao = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='amostras_criadas', null=True, blank=True)
-    last_updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='amostras_atualizadas', null=True, blank=True)
+    created_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        related_name='amostras_criadas',
+        null=True,
+        blank=True)
+    last_updated_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        related_name='amostras_atualizadas',
+        null=True,
+        blank=True)
 
     def __str__(self):
         return f'Amostra {self.id_amostra} - {self.tipo_grao}'
@@ -30,6 +41,7 @@ class Amostra(models.Model):
         if is_new and not self.id_amostra:
             self.id_amostra = f"AMS-{self.id:04d}"
             super().save(update_fields=['id_amostra'])
+
 
 class ActivityLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
@@ -64,18 +76,35 @@ class PesagemCaminhao(models.Model):
     motorista = models.CharField(max_length=255, blank=True, null=True, verbose_name="Nome do Motorista")
     transportadora = models.CharField(max_length=255, blank=True, null=True, verbose_name="Transportadora")
     operador = models.CharField(max_length=100, blank=True, null=True, verbose_name="Operador")
-    
+
     # Weighing and product details
     tara = models.DecimalField(max_digits=10, decimal_places=3, verbose_name="Peso da Tara (kg)")
     # CHANGED: This field must be optional for the first step
-    peso_carregado = models.DecimalField(max_digits=10, decimal_places=3, null=True, blank=True, verbose_name="Peso Carregado (kg)")
+    peso_carregado = models.DecimalField(
+        max_digits=10,
+        decimal_places=3,
+        null=True,
+        blank=True,
+        verbose_name="Peso Carregado (kg)")
     peso_liquido = models.DecimalField(max_digits=10, decimal_places=3, null=True, blank=True)
     tipo_grao = models.CharField(max_length=10, choices=GRAO_CHOICES)
     quantidade_sacos = models.DecimalField(max_digits=10, decimal_places=3, null=True, blank=True)
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='pesagens_criadas', null=True, blank=True)
-    # Calculate profit based on cost 
-    valor_custo_por_saco = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00, verbose_name="Custo por Saco (R$)")
+    created_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        related_name='pesagens_criadas',
+        null=True,
+        blank=True)
+    # Calculate profit based on cost
+    valor_custo_por_saco = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        default=0.00,
+        verbose_name="Custo por Saco (R$)")
     # CHANGED: The save logic is now safer
+
     def save(self, *args, **kwargs):
         # Only calculate the net weight if both tara and peso_carregado have values
         if self.tara is not None and self.peso_carregado is not None:
@@ -85,7 +114,6 @@ class PesagemCaminhao(models.Model):
 
     def __str__(self):
         return f"Pesagem {self.id} - {self.placa} ({self.status})"
-    
 
 
 class NotaCarregamento(models.Model):
@@ -105,14 +133,12 @@ class NotaCarregamento(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='notas_criadas', null=True, blank=True)
     pesagem = models.ForeignKey('PesagemCaminhao', on_delete=models.SET_NULL, null=True, blank=True)
 
-
     def save(self, *args, **kwargs):
         self.valor_total = self.quantidade_sacos * self.preco_por_saco
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Nota {self.id} - {self.nome_recebedor}"
-
 
 
 class RegistroFinanceiro(models.Model):
@@ -138,8 +164,18 @@ class RegistroFinanceiro(models.Model):
         default=StatusPagamento.PENDENTE
     )
     valor_pago = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    valor_custo_total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="Custo Total da Operação")
-    lucro = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="Lucro da Operação")
+    valor_custo_total = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Custo Total da Operação")
+    lucro = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Lucro da Operação")
 
     def calcular_valor_restante(self):
         """calculates the remaining amount based on the total note value."""
@@ -156,23 +192,24 @@ class RegistroFinanceiro(models.Model):
             self.lucro = self.nota.valor_total - self.valor_custo_total
         # --------------------------------------------------
 
-
         if self.valor_pago >= self.nota.valor_total:
             self.status_pagamento = self.StatusPagamento.PAGO
         elif self.valor_pago > 0:
             self.status_pagamento = self.StatusPagamento.PARCIAL
         else:
             self.status_pagamento = self.StatusPagamento.PENDENTE
-        
+
         self.save()
 
     def __str__(self):
         return f"Financeiro da Nota #{self.nota.id}"
 
+
 def comprovante_upload_path(instance, filename):
     """generates a unique file path to avoid duplicate names."""
     # Exemplo de output: uploads/comprovantes/nota_101/pagamento_1_comprovante.pdf
     return f'uploads/comprovantes/nota_{instance.registro_financeiro.nota.id}/pagamento_{instance.id}_{filename}'
+
 
 class Pagamento(models.Model):
     """registers an individual payment installment."""
@@ -191,9 +228,9 @@ class Pagamento(models.Model):
     valor = models.DecimalField(max_digits=10, decimal_places=2)
     data_pagamento = models.DateTimeField(default=timezone.now)
     metodo_pagamento = models.CharField(
-        max_length=10, 
-        choices=MetodoPagamento.choices, 
-        default=MetodoPagamento.PIX # <-- VALOR PADRÃO
+        max_length=10,
+        choices=MetodoPagamento.choices,
+        default=MetodoPagamento.PIX  # <-- VALOR PADRÃO
     )
     observacoes = models.TextField(blank=True, null=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
@@ -213,8 +250,8 @@ class Pagamento(models.Model):
         return f"Pagamento de R$ {self.valor} para a Nota #{self.registro_financeiro.nota.id}"
     # --- new optional field for receipt ---
     comprovante = models.FileField(
-        upload_to=comprovante_upload_path, 
-        blank=True, # Permite que o campo fique em branco no formulário
+        upload_to=comprovante_upload_path,
+        blank=True,  # Permite que o campo fique em branco no formulário
         null=True,  # Permite que o valor no banco de dados seja NULO
         verbose_name="Comprovante de Pagamento"
     )
