@@ -299,6 +299,22 @@ python manage.py runserver
 - **Portfolio**: http://localhost:8000
 - **Admin**: http://localhost:8000/admin (create superuser with `python manage.py createsuperuser`)
 
+### Security & Deployment Envs
+
+For production deployment, ensure the following environment variables are set:
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `DEBUG` | **Must** be `False` in production | `False` |
+| `SECRET_KEY` | Strong random string (50+ chars) | `django-insecure-...` |
+| `RENDER_EXTERNAL_HOSTNAME` | Your app's public hostname | `myapp.onrender.com` |
+
+**Security Note:**
+When `DEBUG=False`, the application automatically enables:
+- SSL Redirect (HTTPS enforcement)
+- Secure Cookies (Session & CSRF)
+- HSTS (HTTP Strict Transport Security)
+
 ## 📝 Integrating Projects
 
 ### 1. Existing Django Projects
