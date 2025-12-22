@@ -211,6 +211,27 @@ portfolio_cleilton/                         # Main project folder
 │   └── templates/contact/
 │       └── contact.html
 │
+├── mail/                                   # CS50W Mail (Single Page App)
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   ├── views.py
+│   └── static/mail/
+│       └── inbox.js
+│
+├── search/                                 # CS50W Search (Google Clone)
+│   ├── __init__.py
+│   ├── apps.py
+│   ├── urls.py
+│   ├── views.py
+│   └── templates/search/
+│       ├── index.html
+│       ├── image.html
+│       └── advanced.html
+│
 ├── portfolio_cleilton/                     # Global settings module
 │   ├── __init__.py
 │   ├── asgi.py

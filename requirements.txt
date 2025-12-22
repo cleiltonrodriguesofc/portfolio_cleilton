@@ -1,36 +1,33 @@
 # === Core (used by portfolio, Reforço and ProGrãos) ===
-Django==5.2.4
-djangorestframework==3.15.2
-gunicorn==23.0.0
-whitenoise==6.9.0
+Django==4.2.27
+djangorestframework==3.16.0
+gunicorn==21.2.0
+whitenoise==6.6.0
 dj-database-url==3.0.1
 psycopg2-binary==2.9.10
 python-decouple==3.8
+django-bootstrap-v5==1.0.11
+django-cors-headers==4.7.0
 
 # Django runtime deps
 asgiref==3.8.1
-sqlparse==0.5.1
-tzdata==2025.1
+sqlparse==0.5.3
+tzdata==2025.2
 
 # === Encyclopedia (Markdown-based Wiki) ===
-Markdown==3.7
+Markdown==3.8
 
 # === ProGrãos (data analysis, PDF, hardware serial) ===
-numpy==2.1.2
-pandas==2.2.3
-reportlab==4.2.5
+numpy==2.3.0
+pandas==2.2.0
+reportlab==4.4.1
 pyserial==3.5
 
-# Brokerage Analyzer
-correpy
-pandas
-tqdm
-openpyxl
-django
-django-bootstrap-v5
-whitenoise
-pdfminer.six
-
+# === Brokerage Analyzer ===
+correpy==0.6.0
+tqdm==4.67.1
+openpyxl==3.1.5
+pdfminer.six==20251107
 
 # === Type Checking / Linting ===
 flake8
