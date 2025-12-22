@@ -1,13 +1,15 @@
-# Search
+# Search (Google Clone) - CS50W
 
-## Overview
-A front-end implementation of Google Search, Google Image Search, and Google Advanced Search.
+## 🎓 Academic Context
+This project was developed as part of **CS50’s Web Programming with Python and JavaScript** (Harvard University) curriculum. The goal was to recreate the front-end design and functionality of Google's search pages (Search, Images, and Advanced Search) using pure HTML and CSS, matching the company's aesthetics as closely as possible.
 
-## Features
-- **Search**: Standard Google search functionality.
-- **Images**: Google Image search.
-- **Advanced**: Advanced search filters.
-- **Styling**: Mimics Google's aesthetic.
+## ✨ Features Implemented
+- **Google Search:** The main query page which redirects to Google's search results.
+- **Image Search:** A specialized search page that redirects to Google Image search results.
+- **Advanced Search:** A detailed form allowing users to filter by "all these words," "exact phrase," "any of these words," and "none of these words."
+- **I'm Feeling Lucky:** A button that bypasses the results page and redirects directly to the first search result (using Google's redirect bypass).
 
-## Context
-This project is an implementation of "Search" from CS50’s Web Programming with Python and JavaScript.
+## 💻 Tech Highlights
+- **CSS Flexbox & Grid:** Used to align elements precisely to match Google's layout.
+- **Responsive Design:** Ensuring input fields and buttons stack or align correctly based on viewport size.
+- **URL Parameters:** Configuring GET requests to send the correct query parameters (e.g., `q`, `tbm=isch`, `as_q`) to Google's servers.
