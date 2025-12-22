@@ -1,6 +1,7 @@
 # portfolio_cleilton/settings.py
 
 import os
+import sys
 from pathlib import Path
 from decouple import config
 import dj_database_url
@@ -130,7 +131,11 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Use WhiteNoise to serve static files efficiently in production
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# In tests, we use a simpler storage to avoid manifest errors (Missing staticfiles manifest entry)
+if 'test' in sys.argv:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+else:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files
 MEDIA_URL = '/media/'
