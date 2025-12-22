@@ -1,6 +1,7 @@
 # portfolio_cleilton/settings.py
 
 import os
+import sys
 from pathlib import Path
 from decouple import config
 import dj_database_url
@@ -25,6 +26,19 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-fallback-key-for-dev-
 # The config function can cast the value to a boolean.
 # On Render, we will set DEBUG to 'False'.
 DEBUG = config('DEBUG', default=False, cast=bool)
+
+if not DEBUG and 'test' not in sys.argv:
+    # Production Security Settings
+    # 1. Force SSL
+    SECURE_SSL_REDIRECT = True
+    # 2. Secure Cookies
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    # 3. HSTS (HTTP Strict Transport Security)
+    # Set to 1 year (31536000 seconds)
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
 
 # Allowed hosts will be your Render URL in production.
 # The 'RENDER_EXTERNAL_HOSTNAME' is an environment variable Render provides automatically.
@@ -130,7 +144,11 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Use WhiteNoise to serve static files efficiently in production
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# In tests, we use a simpler storage to avoid manifest errors (Missing staticfiles manifest entry)
+if 'test' in sys.argv:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+else:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files
 MEDIA_URL = '/media/'

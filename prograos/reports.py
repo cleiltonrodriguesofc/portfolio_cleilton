@@ -143,9 +143,8 @@ class ReportGenerator:
         buffer.seek(0)
 
         response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
-        response['Content-Disposition'] = (
-            f'attachment; filename="relatorio_amostras_{datetime.now().strftime("%Y%m%d_%H%M%S")}.pdf"'
-        )
+        filename = f"relatorio_amostras_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
         return response
 
@@ -204,8 +203,8 @@ class ReportGenerator:
             buffer.getvalue(),
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
-        response['Content-Disposition'] = f'attachment; filename="relatorio_amostras_{
-            datetime.now().strftime("%Y%m%d_%H%M%S")}.xlsx"'
+        filename = f"relatorio_amostras_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
         return response
 

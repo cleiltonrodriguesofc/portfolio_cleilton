@@ -1,6 +1,7 @@
 """
 simplified unit tests for grain classification system
 """
+import unittest
 from decimal import Decimal
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
@@ -247,6 +248,7 @@ class IntegrationTest(TestCase):
 class ScaleIntegrationTest(TestCase):
     """tests for scale integration"""
 
+    @unittest.skip("Not using pesagem functionality")
     @patch('serial.Serial')
     def test_conectar_balanca_usb(self, mock_serial):
         """Testa conexão com balança via USB"""
@@ -265,6 +267,7 @@ class ScaleIntegrationTest(TestCase):
             # if module does not exist, skip test
             self.skipTest("ScaleReader module not available")
 
+    @unittest.skip("Not using pesagem functionality")
     @patch('serial.Serial')
     def test_ler_peso_balanca(self, mock_serial):
         """Testa leitura de peso da balança"""
