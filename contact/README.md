@@ -1,13 +1,10 @@
-# Contact App
+# Contact App (Internal App)
 
-## Overview
-A simple application to handle user inquiries and contact messages.
+## 🧩 Architectural Role
+The **Contact** app handles user inquiries and messages from the portfolio's "Contact" page. It provides a standard Django form interface for visitors to get in touch with you, ensuring that messages are validated and (optionally) stored or emailed.
 
-## Features
-- **Contact Form**: Collects name, email, subject, and message.
-- **Validation**: Ensures data integrity.
-- **Feedback**: Provides success/error messages to the user.
+## 🔑 Key Components
+- **`forms.py` (ContactForm):** Defines the fields (Name, Email, Subject, Message) and validation logic (e.g., ensuring email format is correct).
+- **`views.py`:** Processes the POST request when a user submits the form. It handles successful submissions (showing a success message/toast) and errors.
+- **`templates/contact/contact.html`:** The frontend template that renders the form and displays feedback to the user.
 
-## Key Components
-- `forms.py`: Contact form definition.
-- `views.py`: Handles form submission and rendering.
