@@ -1,15 +1,11 @@
-# Portfolio Core
+# Portfolio Core (Internal App)
 
-## Overview
-This is the central application of the portfolio project. It manages the main pages (Home, About, Projects) and orchestrates the integration of other apps.
+## 🧩 Architectural Role
+The **Core** app is the heart of the portfolio project. It serves as the orchestrator for the entire site, managing the landing page (`home`), the project gallery (`project_list`), and the "About Me" section. It defines the base templates (`base.html`, `_header_shell.html`) that all specific project apps inherit from, ensuring consistent layout, navigation, and styling across the entire portfolio.
 
-## Features
-- **Homepage**: Landing page with profile summary.
-- **Project List**: Dynamic gallery of integrated projects.
-- **About**: Professional background and skills.
-- **Base Templates**: Provides the `base.html` used by other apps for consistent styling.
+## 🔑 Key Components
+- **`base.html`:** The master template containing the `<head>`, global navigation bar, and footer. All other pages extend this template.
+- **`views.py`**: Handles logic for the homepage (fetching featured projects) and the comprehensive project list.
+- **`static/core/css/style.css`**: The global stylesheet that defines the portfolio's color palette, typography, and component styles.
+- **`urls.py`**: Serves as the main entry point for routing, delegating specific project paths (e.g., `/projects/xyz`) to their respective apps.
 
-## Key Components
-- `views.py`: Renders the main portfolio pages.
-- `urls.py`: Main routing configuration.
-- `static/`: Global CSS, JavaScript, and images.
