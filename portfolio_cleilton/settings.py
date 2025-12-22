@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # On Render, we will set DEBUG to 'False'.
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-if not DEBUG:
+if not DEBUG and 'test' not in sys.argv:
     # Production Security Settings
     # 1. Force SSL
     SECURE_SSL_REDIRECT = True
