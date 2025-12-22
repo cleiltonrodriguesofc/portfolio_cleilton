@@ -19,7 +19,7 @@ ENTRIES_DIR = os.path.join(BASE_DIR, "encyclopedia", "entries")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # We now load this from our .env file locally or from Render's environment variables.
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-fallback-key-for-dev-and-ci')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # The config function can cast the value to a boolean.
