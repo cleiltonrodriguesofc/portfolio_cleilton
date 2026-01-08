@@ -70,7 +70,7 @@ class SefazClient:
 
         # Build SOAP envelope
         soap_env = f"""<?xml version="1.0" encoding="UTF-8"?>
-<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" 
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
                xmlns:nfe="http://www.portalfiscal.inf.br/nfe/wsdl/{service_name}">
     <soap:Header/>
     <soap:Body>
@@ -228,7 +228,7 @@ class SefazClient:
 </consReciNFe>"""
 
         try:
-            _response = self._send_soap_request('NFeRetAutorizacao', xml_consulta)
+            self._send_soap_request('NFeRetAutorizacao', xml_consulta)
 
             # Parse response (similar to autorizar_nfe)
             # Implementation similar to above

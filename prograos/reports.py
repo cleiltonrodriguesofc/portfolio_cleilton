@@ -331,12 +331,12 @@ class ReportGenerator:
         data_formatada_texto = f"{data_referencia.day} de {mes_extenso} de {data_referencia.year}"
 
         texto = f"""
-        Eu, <b>{emissor_nome}</b>, inscrito no CNPJ <b>{emissor_cnpj}</b>, declaro para os 
-        devidos fins que recebi, via transferência bancária, da empresa <b>{cliente_nome}</b>, 
-        inscrita no CNPJ <b>{cliente_cnpj}</b>, o valor de <b>{format_currency(valor_total)}</b> 
+        Eu, <b>{emissor_nome}</b>, inscrito no CNPJ <b>{emissor_cnpj}</b>, declaro para os
+        devidos fins que recebi, via transferência bancária, da empresa <b>{cliente_nome}</b>,
+        inscrita no CNPJ <b>{cliente_cnpj}</b>, o valor de <b>{format_currency(valor_total)}</b>
         ({valor_extenso}), referente ao pagamento da carga de {produto}.
         <br/><br/>
-        O pagamento foi realizado na data de {data_formatada_texto}, não havendo 
+        O pagamento foi realizado na data de {data_formatada_texto}, não havendo
         quaisquer pendências financeiras relacionadas a esta operação.
         """
         elements.append(Paragraph(texto, body_style))
@@ -572,7 +572,10 @@ class ReportGenerator:
             final_table = Table(final_data, colWidths=['50%', '50%'])
             final_table.setStyle(TableStyle([('GRID', (0, 0), (-1, -1), 1, colors.black)]))
 
-            return [title, via, header_table, main_details_table, Spacer(1, 5), motorista_table, Spacer(1, 5), faturamento_table, Spacer(1, 5), final_table]
+            return [
+                title, via, header_table, main_details_table, Spacer(1, 5),
+                motorista_table, Spacer(1, 5), faturamento_table, Spacer(1, 5), final_table
+            ]
 
         # Adicionar duas cópias da nota ao PDF
         elements.extend(create_nota_copy())
@@ -747,7 +750,8 @@ class ReportGenerator:
         # total_frete = (
         #     RegistroFinanceiro.objects
         #     .filter(nota__in=transactions)
-        #     .aggregate(total=Sum(Coalesce('nota__pesagem__frete_total_calculado', Decimal(0.0)), output_field=DecimalField())))['total'] or Decimal('0.00')
+        #     .aggregate(total=Sum(Coalesce('nota__pesagem__frete_total_calculado', Decimal(0.0)),
+        #                                   output_field=DecimalField())))['total'] or Decimal('0.00')
 
         total_lucro = total_receita - total_custo
 

@@ -296,11 +296,11 @@ class APITest(TestCase):
         )
         self.client.login(username='testuser', password='testpass123')
 
-    @patch('prograos.scale_views.ScaleIntegration.connect')
+    @patch('prograos.views.scale.ScaleIntegration.connect')
     def test_scale_read_endpoint(self, mock_connect):
         """tests scale reading endpoint"""
         mock_connect.return_value = True
-        with patch('prograos.scale_views.ScaleIntegration.read_weight') as mock_read:
+        with patch('prograos.views.scale.ScaleIntegration.read_weight') as mock_read:
             mock_read.return_value = 1234.567
 
             response = self.client.post(

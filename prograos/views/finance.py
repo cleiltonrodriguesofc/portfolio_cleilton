@@ -220,73 +220,9 @@ class PagamentoDeleteView(LoginRequiredMixin, DeleteView):
     def get_queryset(self):
         return Pagamento.objects.filter(created_by=self.request.user)
 
+    def get_success_url(self):
         return reverse('prograos:financeiro_detail', kwargs={'nota_pk': self.object.registro_financeiro.nota.pk})
 
-# --- CALCULADORA FRETE ---
-
-
-def calculadora_frete_view(request):
-    context = {}
-    if request.method == 'POST':
-        form = CalculadoraFreteForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            K_SACO_EM_KG = Decimal('60.0')
-            K_TONELADA_EM_KG = Decimal('1000.0')
-            SACOS_POR_TONELADA = K_TONELADA_EM_KG / K_SACO_EM_KG
-
-            custo_grao_saco = data['custo_grao_por_saco']
-            preco_base_saco = data['preco_base_venda_por_saco']
-            frete_tonelada = data['frete_por_tonelada']
-            quantidade_input = data['quantidade']
-            unidade = data['unidade_quantidade']
-
-            # 1. Calculations per Sack
-            frete_por_saco = frete_tonelada / SACOS_POR_TONELADA
-            # lucro_bruto_saco = preco_base_saco - custo_grao_saco
-            lucro_liquido_saco = preco_base_saco - custo_grao_saco
-
-            # 2. Total Quantities
-            if unidade == 'toneladas':
-                total_sacos = (quantidade_input * K_TONELADA_EM_KG) / K_SACO_EM_KG
-            else:  # sacos
-                total_sacos = quantidade_input
-
-            # 3. Aggregates
-            venda_total_carga = total_sacos * (preco_base_saco + frete_por_saco)
-            frete_total_carga = total_sacos * frete_por_saco
-            lucro_total_carga = total_sacos * lucro_liquido_saco
-
-            # 4. Pack for Template
-            context['results'] = {
-                'frete_tonelada': frete_tonelada,
-                'frete_por_saco': frete_por_saco,
-                'lucro_base_saco': lucro_liquido_saco,
-                'preco_venda_final_saco': preco_base_saco + frete_por_saco,
-                'total_sacos': total_sacos,
-                'venda_total_carga': venda_total_carga,
-                'frete_total_carga': frete_total_carga,
-                'lucro_total_carga': lucro_total_carga,
-                'resultado_calculado': True
-            }
-    else:
-        form = CalculadoraFreteForm()
-
-    context['form'] = form
-    return render(request, 'calculadora_frete.html', context)
-
-
-@login_required
-def export_recibo_pdf(request, pk):
-    """
-    View para exportar o Recibo de Pagamento (NotaCarregamento) em PDF.
-    """
-    try:
-        nota = get_object_or_404(NotaCarregamento, pk=pk)
-        return ReportGenerator.generate_nota_receipt_pdf(nota)
-    except Exception as e:
-        messages.error(request, f"Erro ao gerar recibo: {str(e)}")
-        return redirect('prograos:financeiro_list')
 
 # --- CALCULADORA FRETE ---
 

@@ -8,29 +8,30 @@ SKIP_DIRS = ['venv', '.git', '.gemini', '__pycache__', 'node_modules', 'staticfi
 # Adjust this list as we discover them.
 # 'admin:index' has a colon, so it's fine.
 # 'login', 'logout', 'password_change' are standard auth but now we use namespaced/custom ones often.
-SAFE_GLOBAL_URLS = ['admin:index', 'admin:login', 'logout'] 
+SAFE_GLOBAL_URLS = ['admin:index', 'admin:login', 'logout']
 
 # Regex to find {% url 'name' ... %}
 URL_PATTERN = re.compile(r'{%\s*url\s+[\'"]([^\'"]+)[\'"]\s*')
 
+
 def scan_templates():
     print(f"Scanning for non-namespaced URLs in: {PROJECT_ROOT}\n")
-    
+
     issues_found = []
 
     for root, dirs, files in os.walk(PROJECT_ROOT):
         # Skip ignored directories
         dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
-        
+
         for file in files:
             if file.endswith('.html'):
                 file_path = os.path.join(root, file)
                 rel_path = os.path.relpath(file_path, PROJECT_ROOT)
-                
+
                 try:
                     with open(file_path, 'r', encoding='utf-8') as f:
                         lines = f.readlines()
-                        
+
                     for i, line in enumerate(lines):
                         matches = URL_PATTERN.findall(line)
                         for url_name in matches:
@@ -57,8 +58,9 @@ def scan_templates():
                 out_f.write(f"  Line {issue['line']}: {issue['url']}  ->  {issue['content']}\n")
         else:
             out_f.write("✅ No obvious non-namespaced URLs found!\n")
-    
+
     print(f"Audit complete. Results written to {output_path}")
+
 
 if __name__ == "__main__":
     scan_templates()

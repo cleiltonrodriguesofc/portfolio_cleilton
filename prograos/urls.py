@@ -3,7 +3,7 @@
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib import admin
+
 
 # ---- APIs utilitárias / integrações ----
 from .views.scale import read_scale_weight, list_scale_ports, test_scale_connection

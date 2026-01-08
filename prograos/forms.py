@@ -17,7 +17,11 @@ class PagamentoForm(forms.ModelForm):
             # -----------------------------
 
             'metodo_pagamento': forms.Select(attrs={'class': 'form-select'}),
-            'observacoes': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Detalhes do pagamento, se necessário...'}),
+            'observacoes': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Detalhes do pagamento, se necessário...'
+            }),
             'comprovante': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
         labels = {
@@ -186,81 +190,6 @@ class AmostraForm(forms.ModelForm):
                 "placeholder": "0.00"
             }),
         }
-
-
-class CalculadoraFreteForm(forms.Form):
-    """
-    Formulário para a ferramenta de calculadora de frete.
-    Não está ligado a nenhum modelo.
-    """
-    UNIDADE_CHOICES = [
-        ('sacos', 'Sacos'),
-        ('toneladas', 'Toneladas'),
-    ]
-
-    # Entrada 1: Custo do grão por saco (ex: 60)
-    custo_grao_por_saco = forms.DecimalField(
-        label="Custo do Grão (R$ por Saco)",
-        decimal_places=2,
-        localize=True,
-        widget=forms.TextInput(attrs={'class': 'form-control money-mask', 'placeholder': '60,00'})
-    )
-
-    # Entrada 2: Preço de venda base (ex: 62)
-    preco_base_venda_por_saco = forms.DecimalField(
-        label="Preço de Venda Base (R$ por Saco)",
-        help_text="O preço que você venderia *sem* o custo do frete.",
-        decimal_places=2,
-        localize=True,
-        widget=forms.TextInput(attrs={'class': 'form-control money-mask', 'placeholder': '62,00'})
-    )
-
-    # Entrada 3: Frete por tonelada (ex: 140)
-    frete_por_tonelada = forms.DecimalField(
-        label="Custo do Frete (R$ por Tonelada)",
-        decimal_places=2,
-        localize=True,
-        widget=forms.TextInput(attrs={'class': 'form-control money-mask', 'placeholder': '140,00'})
-    )
-
-    # Entrada 4: Quantidade
-    quantidade = forms.DecimalField(
-        label="Quantidade da Carga",
-        decimal_places=0,
-        localize=True,
-        widget=forms.TextInput(attrs={'class': 'form-control integer-mask', 'placeholder': '1000'})
-    )
-
-    # Entrada 5: Unidade da Quantidade
-    unidade_quantidade = forms.ChoiceField(
-        label="Unidade da Quantidade",
-        choices=UNIDADE_CHOICES,
-        widget=forms.Select(attrs={'class': 'form-select'})
-    )
-
-    def clean(self):
-        cleaned_data = super().clean()
-
-        # Manual cleaning fallback for localized numbers (if middleware/L10N fails)
-        # This handles '1.234,56' -> '1234.56' conversion roughly if raw data was passed but validation failed?
-        # Actually validation fails BEFORE clean() if field is DecimalField and format doesn't match.
-        # So we might need to handle this in clean_<fieldname> or before form init?
-        # NO, localize=True should handle it if set up right.
-        # Since user insists on "system before", let's try to trust localize=True works with just LANGUAGE_CODE.
-        # But if it fails, we need another strategy.
-        # Strategy: Use CharField with cleaning logic? Or specific clean methods?
-        # DecimalField with localize=True usually works.
-
-        custo = cleaned_data.get('custo_grao_por_saco')
-        preco_base = cleaned_data.get('preco_base_venda_por_saco')
-
-        if custo and preco_base and preco_base < custo:
-            raise forms.ValidationError(
-                "O Preço de Venda Base (R$ %(preco)s) não pode ser menor que o Custo do Grão (R$ %(custo)s).",
-                code='preco_menor_que_custo',
-                params={'preco': preco_base, 'custo': custo}
-            )
-        return cleaned_data
 
 
 class InvoiceForm(forms.ModelForm):
