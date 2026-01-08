@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProGrãos | Gestão Inteligente para o Agronegócio</title>
+    <meta name="description"
+        content="O sistema definitivo para gestão de pesagem, classificação e financeiro de grãos. Otimize sua operação agrícola hoje.">
+    <link rel="icon" type="image/png" href="{% static 'prograos/img/favicon.png' %}">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'prograos/css/landing.css' %}">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">Pro<span>Grãos</span></a>
+            <div class="nav-links">
+                <a href="#features">Funcionalidades</a>
+                <a href="#pricing">Planos</a>
+                <a href="{% url 'prograos:login' %}" class="btn btn-outline">Entrar</a>
+                <a href="{% url 'prograos:register' %}" class="btn btn-primary">Começar Agora</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Gestão de Grãos <br> Simples e Eficiente.</h1>
+                <p>Automatize pesagens, controle classificações e gerencie o financeiro da sua operação agrícola em um
+                    único lugar. Otimize seus lucros com o ProGrãos.</p>
+                <div class="hero-buttons">
+                    <a href="{% url 'prograos:register' %}" class="btn btn-primary btn-lg">Experimente Grátis</a>
+                    <a href="#features" class="btn btn-secondary btn-lg">Saiba Mais</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <!-- Dashboard Mockup Image -->
+                <div class="img-wrapper">
+                    <img src="{% static 'prograos/img/dashboard_mockup.png' %}" alt="Dashboard Interativo ProGrãos"
+                        class="img-fluid rounded shadow-lg">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Tudo o que você precisa</h2>
+                <p>Ferramentas poderosas desenvolvidas especificamente para armazéns e produtores.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">⚖️</div>
+                    <h3>Controle de Pesagem</h3>
+                    <p>Registre entradas e saídas com precisão. Integre balanças e emita tickets de pesagem
+                        automaticamente.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🧮</div>
+                    <h3>Calculadora Inteligente</h3>
+                    <p>Calcule instantaneamente a conversão de toneladas para sacos e o custo exato do frete da sua
+                        carga.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">💰</div>
+                    <h3>Gestão Financeira</h3>
+                    <p>Controle contas a pagar e receber, gere faturas e acompanhe o fluxo de caixa da sua safra.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">📊</div>
+                    <h3>Relatórios Detalhados</h3>
+                    <p>Tome decisões baseadas em dados. Visualize gráficos de estoque, movimentação e rentabilidade em
+                        tempo real.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section (Simple Version) -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2>Planos Flexíveis</h2>
+                <p>Escolha o plano ideal para o tamanho da sua operação.</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Produtor</h3>
+                    <div class="price">R$ 199<span>/mês</span></div>
+                    <ul>
+                        <li>Até 2.000 toneladas/ano</li>
+                        <li>Gestão de Pesagem</li>
+                        <li>Classificação Básica</li>
+                        <li>1 Usuário</li>
+                    </ul>
+                    <a href="{% url 'prograos:register' %}" class="btn btn-outline">Escolher este</a>
+                </div>
+                <div class="pricing-card popular">
+                    <div class="tag">Mais Popular</div>
+                    <h3>Armazém</h3>
+                    <div class="price">R$ 499<span>/mês</span></div>
+                    <ul>
+                        <li>Ilimitado</li>
+                        <li>Gestão Completa</li>
+                        <li>Financeiro Integrado</li>
+                        <li>5 Usuários</li>
+                        <li>Suporte Prioritário</li>
+                    </ul>
+                    <a href="{% url 'prograos:register' %}" class="btn btn-primary">Escolher este</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>Empresarial</h3>
+                    <div class="price">Consulte</div>
+                    <ul>
+                        <li>Múltiplas Filiais</li>
+                        <li>API de Integração (NF-e)</li>
+                        <li>Usuários Ilimitados</li>
+                        <li>Gestor de Conta Dedicado</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline">Fale Conosco</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-col">
+                <a href="#" class="logo">Pro<span>Grãos</span></a>
+                <p>Tecnologia a favor do campo.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Produto</h4>
+                <a href="#features">Funcionalidades</a>
+                <a href="#pricing">Preços</a>
+                <a href="#">Roadmap</a>
+            </div>
+            <div class="footer-col">
+                <h4>Empresa</h4>
+                <a href="#">Sobre Nós</a>
+                <a href="#">Contato</a>
+                <a href="#">Termos de Uso</a>
+            </div>
+            <div class="footer-col">
+                <h4>Social</h4>
+                <a href="#">Instagram</a>
+                <a href="#">LinkedIn</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ProGrãos SaaS. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

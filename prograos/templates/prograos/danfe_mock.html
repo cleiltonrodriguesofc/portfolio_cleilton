@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DANFE - Documento Auxiliar da Nota Fiscal Eletrônica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            border: 1px solid #000;
+            padding: 5px;
+        }
+
+        .header {
+            display: flex;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
+
+        .header-left {
+            flex: 1;
+            border-right: 1px solid #000;
+            padding-right: 5px;
+        }
+
+        .header-center {
+            flex: 2;
+            text-align: center;
+            border-right: 1px solid #000;
+            padding: 0 5px;
+        }
+
+        .header-right {
+            flex: 1;
+            padding-left: 5px;
+        }
+
+        .box {
+            border: 1px solid #000;
+            padding: 2px;
+            margin-bottom: 2px;
+        }
+
+        .row {
+            display: flex;
+            gap: 2px;
+        }
+
+        .col {
+            flex: 1;
+            border: 1px solid #000;
+            padding: 2px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin: 0;
+        }
+
+        .barcode {
+            height: 50px;
+            background-color: #ccc;
+            /* Placeholder for barcode */
+            margin: 5px 0;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        .label {
+            font-weight: bold;
+            font-size: 8px;
+        }
+
+        .value {
+            font-size: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <h3>EMITENTE FICTÍCIO LTDA</h3>
+                <p>Rua Exemplo, 123 - Cidade/UF</p>
+                <p>CNPJ: 00.000.000/0001-00</p>
+            </div>
+            <div class="header-center">
+                <h1>DANFE</h1>
+                <p>Documento Auxiliar da Nota Fiscal Eletrônica</p>
+                <div class="row">
+                    <div class="col">
+                        <span class="label">0 - ENTRADA</span><br>
+                        <span class="label">1 - SAÍDA</span><br>
+                        <strong>1</strong>
+                    </div>
+                    <div class="col">
+                        <span class="label">Nº</span><br>
+                        <strong>{{ nfe.invoice.number }}</strong>
+                    </div>
+                    <div class="col">
+                        <span class="label">SÉRIE</span><br>
+                        <strong>{{ nfe.series }}</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="barcode">CÓDIGO DE BARRAS (Simulado)</div>
+                <div class="box">
+                    <span class="label">CHAVE DE ACESSO</span><br>
+                    <span class="value">{{ nfe.access_key }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <span class="label">NATUREZA DA OPERAÇÃO</span><br>
+            <span class="value">Venda de Produção do Estabelecimento</span>
+        </div>
+
+        <div class="box">
+            <span class="label">PROTOCOLO DE AUTORIZAÇÃO DE USO</span><br>
+            <span class="value">{{ nfe.protocol }} - {{ nfe.invoice.issue_date|date:"d/m/Y H:i:s" }}</span>
+        </div>
+
+        <h3>DESTINATÁRIO / REMETENTE</h3>
+        <div class="box">
+            <div class="row">
+                <div class="col">
+                    <span class="label">NOME / RAZÃO SOCIAL</span><br>
+                    <span class="value">{{ nfe.invoice.customer_name }}</span>
+                </div>
+                <div class="col">
+                    <span class="label">CNPJ / CPF</span><br>
+                    <span class="value">{{ nfe.invoice.customer_document }}</span>
+                </div>
+                <div class="col">
+                    <span class="label">DATA DA EMISSÃO</span><br>
+                    <span class="value">{{ nfe.invoice.issue_date|date:"d/m/Y" }}</span>
+                </div>
+            </div>
+        </div>
+
+        <h3>DADOS DO PRODUTO / SERVIÇO</h3>
+        <table style="width: 100%; border-collapse: collapse; border: 1px solid #000;">
+            <thead>
+                <tr style="background-color: #eee;">
+                    <th style="border: 1px solid #000;">CÓDIGO</th>
+                    <th style="border: 1px solid #000;">DESCRIÇÃO</th>
+                    <th style="border: 1px solid #000;">NCM</th>
+                    <th style="border: 1px solid #000;">CST</th>
+                    <th style="border: 1px solid #000;">CFOP</th>
+                    <th style="border: 1px solid #000;">UNID</th>
+                    <th style="border: 1px solid #000;">QTD</th>
+                    <th style="border: 1px solid #000;">VLR UNIT</th>
+                    <th style="border: 1px solid #000;">VLR TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Mock Items -->
+                <tr>
+                    <td style="border: 1px solid #000;">001</td>
+                    <td style="border: 1px solid #000;">
+                        {% if nfe.invoice.weighing_record %}
+                        {{ nfe.invoice.weighing_record.get_tipo_grao_display }}
+                        {% else %}
+                        PRODUTO GENÉRICO
+                        {% endif %}
+                    </td>
+                    <td style="border: 1px solid #000;">12019000</td>
+                    <td style="border: 1px solid #000;">000</td>
+                    <td style="border: 1px solid #000;">5101</td>
+                    <td style="border: 1px solid #000;">KG</td>
+                    <td style="border: 1px solid #000;">
+                        {% if nfe.invoice.weighing_record %}
+                        {{ nfe.invoice.weighing_record.peso_liquido|floatformat:2 }}
+                        {% else %}
+                        1.00
+                        {% endif %}
+                    </td>
+                    <td style="border: 1px solid #000;">
+                        <!-- Mock Unit Price Calculation -->
+                        {{ nfe.invoice.total_amount|floatformat:2 }}
+                    </td>
+                    <td style="border: 1px solid #000;">{{ nfe.invoice.total_amount|floatformat:2 }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="box" style="margin-top: 10px;">
+            <span class="label">DADOS ADICIONAIS</span><br>
+            <span class="value">
+                Documento emitido por ME ou EPP optante pelo Simples Nacional.
+                {% if nfe.invoice.weighing_record %}
+                <br>Referente à Pesagem Placa: {{ nfe.invoice.weighing_record.placa }}
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    <script>
+        window.print();
+    </script>
+</body>
+
+</html>

@@ -1,106 +1,153 @@
+{# templates/pesagem_update.html #}
 {% extends 'prograos/base.html' %}
 {% load static %}
 {% load humanize %}
 
 {% block title %}
-    {% if is_finalizing %}Finalizar Pesagem{% elif object %}Editar Pesagem{% else %}Nova Pesagem{% endif %}
+  {% if tara_form and final_form %}Editar Pesagem{% elif tara_form %}Nova Pesagem{% elif final_form %}Finalizar Pesagem{% else %}Pesagem{% endif %}
 {% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>
-            {% if is_finalizing %}
-                Finalizar Pesagem #{{ object.id }} (Passo 2 de 2)
-            {% elif object %}
-                Editar Pesagem #{{ object.id }}
-            {% else %}
-                Nova Pesagem (Passo 1 de 2)
-            {% endif %}
-        </h1>
-        <a href="{% url 'prograos:pesagem_list' %}" class="btn btn-outline-secondary">
-            <i class="fas fa-arrow-left me-1"></i> Voltar para a Lista
-        </a>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 m-0">
+      {% if tara_form and final_form %}
+        Editar Pesagem #{{ object.id }}
+      {% elif tara_form %}
+        Nova Pesagem (Passo 1 de 2)
+      {% elif final_form %}
+        Finalizar Pesagem #{{ object.id }} (Passo 2 de 2)
+      {% else %}
+        Pesagem
+      {% endif %}
+    </h1>
+    <a href="{% url 'prograos:pesagem_list' %}" class="btn btn-outline-secondary">
+      <i class="fas fa-arrow-left me-1"></i> Voltar para a Lista
+    </a>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-header">
+      {% if tara_form and final_form %}
+        Dados da Pesagem (Parte 1 + Parte 2)
+      {% elif tara_form %}
+        Insira os Dados Iniciais e a Tara
+      {% elif final_form %}
+        Dados da Pesagem Inicial
+      {% endif %}
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-header">
-            {% if is_finalizing %}
-                Dados da Pesagem Inicial
-            {% elif object %}
-                Editando Pesagem Concluída
-            {% else %}
-                Insira os Dados Iniciais e a Tara
-            {% endif %}
+    <div class="card-body">
+      {% if object %}
+      <div class="alert alert-info">
+        <div class="row g-3">
+          <div class="col-md-3"><strong>Placa:</strong> {{ object.placa }}</div>
+          <div class="col-md-3"><strong>Motorista:</strong> {{ object.motorista|default_if_none:"" }}</div>
+          <div class="col-md-3"><strong>Peso da Tara:</strong> {{ object.tara|intcomma }} kg</div>
+          <div class="col-md-3"><strong>Data da Tara:</strong> {{ object.data_tara|date:"d/m/Y H:i" }}</div>
         </div>
-        <div class="card-body">
-            <!-- If we are finalizing, show the initial data as read-only -->
-            {% if is_finalizing %}
-                <div class="alert alert-info">
-                    <div class="row">
-                        <div class="col-md-3"><strong>Placa:</strong> {{ object.placa }}</div>
-                        <div class="col-md-3"><strong>Motorista:</strong> {{ object.motorista|default_if_none:"" }}</div>
-                        <div class="col-md-3"><strong>Peso da Tara:</strong> {{ object.tara|intcomma }} kg</div>
-                        <div class="col-md-3"><strong>Data da Tara:</strong> {{ object.data_tara|date:"d/m/Y H:i" }}</div>
-                    </div>
-                </div>
-                <h5 class="mb-3">Passo 2: Insira o Peso Carregado</h5>
-            {% endif %}
-
-            <form method="post">
-                {% csrf_token %}
-
-                <!-- This is the form area. It will show different fields based on the context -->
-                {% if is_finalizing %}
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="{{ form.peso_carregado.id_for_label }}" class="form-label">{{ form.peso_carregado.label }}</label>
-                            {{ form.peso_carregado }}
-                            {% if form.peso_carregado.errors %}
-                                <div class="invalid-feedback d-block">{{ form.peso_carregado.errors|join:", " }}</div>
-                            {% endif %}
-                        </div>
-                    </div>
-                {% else %}
-                    <!-- Show the full form for creating or editing a completed record -->
-                    <div class="row">
-                        <div class="col-md-6 mb-3"><label>{{ form.placa.label }}</label>{{ form.placa }}</div>
-                        <div class="col-md-6 mb-3"><label>{{ form.placa_cavalo.label }}</label>{{ form.placa_cavalo }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3"><label>{{ form.motorista.label }}</label>{{ form.motorista }}</div>
-                        <div class="col-md-6 mb-3"><label>{{ form.operador.label }}</label>{{ form.operador }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 mb-3"><label>{{ form.transportadora.label }}</label>{{ form.transportadora }}</div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-6 mb-3"><label>{{ form.tara.label }}</label>{{ form.tara }}</div>
-                        {% if object %} <!-- Only show peso_carregado if editing a completed record -->
-                            <div class="col-md-6 mb-3"><label>{{ form.peso_carregado.label }}</label>{{ form.peso_carregado }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3"><label>{{ form.tipo_grao.label }}</label>{{ form.tipo_grao }}</div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.valor_custo_por_saco.id_for_label }}" class="form-label">{{ form.valor_custo_por_saco.label }} (Opcional)</label>
-                        {{ form.valor_custo_por_saco }}
-                        {% if form.valor_custo_por_saco.errors %}<div class="invalid-feedback d-block">{{ form.valor_custo_por_saco.errors|join:", " }}</div>{% endif %}
-                    </div>
-                {% endif %}
-
-                <hr class="my-4">
-                <div class="d-flex justify-content-end">
-                    <a href="{% url 'prograos:pesagem_list' %}" class="btn btn-secondary me-2">Cancelar</a>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save me-1"></i> 
-                        {% if is_finalizing %}Finalizar Pesagem{% elif object %}Salvar Alterações{% else %}Salvar e Ir para Pesagem Final{% endif %}
-                    </button>
-                </div>
-            </form>
+        <div class="row g-3 mt-2">
+          <div class="col-md-3"><strong>Tipo de Grão:</strong> {{ object.get_tipo_grao_display }}</div>
+          <div class="col-md-3"><strong>Custo por Saco:</strong> {{ object.valor_custo_por_saco|default_if_none:"—" }}</div>
+          <div class="col-md-3"><strong>Frete (R$/Ton):</strong> {{ object.valor_frete_por_tonelada|default_if_none:"—" }}</div>
+          <div class="col-md-3"><strong>Peso Carregado:</strong> {{ object.peso_carregado|default_if_none:"—" }}</div>
         </div>
+      </div>
+      {% endif %}
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+
+        {# ========== PARTE 1 (PesagemTaraForm) ========== #}
+        {% if tara_form %}
+          <h5 class="mb-3">Parte 1: Dados Iniciais</h5>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="{{ tara_form.placa.id_for_label }}">{{ tara_form.placa.label }}</label>
+              {{ tara_form.placa }}
+              {% if tara_form.placa.errors %}<div class="invalid-feedback d-block">{{ tara_form.placa.errors|join:", " }}</div>{% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="{{ tara_form.placa_cavalo.id_for_label }}">{{ tara_form.placa_cavalo.label }}</label>
+              {{ tara_form.placa_cavalo }}
+              {% if tara_form.placa_cavalo.errors %}<div class="invalid-feedback d-block">{{ tara_form.placa_cavalo.errors|join:", " }}</div>{% endif %}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="{{ tara_form.motorista.id_for_label }}">{{ tara_form.motorista.label }}</label>
+              {{ tara_form.motorista }}
+              {% if tara_form.motorista.errors %}<div class="invalid-feedback d-block">{{ tara_form.motorista.errors|join:", " }}</div>{% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="{{ tara_form.operador.id_for_label }}">{{ tara_form.operador.label }}</label>
+              {{ tara_form.operador }}
+              {% if tara_form.operador.errors %}<div class="invalid-feedback d-block">{{ tara_form.operador.errors|join:", " }}</div>{% endif %}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 mb-3">
+              <label class="form-label" for="{{ tara_form.transportadora.id_for_label }}">{{ tara_form.transportadora.label }}</label>
+              {{ tara_form.transportadora }}
+              {% if tara_form.transportadora.errors %}<div class="invalid-feedback d-block">{{ tara_form.transportadora.errors|join:", " }}</div>{% endif %}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="{{ tara_form.tara.id_for_label }}">{{ tara_form.tara.label }}</label>
+              {{ tara_form.tara }}
+              {% if tara_form.tara.errors %}<div class="invalid-feedback d-block">{{ tara_form.tara.errors|join:", " }}</div>{% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="{{ tara_form.tipo_grao.id_for_label }}">{{ tara_form.tipo_grao.label }}</label>
+              {{ tara_form.tipo_grao }}
+              {% if tara_form.tipo_grao.errors %}<div class="invalid-feedback d-block">{{ tara_form.tipo_grao.errors|join:", " }}</div>{% endif %}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="{{ tara_form.valor_custo_por_saco.id_for_label }}">{{ tara_form.valor_custo_por_saco.label }} (Opcional)</label>
+              {{ tara_form.valor_custo_por_saco }}
+              {% if tara_form.valor_custo_por_saco.errors %}<div class="invalid-feedback d-block">{{ tara_form.valor_custo_por_saco.errors|join:", " }}</div>{% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="{{ tara_form.valor_frete_por_tonelada.id_for_label }}">{{ tara_form.valor_frete_por_tonelada.label }} (Opcional)</label>
+              {{ tara_form.valor_frete_por_tonelada }}
+              {% if tara_form.valor_frete_por_tonelada.errors %}<div class="invalid-feedback d-block">{{ tara_form.valor_frete_por_tonelada.errors|join:", " }}</div>{% endif %}
+            </div>
+          </div>
+
+          <hr class="my-4">
+        {% endif %}
+
+        {# ========== PARTE 2 (PesagemFinalForm) ========== #}
+        {% if final_form %}
+          <h5 class="mb-3">Parte 2: Dados Finais</h5>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="{{ final_form.peso_carregado.id_for_label }}">{{ final_form.peso_carregado.label }}</label>
+              {{ final_form.peso_carregado }}
+              {% if final_form.peso_carregado.errors %}<div class="invalid-feedback d-block">{{ final_form.peso_carregado.errors|join:", " }}</div>{% endif %}
+              <div class="form-text">Informe o peso carregado (kg) para fechar a pesagem.</div>
+            </div>
+          </div>
+        {% endif %}
+
+        <hr class="my-4">
+        <div class="d-flex justify-content-end">
+          <a href="{% url 'prograos:pesagem_list' %}" class="btn btn-secondary me-2">Cancelar</a>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save me-1"></i>
+            {% if tara_form and final_form %}Salvar Alterações{% elif tara_form %}Salvar e Ir para Pesagem Final{% elif final_form %}Finalizar Pesagem{% else %}Salvar{% endif %}
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
 </div>
 {% endblock %}

@@ -34,32 +34,39 @@
                             <td>R$ {{ nota.valor_total|floatformat:2 }}</td>
 
                             {% if nota.financeiro %}
-                                <td>R$ {{ nota.financeiro.valor_pago|floatformat:2 }}</td>
-                                <td>
-                                    {% if nota.financeiro.status_pagamento == 'PAGO' %}
-                                        <span class="badge bg-success">{{ nota.financeiro.get_status_pagamento_display }}</span>
-                                    {% elif nota.financeiro.status_pagamento == 'PARCIAL' %}
-                                        <span class="badge bg-warning text-dark">{{ nota.financeiro.get_status_pagamento_display }}</span>
-                                    {% else %}
-                                        <span class="badge bg-danger">{{ nota.financeiro.get_status_pagamento_display }}</span>
-                                    {% endif %}
-                                </td>
+                            <td>R$ {{ nota.financeiro.valor_pago|floatformat:2 }}</td>
+                            <td>
+                                {% if nota.financeiro.status_pagamento == 'PAGO' %}
+                                <span class="badge bg-success">{{ nota.financeiro.get_status_pagamento_display }}</span>
+                                {% elif nota.financeiro.status_pagamento == 'PARCIAL' %}
+                                <span class="badge bg-warning text-dark">{{ nota.financeiro.get_status_pagamento_display
+                                    }}</span>
+                                {% else %}
+                                <span class="badge bg-danger">{{ nota.financeiro.get_status_pagamento_display }}</span>
+                                {% endif %}
+                            </td>
                             {% else %}
-                                <td>R$ 0.00</td>
-                                <td>
-                                    <span class="badge bg-secondary">Não Iniciado</span>
-                                </td>
+                            <td>R$ 0.00</td>
+                            <td>
+                                <span class="badge bg-secondary">Não Iniciado</span>
+                            </td>
                             {% endif %}
-                            
+
                             <td class="text-center">
-                                <a href="{% url 'prograos:financeiro_detail' nota_pk=nota.pk %}" class="btn btn-sm btn-info" title="Ver Detalhes Financeiros">
+                                <a href="{% url 'prograos:financeiro_detail' nota_pk=nota.pk %}"
+                                    class="btn btn-sm btn-info" title="Ver Detalhes Financeiros">
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 {% if nota.financeiro %}
-                                <a href="{% url 'prograos:pagamento_create' nota_pk=nota.pk %}" class="btn btn-sm btn-success" title="Adicionar Pagamento">
-                                        <i class="fas fa-plus"></i> <i class="fas fa-dollar-sign"></i>
+                                <a href="{% url 'prograos:pagamento_create' nota_pk=nota.pk %}"
+                                    class="btn btn-sm btn-success" title="Adicionar Pagamento">
+                                    <i class="fas fa-plus"></i> <i class="fas fa-dollar-sign"></i>
                                 </a>
                                 {% endif %}
+                                <a href="{% url 'prograos:export_recibo_pdf' pk=nota.pk %}"
+                                    class="btn btn-sm btn-secondary" title="Imprimir Recibo">
+                                    <i class="fas fa-file-pdf"></i>
+                                </a>
                             </td>
                         </tr>
                         {% empty %}
@@ -76,23 +83,26 @@
             </div>
             {% endif %}
         </div>
-        
+
         {% if is_paginated %}
         <div class="card-footer">
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center mb-0">
                     {% if page_obj.has_previous %}
-                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
                     {% else %}
-                        <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
                     {% endif %}
 
-                    <li class="page-item disabled"><span class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span></li>
+                    <li class="page-item disabled"><span class="page-link">Página {{ page_obj.number }} de {{
+                            page_obj.paginator.num_pages }}</span></li>
 
                     {% if page_obj.has_next %}
-                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                    </li>
                     {% else %}
-                        <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
                     {% endif %}
                 </ul>
             </nav>

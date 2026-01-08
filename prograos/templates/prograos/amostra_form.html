@@ -15,25 +15,25 @@
     <div class="card-body">
         <form method="post" class="needs-validation" novalidate>
             {% csrf_token %}
-
+            
             {% if form.errors %}
-            <div class="alert alert-danger" role="alert">
-                Por favor, corrija os erros abaixo:
-                <ul>
-                    {% for field in form %}
-                    {% if field.errors %}
-                    {% for error in field.errors %}
-                    <li>{{ field.label }}: {{ error }}</li>
-                    {% endfor %}
-                    {% endif %}
-                    {% endfor %}
-                    {% if form.non_field_errors %}
-                    {% for error in form.non_field_errors %}
-                    <li>{{ error }}</li>
-                    {% endfor %}
-                    {% endif %}
-                </ul>
-            </div>
+                <div class="alert alert-danger" role="alert">
+                    Por favor, corrija os erros abaixo:
+                    <ul>
+                        {% for field in form %}
+                            {% if field.errors %}
+                                {% for error in field.errors %}
+                                    <li>{{ field.label }}: {{ error }}</li>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if form.non_field_errors %}
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
             {% endif %}
 
             <div class="mb-3">
@@ -48,8 +48,7 @@
                 <label for="id_peso_bruto" class="form-label">Peso Bruto (kg)</label>
                 <div class="input-group">
                     {{ form.peso_bruto }}
-                    <button type="button" class="btn btn-outline-primary" id="btn-ler-balanca"
-                        onclick="lerPesoBalanca()">
+                    <button type="button" class="btn btn-outline-primary" id="btn-ler-balanca" onclick="lerPesoBalanca()">
                         <i class="fas fa-scale-balanced"></i>
                         <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                     </button>
@@ -86,6 +85,8 @@
 
 {% block extra_js %}
 <script>
-    // function to read weight from scale (implemented in main.js)
+    // Função para ler peso da balança (implementada em main.js)
 </script>
 {% endblock %}
+
+

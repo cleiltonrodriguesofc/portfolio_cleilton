@@ -1,6 +1,6 @@
-// Main JavaScript for Grain Classification System
+// JavaScript principal para Sistema de Classificação de Grãos
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     // Inicializar tooltips do Bootstrap
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -8,15 +8,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Auto-hide alerts após 5 segundos
-    setTimeout(function () {
+    setTimeout(function() {
         var alerts = document.querySelectorAll('.alert:not(.alert-permanent)');
-        alerts.forEach(function (alert) {
+        alerts.forEach(function(alert) {
             var bsAlert = new bootstrap.Alert(alert);
             bsAlert.close();
         });
     }, 5000);
 
-    // Confirmation for deletions
+    // Confirmação para exclusões
     // var deleteButtons = document.querySelectorAll('.btn-delete');
     // deleteButtons.forEach(function(button) {
     //     button.addEventListener('click', function(e) {
@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Formatação de números nos campos de entrada
     var numberInputs = document.querySelectorAll('input[type="number"]');
-    numberInputs.forEach(function (input) {
-        input.addEventListener('blur', function () {
+    numberInputs.forEach(function(input) {
+        input.addEventListener('blur', function() {
             if (this.value && !isNaN(this.value)) {
                 this.value = parseFloat(this.value).toFixed(2);
             }
@@ -38,8 +38,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Validação de formulários
     var forms = document.querySelectorAll('.needs-validation');
-    forms.forEach(function (form) {
-        form.addEventListener('submit', function (event) {
+    forms.forEach(function(form) {
+        form.addEventListener('submit', function(event) {
             if (!form.checkValidity()) {
                 event.preventDefault();
                 event.stopPropagation();
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Function to update real-time statistics
+    // Função para atualizar estatísticas em tempo real
     function updateStats() {
         fetch('/api/stats/')
             .then(response => response.json())
@@ -75,18 +75,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// Function to read weight from scale
+// Função para ler peso da balança
 function lerPesoBalanca() {
     var button = document.getElementById('btn-ler-balanca');
     var pesoInput = document.getElementById('id_peso_bruto');
     var spinner = button.querySelector('.spinner-border');
     var icon = button.querySelector('.fa-scale-balanced');
-
+    
     // Mostrar loading
     button.disabled = true;
     spinner.classList.remove('d-none');
     icon.classList.add('d-none');
-
+    
     fetch('/scale/read/', {
         method: 'POST',
         headers: {
@@ -98,27 +98,27 @@ function lerPesoBalanca() {
             baudrate: 9600
         })
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.weight) {
-                pesoInput.value = data.weight;
-                showAlert('Peso lido da balança: ' + data.weight + ' kg', 'success');
-            } else {
-                showAlert(data.error || 'Erro ao ler peso da balança', 'danger');
-            }
-        })
-        .catch(error => {
-            showAlert('Erro de conexão com a balança', 'danger');
-        })
-        .finally(() => {
-            // Esconder loading
-            button.disabled = false;
-            spinner.classList.add('d-none');
-            icon.classList.remove('d-none');
-        });
+    .then(response => response.json())
+    .then(data => {
+        if (data.weight) {
+            pesoInput.value = data.weight;
+            showAlert('Peso lido da balança: ' + data.weight + ' kg', 'success');
+        } else {
+            showAlert(data.error || 'Erro ao ler peso da balança', 'danger');
+        }
+    })
+    .catch(error => {
+        showAlert('Erro de conexão com a balança', 'danger');
+    })
+    .finally(() => {
+        // Esconder loading
+        button.disabled = false;
+        spinner.classList.add('d-none');
+        icon.classList.remove('d-none');
+    });
 }
 
-// Function to show alerts
+// Função para mostrar alertas
 function showAlert(message, type) {
     var alertContainer = document.getElementById('alert-container');
     if (!alertContainer) {
@@ -128,16 +128,16 @@ function showAlert(message, type) {
         alertContainer.style.zIndex = '1050';
         document.body.appendChild(alertContainer);
     }
-
+    
     var alert = document.createElement('div');
     alert.className = `alert alert-${type} alert-dismissible fade show`;
     alert.innerHTML = `
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     `;
-
+    
     alertContainer.appendChild(alert);
-
+    
     // Auto-remove após 5 segundos
     setTimeout(() => {
         if (alert.parentNode) {
@@ -147,23 +147,23 @@ function showAlert(message, type) {
     }, 5000);
 }
 
-// Function to filter table
+// Função para filtrar tabela
 function filterTable() {
     var searchInput = document.getElementById('search-input');
     var statusFilter = document.getElementById('status-filter');
     var grainFilter = document.getElementById('grain-filter');
     var table = document.getElementById('amostras-table');
     var rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-
+    
     var searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
     var statusValue = statusFilter ? statusFilter.value : '';
     var grainValue = grainFilter ? grainFilter.value : '';
-
+    
     for (var i = 0; i < rows.length; i++) {
         var row = rows[i];
         var cells = row.getElementsByTagName('td');
         var showRow = true;
-
+        
         // Filtro de busca
         if (searchTerm) {
             var found = false;
@@ -175,7 +175,7 @@ function filterTable() {
             }
             if (!found) showRow = false;
         }
-
+        
         // Filtro de status
         if (statusValue && showRow) {
             var statusCell = cells[4]; // Assumindo que status está na 5ª coluna
@@ -183,7 +183,7 @@ function filterTable() {
                 showRow = false;
             }
         }
-
+        
         // Filtro de grão
         if (grainValue && showRow) {
             var grainCell = cells[1]; // Assumindo que tipo de grão está na 2ª coluna
@@ -191,8 +191,36 @@ function filterTable() {
                 showRow = false;
             }
         }
-
+        
         row.style.display = showRow ? '' : 'none';
     }
 }
 
+// --- LÓGICA DO TOGGLE DA SIDEBAR ---
+
+    // Pega o botão de toggle único
+    const sidebarToggleButton = document.getElementById('sidebarToggle');
+    
+    // Função para aplicar o toggle
+    function toggleSidebar() {
+        // Adiciona/Remove a classe do <body>
+        document.body.classList.toggle('sidebar-collapsed');
+
+        // Salva o estado no localStorage para persistir
+        if (document.body.classList.contains('sidebar-collapsed')) {
+            localStorage.setItem('sidebarCollapsed', 'true');
+        } else {
+            localStorage.removeItem('sidebarCollapsed');
+        }
+    }
+
+    // Adiciona o evento de clique
+    if (sidebarToggleButton) {
+        sidebarToggleButton.addEventListener('click', toggleSidebar);
+    }
+
+    // Verifica se o estado "recolhido" estava salvo ao carregar a página
+    if (localStorage.getItem('sidebarCollapsed') === 'true') {
+        document.body.classList.add('sidebar-collapsed');
+    }
+    // --- FIM DA LÓGICA DO TOGGLE ---

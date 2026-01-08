@@ -1,0 +1,71 @@
+{% extends 'prograos/base.html' %}
+{% load static %}
+
+{% block title %}
+{% if form.instance.id %}Editar Invoice #{{ form.instance.number }}{% else %}Nova Invoice{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">
+        {% if form.instance.id %}Editar Invoice #{{ form.instance.number }}{% else %}Nova Invoice{% endif %}
+    </h1>
+    <div class="card">
+        <div class="card-header">
+            {% if form.instance.id %}Editar Invoice{% else %}Emitir Invoice{% endif %}
+        </div>
+        <div class="card-body">
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.customer_name.id_for_label }}" class="form-label">{{
+                            form.customer_name.label }}</label>
+                        {{ form.customer_name }}
+                        {% if form.customer_name.errors %}<div class="invalid-feedback d-block">{{
+                            form.customer_name.errors|join:", " }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.customer_document.id_for_label }}" class="form-label">{{
+                            form.customer_document.label }}</label>
+                        {{ form.customer_document }}
+                        {% if form.customer_document.errors %}<div class="invalid-feedback d-block">{{
+                            form.customer_document.errors|join:", " }}</div>{% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.weighing_record.id_for_label }}" class="form-label">{{
+                            form.weighing_record.label }}</label>
+                        {{ form.weighing_record }}
+                        {% if form.weighing_record.errors %}<div class="invalid-feedback d-block">{{
+                            form.weighing_record.errors|join:", " }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.total_amount.id_for_label }}" class="form-label">{{ form.total_amount.label
+                            }}</label>
+                        {{ form.total_amount }}
+                        {% if form.total_amount.errors %}<div class="invalid-feedback d-block">{{
+                            form.total_amount.errors|join:", " }}</div>{% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.issue_date.id_for_label }}" class="form-label">{{ form.issue_date.label
+                            }}</label>
+                        {{ form.issue_date }}
+                        {% if form.issue_date.errors %}<div class="invalid-feedback d-block">{{
+                            form.issue_date.errors|join:", " }}</div>{% endif %}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Salvar Invoice</button>
+                <a href="{% url 'invoice_list' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

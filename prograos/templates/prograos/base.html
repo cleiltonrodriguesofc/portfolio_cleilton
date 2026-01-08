@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Sistema de Classificação de Grãos{% endblock %}</title>
     {% load static %}
-    <link href="{% static 'prograos/css/style.css' %}" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'prograos/img/favicon.png' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'prograos/css/style.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
 
@@ -16,77 +17,183 @@
     {# Header do portfólio (casca neutra) #}
     {% include '_header_shell.html' %}
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
+    {% if user.is_authenticated %}
+
+    <aside class="sidebar bg-primary text-white d-none d-lg-flex">
+        <div class="sidebar-header">
+            <a class="navbar-brand" href="{% url 'prograos:dashboard' %}">
+                <i class="fas fa-seedling me-2"></i>
+                <span>ProGrãos</span>
+            </a>
+        </div>
+        <ul class="nav flex-column sidebar-nav flex-grow-1">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'prograos:dashboard' %}">
+                    <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'prograos:pesagem_list' %}">
+                    <i class="fas fa-truck"></i><span>Pesagem de Caminhões</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'prograos:nota_list' %}">
+                    <i class="fas fa-file"></i><span>Notas de Carregamento</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'prograos:financeiro_list' %}">
+                    <i class="fas fa-dollar-sign"></i><span>Financeiro</span>
+                </a>
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-file-invoice"></i><span>Nota Fiscal</span>
+                </a>
+            </li> -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'prograos:calculadora_frete' %}">
+                    <i class="fas fa-calculator"></i><span>Calculadora</span>
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-user-menu">
+            <div class="dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fas fa-user me-2"></i><span>{{ user.username }}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    <li>
+                        <form method="post" action="{% url 'logout' %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt me-1"></i>Sair
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary d-lg-none fixed-top shadow-sm">
+        <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'prograos:dashboard' %}">
                 <i class="fas fa-seedling me-2"></i>
                 ProGrãos
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#mobileNavbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
+            <div class="collapse navbar-collapse" id="mobileNavbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'prograos:dashboard' %}">
                             <i class="fas fa-tachometer-alt me-1"></i>Dashboard
                         </a>
                     </li>
-
-
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'prograos:pesagem_list' %}">
                             <i class="fas fa-truck me-1"></i>Pesagem de Caminhões
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'prograos:nota_list' %}">
                             <i class="fas fa-file me-1"></i>Notas de Carregamento
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'prograos:financeiro_list' %}">
                             <i class="fas fa-dollar-sign me-1"></i>Financeiro
                         </a>
                     </li>
-
-
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-file-invoice me-1"></i>Nota Fiscal
+                        </a>
+                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'prograos:calculadora_frete' %}">
+                            <i class="fas fa-calculator me-1"></i>Calculadora
+                        </a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="fas fa-user me-1"></i>{{ user.username }}
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'admin:logout' %}">
-                                    <i class="fas fa-sign-out-alt me-1"></i>Sair
-                                </a></li>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <form method="post" action="{% url 'logout' %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="fas fa-sign-out-alt me-1"></i>Sair
+                                    </button>
+                                </form>
+                            </li>
                         </ul>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+    {% endif %}
 
+    <div class="{% if user.is_authenticated %}main-content{% endif %}">
+        <main class="container-fluid py-4">
 
-    <main class="container mt-4">
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        {% endfor %}
-        {% endif %}
+            {% if messages and user.is_authenticated %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
 
-        {% block content %}{% endblock %}
-    </main>
+            {% block content %}{% endblock %}
 
+        </main>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{% static 'prograos/js/main.js' %}"></script>
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script>
+        $(document).ready(function () {
+            // Money mask: 1.234,56
+            $('.money-mask').mask('000.000.000,00', { reverse: true });
+
+            // Weight mask: 1.234,567 (3 decimals)
+            // Note: jquery-mask-plugin might need custom handling for 3 decimals if not standard.
+            // Let's use a standard format query.
+            $('.weight-mask').mask('000.000.000,000', { reverse: true });
+
+            // Weight mask 2 decimals (New standard)
+            $('.weight-2-mask').mask('000.000.000,00', { reverse: true });
+
+            // Integer mask: 1.234
+            $('.integer-mask').mask('000.000.000', { reverse: true });
+
+            // Re-apply on HTMX load
+            document.body.addEventListener('htmx:afterSwap', function (evt) {
+                $('.money-mask').mask('000.000.000,00', { reverse: true });
+                $('.weight-mask').mask('000.000.000,000', { reverse: true });
+                $('.weight-2-mask').mask('000.000.000,00', { reverse: true });
+                $('.integer-mask').mask('000.000.000', { reverse: true });
+            });
+
+            // Clean mask on form submit?
+            // Django with L10N=True EXPECTS "1.234,56" (comma decimal).
+            // So we DON'T clean the mask if localize=True.
+        });
+    </script>
     {% block extra_js %}{% endblock %}
 </body>
 

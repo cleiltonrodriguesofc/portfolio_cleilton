@@ -1,237 +1,202 @@
-/* Blue Theme for Grain Classification System */
+/* ======================================== */
+/* === LAYOUT DA SIDEBAR E CONTEÚDO === */
+/* ======================================== */
 
 :root {
-    --primary-blue: #0066cc;
-    --secondary-blue: #004499;
-    --light-blue: #e6f2ff;
-    --dark-blue: #003366;
-    --accent-blue: #3399ff;
-    --success-green: #28a745;
-    --warning-orange: #fd7e14;
-    --danger-red: #dc3545;
-    --info-cyan: #17a2b8;
+    --sidebar-width: 210px;
+
+    /* Theme Colors (Green Agro) */
+    --primary-color: #2E7D32;
+    --primary-hover: #1B5E20;
+    --secondary-blue: #388E3C;
+    /* Adjusted to match green theme palette */
+
+    /* Bootstrap 5 Variable Overrides */
+    --bs-primary: #2E7D32;
+    --bs-primary-rgb: 46, 125, 50;
 }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
-}
-
-/* Navbar customizations */
-.navbar-brand {
-    font-weight: bold;
-    font-size: 1.25rem;
-}
-
+/* Global Theme Overrides */
 .bg-primary {
-    background-color: var(--primary-blue) !important;
+    background-color: var(--primary-color) !important;
+}
+
+.text-primary {
+    color: var(--primary-color) !important;
 }
 
 .btn-primary {
-    background-color: var(--primary-blue);
-    border-color: var(--primary-blue);
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
+    background-color: var(--primary-hover) !important;
+    border-color: var(--primary-hover) !important;
+}
+
+.sidebar .nav-link:hover {
     background-color: var(--secondary-blue);
-    border-color: var(--secondary-blue);
-}
-
-.btn-outline-primary {
-    color: var(--primary-blue);
-    border-color: var(--primary-blue);
-}
-
-.btn-outline-primary:hover {
-    background-color: var(--primary-blue);
-    border-color: var(--primary-blue);
-}
-
-/* Cards and containers */
-.card {
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
-
-.card-header {
-    background-color: var(--light-blue);
-    border-bottom: 1px solid var(--primary-blue);
-    font-weight: 600;
-}
-
-/* Forms */
-.form-control:focus {
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 0 0.2rem rgba(51, 153, 255, 0.25);
-}
-
-.form-select:focus {
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 0 0.2rem rgba(51, 153, 255, 0.25);
-}
-
-/* Tables */
-.table-striped>tbody>tr:nth-of-type(odd)>td {
-    background-color: var(--light-blue);
-}
-
-.table th {
-    background-color: var(--primary-blue);
+    /* Use the green variant or primary-hover */
     color: white;
-    border: none;
 }
 
-/* Status badges */
-.badge.bg-success {
-    background-color: var(--success-green) !important;
+/* --- Estilos da Sidebar (Desktop) --- */
+
+/* A sidebar é um flex container vertical */
+.sidebar {
+    flex-direction: column;
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: fixed;
+    /* Fixa na tela */
+    top: 60px;
+    left: 0;
+    z-index: 1030;
+    /* Acima do conteúdo, mas abaixo de modais */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.badge.bg-warning {
-    background-color: var(--warning-orange) !important;
+.sidebar .sidebar-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1.25rem;
 }
 
-.badge.bg-danger {
-    background-color: var(--danger-red) !important;
-}
-
-.badge.bg-info {
-    background-color: var(--info-cyan) !important;
-}
-
-/* Statistics cards */
-.stat-card {
-    background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+.sidebar .sidebar-header .navbar-brand {
     color: white;
-    border-radius: 10px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.stat-card .stat-number {
-    font-size: 2.5rem;
     font-weight: bold;
-    margin-bottom: 0.5rem;
 }
 
-.stat-card .stat-label {
-    font-size: 1rem;
-    opacity: 0.9;
+.sidebar .sidebar-nav {
+    padding: 1rem 0;
+    overflow-y: auto;
+    /* Adiciona scroll se os links não couberem */
 }
 
-/* Specific styles for pesagem tables */
-.pesagem-table th {
-    background-color: var(--primary-blue);
-    color: white;
-}
-
-.pesagem-table .btn-sm {
-    padding: 0.25rem 0.5rem;
-}
-
-/* Form styling */
-.form-control.is-invalid,
-.form-select.is-invalid {
-    border-color: var(--danger-red);
-}
-
-.form-control.is-valid,
-.form-select.is-valid {
-    border-color: var(--success-green);
-}
-
-
-/* Login page */
-.login-container {
-    min-height: 100vh;
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0.85rem 1.5rem;
     display: flex;
     align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 
-.login-card {
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    padding: 2rem;
-    width: 100%;
-    max-width: 400px;
-}
-
-.login-header {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: var(--primary-blue);
-}
-
-.login-header i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .stat-card {
-        text-align: center;
-    }
-
-    .stat-card .stat-number {
-        font-size: 2rem;
-    }
-
-    .table-responsive {
-        font-size: 0.9rem;
-    }
-}
-
-/* Loading spinner */
-.spinner-border-primary {
-    color: var(--primary-blue);
-}
-
-/* Custom utilities */
-.text-primary {
-    color: var(--primary-blue) !important;
-}
-
-.bg-light-blue {
-    background-color: var(--light-blue) !important;
-}
-
-.border-primary {
-    border-color: var(--primary-blue) !important;
-}
-
-/* Alert customizations */
-.alert-primary {
-    background-color: var(--light-blue);
-    border-color: var(--primary-blue);
-    color: var(--dark-blue);
-}
-
-/* Modal customizations */
-.modal-header {
-    background-color: var(--primary-blue);
+.sidebar .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Subtle hover for sidebar */
     color: white;
 }
 
-.modal-header .btn-close {
-    filter: invert(1);
+/* Alinhamento dos ícones */
+.sidebar .nav-link i {
+    font-size: 1.1rem;
+    width: 30px;
+    /* Largura fixa para alinhar o texto */
+    text-align: center;
+    margin-right: 0.75rem;
 }
 
-/* Pagination */
-.page-link {
-    color: var(--primary-blue);
+.sidebar .sidebar-user-menu {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.page-link:hover {
-    color: var(--secondary-blue);
-    background-color: var(--light-blue);
-    border-color: var(--primary-blue);
+.sidebar .sidebar-user-menu .nav-link {
+    padding: 0;
+    color: white;
 }
 
-.page-item.active .page-link {
-    background-color: var(--primary-blue);
-    border-color: var(--primary-blue);
+.sidebar .sidebar-user-menu .nav-link:hover {
+    background-color: transparent;
+    /* Não precisa de hover no wrapper do dropdown */
+}
+
+
+/* --- Wrapper do Conteúdo Principal --- */
+
+/* Mobile (Default): O conteúdo começa abaixo da navbar-mobile fixa */
+.main-content {
+    padding-top: 56px;
+    /* Altura da navbar mobile (.navbar) */
+    width: 100%;
+}
+
+/* Desktop (lg e acima): O conteúdo se alinha ao lado da sidebar */
+@media (min-width: 992px) {
+    .main-content {
+        padding-top: 0;
+        /* Remove o padding do topo */
+        margin-left: var(--sidebar-width);
+        /* Empurra o conteúdo para a direita */
+        width: calc(100% - var(--sidebar-width));
+        /* Largura total menos a sidebar */
+    }
+
+    /* Ajusta o container do conteúdo no desktop */
+    .main-content .container-fluid {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+/* ======================================== */
+/* === PRINT MODE (Export / Print PDF) === */
+/* ======================================== */
+
+@media print {
+
+    /* Hide sidebar and mobile navbar */
+    .sidebar,
+    .navbar,
+    .no-print {
+        display: none !important;
+    }
+
+    /* Expand main content to full width */
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding-top: 0 !important;
+    }
+
+    /* Make container use full page width */
+    .container,
+    .container-fluid {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    /* Improve background for printing */
+    body {
+        background-color: #ffffff !important;
+        color: #000 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* Clean card appearance */
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #999 !important;
+    }
+
+    /* Force colors to render in PDF */
+    .badge,
+    .bg-success,
+    .bg-danger,
+    .bg-primary,
+    .bg-warning {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* Optional: avoid page breaks inside cards */
+    .card {
+        page-break-inside: avoid;
+    }
 }

@@ -8,7 +8,7 @@ from rest_framework import status
 
 class ScaleIntegration:
     """
-    Class for digital scale integration via USB/Serial.
+    Classe para integração com balança digital via USB/Serial.
     """
 
     def __init__(self, port='/dev/ttyUSB0', baudrate=9600, timeout=5):
@@ -19,10 +19,10 @@ class ScaleIntegration:
 
     def connect(self):
         """
-        Establishes connection with the scale.
+        Estabelece conexão com a balança.
 
         Returns:
-            bool: True if connected successfully, False otherwise
+            bool: True se conectado com sucesso, False caso contrário
         """
         try:
             self.connection = serial.Serial(
@@ -30,41 +30,41 @@ class ScaleIntegration:
                 baudrate=self.baudrate,
                 timeout=self.timeout
             )
-            time.sleep(2)  # Wait for connection stability
+            time.sleep(2)  # Aguarda estabilização da conexão
             return True
         except Exception as e:
-            print(f"Error connecting to scale: {e}")
+            print(f"Erro ao conectar com a balança: {e}")
             return False
 
     def disconnect(self):
         """
-        Closes connection with the scale.
+        Fecha a conexão com a balança.
         """
         if self.connection and self.connection.is_open:
             self.connection.close()
 
     def read_weight(self):
         """
-        Reads weight from the scale.
+        Lê o peso da balança.
 
         Returns:
-            float: Weight read from scale or None in case of error
+            float: Peso lido da balança ou None em caso de erro
         """
         if not self.connection or not self.connection.is_open:
             return None
 
         try:
-            # Send command to request weight (may vary by scale model)
+            # Envia comando para solicitar peso (pode variar conforme o modelo da balança)
             self.connection.write(b'W\\r\\n')
             time.sleep(1)
 
-            # Read response
+            # Lê a resposta
             response = self.connection.readline().decode('utf-8').strip()
 
-            # Process response (format may vary by model)
-            # Example: "W 1.234 kg" -> extract 1.234
+            # Processa a resposta (formato pode variar conforme o modelo)
+            # Exemplo: "W 1.234 kg" -> extrair 1.234
             if response:
-                # Remove non-numeric characters except dot and comma
+                # Remove caracteres não numéricos exceto ponto e vírgula
                 weight_str = ''.join(c for c in response if c.isdigit() or c in '.,')
                 weight_str = weight_str.replace(',', '.')
 
@@ -74,30 +74,26 @@ class ScaleIntegration:
             return None
 
         except Exception as e:
-            print(f"Error reading weight from scale: {e}")
+            print(f"Erro ao ler peso da balança: {e}")
             return None
 
     def get_available_ports(self):
         """
-        Lists available serial ports.
+        Lista as portas seriais disponíveis.
 
         Returns:
-            list: List of available ports
+            list: Lista de portas disponíveis
         """
-        try:
-            import serial.tools.list_ports
-            ports = serial.tools.list_ports.comports()
-            return [port.device for port in ports]
-        except Exception:
-            # if pyserial is not installed, return common ports
-            return ['/dev/ttyUSB0', '/dev/ttyUSB1', '/dev/ttyACM0', 'COM1', 'COM2', 'COM3']
+        import serial.tools.list_ports
+        ports = serial.tools.list_ports.comports()
+        return [port.device for port in ports]
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def list_scale_ports(request):
     """
-    Lists available serial ports for scale connection.
+    Lista as portas seriais disponíveis para conexão com balança.
     """
     scale = ScaleIntegration()
     ports = scale.get_available_ports()
@@ -108,12 +104,12 @@ def list_scale_ports(request):
 @permission_classes([IsAuthenticated])
 def read_scale_weight(request):
     """
-    Reads weight from connected scale.
+    Lê o peso da balança conectada.
 
     Body:
     {
-        "port": "/dev/ttyUSB0",  # optional, uses default if not provided
-        "baudrate": 9600         # optional, uses default if not provided
+        "port": "/dev/ttyUSB0",  # opcional, usa padrão se não informado
+        "baudrate": 9600         # opcional, usa padrão se não informado
     }
     """
     port = request.data.get('port', '/dev/ttyUSB0')
@@ -123,7 +119,7 @@ def read_scale_weight(request):
 
     if not scale.connect():
         return Response(
-            {'error': f'Could not connect using port {port}'},
+            {'error': f'Não foi possível conectar com a balança na porta {port}'},
             status=status.HTTP_400_BAD_REQUEST
         )
 
@@ -139,7 +135,7 @@ def read_scale_weight(request):
             })
         else:
             return Response(
-                {'error': 'Could not read weight from scale'},
+                {'error': 'Não foi possível ler o peso da balança'},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -151,12 +147,12 @@ def read_scale_weight(request):
 @permission_classes([IsAuthenticated])
 def test_scale_connection(request):
     """
-    Tests connection with the scale.
+    Testa a conexão com a balança.
 
     Body:
     {
-        "port": "/dev/ttyUSB0",  # optional
-        "baudrate": 9600         # optional
+        "port": "/dev/ttyUSB0",  # opcional
+        "baudrate": 9600         # opcional
     }
     """
     port = request.data.get('port', '/dev/ttyUSB0')
@@ -168,10 +164,10 @@ def test_scale_connection(request):
         scale.disconnect()
         return Response({
             'success': True,
-            'message': f'Connection established successfully on port {port}'
+            'message': f'Conexão com a balança estabelecida com sucesso na porta {port}'
         })
     else:
         return Response({
             'success': False,
-            'message': f'Failed to connect on port {port}'
+            'message': f'Falha ao conectar com a balança na porta {port}'
         }, status=status.HTTP_400_BAD_REQUEST)

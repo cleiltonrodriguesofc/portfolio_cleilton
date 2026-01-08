@@ -332,7 +332,7 @@ class APITest(TestCase):
             created_by=self.user
         )
 
-        response = self.client.get(reverse('prograos:api:export_amostras_pdf'))
+        response = self.client.get(reverse('prograos:export_amostras_pdf'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'application/pdf')
 
@@ -347,7 +347,7 @@ class APITest(TestCase):
             created_by=self.user
         )
 
-        response = self.client.get(reverse('prograos:api:export_amostras_excel'))
+        response = self.client.get(reverse('prograos:export_amostras_excel'))
         self.assertEqual(response.status_code, 200)
         self.assertIn('application/vnd.openxmlformats', response['Content-Type'])
 
@@ -383,7 +383,7 @@ class IntegrationTest(TestCase):
         self.assertEqual(amostra.impurezas, Decimal('2.0'))
 
         # 3. export report
-        response = self.client.get(reverse('prograos:api:export_amostras_pdf'))
+        response = self.client.get(reverse('prograos:export_amostras_pdf'))
         self.assertEqual(response.status_code, 200)
 
         # 4. edit sample
