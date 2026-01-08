@@ -27,8 +27,14 @@ class Amostra(models.Model):
     last_updated_by = models.ForeignKey(User, on_delete=models.SET_NULL,
                                         related_name='amostras_atualizadas', null=True, blank=True)
 
+    def save(self, *args, **kwargs):
+        if not self.id_amostra:
+            import uuid
+            self.id_amostra = str(uuid.uuid4())[:8].upper()
+        super().save(*args, **kwargs)
+
     def __str__(self):
-        return f'{self.id_amostra} - {self.tipo_grao}'
+        return f'Amostra {self.id_amostra} - {self.tipo_grao}'
 
 
 class ActivityLog(models.Model):

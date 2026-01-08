@@ -24,14 +24,14 @@ class AmostraModelTest(TestCase):
         """tests soybean sample creation"""
         amostra = Amostra.objects.create(
             tipo_grao='SOJA',
-            peso_bruto=1000.500,
+            peso_bruto=1000.50,
             umidade=14.5,
             impurezas=2.0,
             created_by=self.user
         )
 
         self.assertEqual(amostra.tipo_grao, 'SOJA')
-        self.assertEqual(amostra.peso_bruto, Decimal('1000.500'))
+        self.assertEqual(amostra.peso_bruto, Decimal('1000.50'))
         self.assertEqual(amostra.umidade, Decimal('14.5'))
         self.assertEqual(amostra.impurezas, Decimal('2.0'))
         self.assertEqual(amostra.created_by, self.user)
@@ -40,14 +40,14 @@ class AmostraModelTest(TestCase):
         """tests corn sample creation"""
         amostra = Amostra.objects.create(
             tipo_grao='MILHO',
-            peso_bruto=2000.750,
+            peso_bruto=2000.75,
             umidade=16.0,
             impurezas=1.5,
             created_by=self.user
         )
 
         self.assertEqual(amostra.tipo_grao, 'MILHO')
-        self.assertEqual(amostra.peso_bruto, Decimal('2000.750'))
+        self.assertEqual(amostra.peso_bruto, Decimal('2000.75'))
 
     def test_str_representation(self):
         """tests string representation of the model"""
@@ -153,7 +153,7 @@ class ViewsTest(TestCase):
         """Testa view de criação de amostra (POST)"""
         data = {
             'tipo_grao': 'SOJA',
-            'peso_bruto': '1000.500',
+            'peso_bruto': '1000.50',
             'umidade': '14.5',
             'impurezas': '2.0'
         }
@@ -162,7 +162,7 @@ class ViewsTest(TestCase):
 
         # verify sample was created
         amostra = Amostra.objects.get(tipo_grao='SOJA')
-        self.assertEqual(amostra.peso_bruto, Decimal('1000.500'))
+        self.assertEqual(amostra.peso_bruto, Decimal('1000.50'))
 
 
 class IntegrationTest(TestCase):
@@ -181,7 +181,7 @@ class IntegrationTest(TestCase):
         # 1. create sample
         data_amostra = {
             'tipo_grao': 'SOJA',
-            'peso_bruto': '1000.500',
+            'peso_bruto': '1000.50',
             'umidade': '14.5',
             'impurezas': '2.0'
         }
@@ -191,7 +191,7 @@ class IntegrationTest(TestCase):
         amostra = Amostra.objects.get(tipo_grao='SOJA')
 
         # 2. verify sample was created
-        self.assertEqual(amostra.peso_bruto, Decimal('1000.500'))
+        self.assertEqual(amostra.peso_bruto, Decimal('1000.50'))
         self.assertEqual(amostra.umidade, Decimal('14.5'))
         self.assertEqual(amostra.impurezas, Decimal('2.0'))
 
@@ -204,7 +204,7 @@ class IntegrationTest(TestCase):
         # Criar amostra
         data_amostra = {
             'tipo_grao': 'SOJA',
-            'peso_bruto': '1000.500',
+            'peso_bruto': '1000.50',
             'umidade': '14.5',
             'impurezas': '2.0'
         }
