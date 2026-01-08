@@ -13,3 +13,10 @@ This project was developed as part of **CS50’s Web Programming with Python and
 - **CSS Flexbox & Grid:** Used to align elements precisely to match Google's layout.
 - **Responsive Design:** Ensuring input fields and buttons stack or align correctly based on viewport size.
 - **URL Parameters:** Configuring GET requests to send the correct query parameters (e.g., `q`, `tbm=isch`, `as_q`) to Google's servers.
+
+## 📋 How to Access
+1.  Navigate to `/projects/search` (or select "Search" from the project dropdown).
+2.  **Google Search:** Type a query and hit Enter/Google Search.
+3.  **Image Search:** Click "Images" in the top right.
+4.  **Advanced Search:** Click "Advanced Search" in the top right.
+

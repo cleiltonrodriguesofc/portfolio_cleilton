@@ -17,3 +17,10 @@ This project was developed as part of **CS50’s Web Programming with Python and
 - **Forms:** implementation of model-based forms for data validation.
 - **Authentication:** standard Django auth system for user management.
 
+## 📋 How to Access
+1.  Navigate to `/projects/commerce` (or select "Auctions" from the project dropdown).
+2.  **Register/Login:** Create an account to place bids and comments.
+3.  **Active Listings:** Browse items currently up for auction.
+4.  **Create Listing:** Post your own item for others to bid on.
+
+

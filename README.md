@@ -15,20 +15,38 @@ This repository contains the personal portfolio and projects developed by Cleilt
 
 ## 📂 Project Showcase & Business Value
 
-### 📊 Brokerage Analyzer (Investment Tool)
+### 🏢 Professional Projects
+Real-world solutions solving actual business problems.
+
+#### 📊 Brokerage Analyzer (Investment Tool)
 **Business Problem:** Manually calculating taxes for Brazilian investments (Stocks, FIIs, Futures) from PDF notes is error-prone and takes hours per month.
 **Solution:** Automated the extraction of financial data from C6 Bank PDF notes using `pdfminer` and `correpy`, generating compliance-ready Excel reports. Reduced tax preparation time by 90%.
 
-### 🌾 ProGrãos (Agro-Industry)
+#### 🌾 ProGrãos (Agro-Industry)
 **Business Problem:** Grain weighting and sampling in warehouses requires manual logging, leading to data inconsistency and fraud risks.
 **Solution:** Integrated directly with weighing scales via serial port (`pyserial`) to capture real-time weight data, ensuring 100% data integrity for grain reception.
 
-### 📚 Reforço Escolar (SaaS)
+#### 📚 Reforço Escolar (SaaS)
 **Business Problem:** Private teachers struggle to track student payments and attendance using spreadsheets.
 **Solution:** Built a multi-tenant management system with automated WhatsApp billing messages and attendance tracking.
 
-### 🎓 Academic Projects
-- **Encyclopedia:** A CS50W implementation of a Wikipedia-like clone to demonstrate mastery of Django basics and Markdown parsing.
+### 🎓 Academic Projects (CS50W)
+Projects developed for Harvard's CS50 Web Programming certification.
+
+#### 🛍️ Commerce (Auctions)
+An eBay-like auction site where users can post listings, place bids, comment on auctions, and manage a watchlist. Features active listing filtering and category organization.
+
+#### 🌐 Network (Social Media)
+A Twitter-like social network featuring asynchronous posts, likes, and a following system. Demonstrates single-page-like interactions using Vanilla JS and Django.
+
+#### 🔍 Search (Google Clone)
+A faithful recreation of Google's Search, Image Search, and Advanced Search front-end logic, including "I'm Feeling Lucky" redirect functionality.
+
+#### 📧 Mail (SPA)
+A single-page email client where users can send, reply, and archive emails without page reloads, using a JSON API backend and extensive JavaScript DOM manipulation.
+
+#### 📖 Encyclopedia (Wiki)
+A Wikipedia clone that allows users to create and edit encyclopedia entries using Markdown, featuring search functionality and random page discovery.
 
 ## 🧪 Quality Assurance
 - **CI/CD:** GitHub Actions pipeline runs tests and linting on every commit.
@@ -39,209 +57,20 @@ This repository contains the personal portfolio and projects developed by Cleilt
 
 ```
 portfolio_cleilton/                         # Main project folder
-├── core/                                   # Portfolio core (home, about, projects)
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── models.py
-│   ├── tests.py
-│   ├── urls.py                             # Homepage, project list, about
-│   ├── views.py
-│   ├── migrations/
-│   │   └── __init__.py
-│   ├── static/core/                        # Core static files
-│   │   ├── css/
-│   │   │   └── style.css
-│   │   ├── img/
-│   │   │   ├── PERFIL.png
-│   │   │   ├── profile-placeholder.jpg
-│   │   │   ├── profile-placeholder1.jpg
-│   │   │   ├── project-cs50w.jpg
-│   │   │   ├── project-encyclopedia.png
-│   │   │   ├── project-prograos.png
-│   │   │   ├── project-reforco.png
-│   │   │   ├── project-sindseb.jpg
-│   │   │   └── project-taquanto.jpg
-│   │   └── js/
-│   │       └── main.js
-│   └── templates/
-│       ├── _header_shell.html
-│       ├── base.html
-│       └── core/
-│           ├── about.html
-│           ├── home.html
-│           └── project_list.html
-│
-├── brokerage_analyzer/                     # Brokerage Note Analyzer (PDF/Excel)
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── forms.py
-│   ├── models.py
-│   ├── tests.py
-│   ├── urls.py
-│   ├── views.py
-│   ├── migrations/
-│   │   └── __init__.py
-│   ├── src/                                # Core Business Logic
-│   │   ├── use_cases/
-│   │   │   └── data_aggregator.py
-│   │   └── infrastructure/
-│   │       ├── pdf_parser.py
-│   │       └── excel_exporter.py
-│   └── templates/brokerage_analyzer/
-│       ├── dashboard.html
-│       └── upload.html
-│
-├── encyclopedia/                           # CS50Wiki (Markdown-based Encyclopedia)
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── entries/                            # Markdown entries stored locally
-│   │   ├── Css.md
-│   │   ├── Django.md
-│   │   ├── Git.md
-│   │   ├── HTML.md
-│   │   ├── Python.md
-│   │   ├── Tcp.md
-│   │   └── Wiki.md
-│   ├── migrations/
-│   │   └── __init__.py
-│   ├── models.py
-│   ├── storage.py                          # Custom FileSystemStorage
-│   ├── tests.py
-│   ├── urls.py                             # /projects/encyclopedia/
-│   ├── util.py                             # Entry helpers (list, get, save)
-│   ├── views.py
-│   ├── static/
-│   │   ├── encyclopedia/
-│   │   │   └── styles.css
-│   │   └── images/
-│   │       ├── favicon.ico
-│   │       └── wikipedia-logo.png
-│   └── templates/encyclopedia/
-│       ├── edit.html
-│       ├── entry.html
-│       ├── error.html
-│       ├── index.html
-│       ├── layout.html
-│       ├── newpage.html
-│       └── search.html
-│
-├── reforco/                                # Student Academic Management System
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── forms.py
-│   ├── models.py
-│   ├── tests.py
-│   ├── urls.py
-│   ├── views.py
-│   ├── migrations/
-│   │   ├── __init__.py
-│   │   └── 0001_initial.py
-│   ├── static/reforco/
-│   │   ├── css/
-│   │   │   └── style.css
-│   │   ├── img/
-│   │   │   └── logo-reforco.png
-│   │   └── js/
-│   │       └── script.js
-│   └── templates/reforco/
-│       ├── aluno_detail.html
-│       ├── aluno_form.html
-│       ├── aluno_list.html
-│       ├── base.html
-│       ├── dashboard.html
-│       ├── mensagens.html
-│       ├── pagamento_form.html
-│       ├── pagamento_list.html
-│       ├── presenca_form.html
-│       ├── presenca_list.html
-│       ├── relatorio_pagamentos.html
-│       └── relatorio_presenca.html
-│
-├── prograos/                               # ProGrãos (Grain Management System)
-│   ├── __pycache__/
-│   ├── apps.py
-│   ├── forms.py
-│   ├── migrations/
-│   │   ├── __init__.py
-│   │   └── 0001_initial.py
-│   ├── models.py
-│   ├── reports.py
-│   ├── scale_integration.py
-│   ├── scale_views.py
-│   ├── serializers.py
-│   ├── signals.py
-│   ├── static/prograos/
-│   │   ├── css/
-│   │   │   └── style.css
-│   │   ├── img/
-│   │   └── js/
-│   │       └── main.js
-│   ├── templates/prograos/
-│   │   ├── base.html
-│   │   ├── dashboard.html
-│   │   ├── amostra_*                      # (list, detail, form, delete)
-│   │   ├── nota_*                         # (list, detail, form, delete)
-│   │   ├── pagamento_*                    # (list, form, delete)
-│   │   ├── pesagem_*                      # (list, form, update, delete)
-│   │   └── financeiro_*                   # (list, detail, form)
-│   ├── test_views.py
-│   ├── tests.py
-│   ├── tests_simple.py
-│   ├── urls.py
-│   ├── utils.py
-│   ├── utils_demo.py
-│   └── views.py
-│
-├── contact/                                # Contact system
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── forms.py
-│   ├── models.py
-│   ├── tests.py
-│   ├── urls.py
-│   ├── views.py
-│   ├── migrations/
-│   │   ├── __init__.py
-│   │   └── 0001_initial.py
-│   └── templates/contact/
-│       └── contact.html
-│
-├── mail/                                   # CS50W Mail (Single Page App)
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── models.py
-│   ├── tests.py
-│   ├── urls.py
-│   ├── views.py
-│   └── static/mail/
-│       └── inbox.js
-│
-├── search/                                 # CS50W Search (Google Clone)
-│   ├── __init__.py
-│   ├── apps.py
-│   ├── urls.py
-│   ├── views.py
-│   └── templates/search/
-│       ├── index.html
-│       ├── image.html
-│       └── advanced.html
-│
-├── portfolio_cleilton/                     # Global settings module
-│   ├── __init__.py
-│   ├── asgi.py
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
-│
-├── manage.py                               # Django management script
-├── db.sqlite3                              # Local database
-└── README.md                                # Project documentation
+├── core/                                   # Portfolio Framework (Home, About, Layout)
+├── brokerage_analyzer/                     # Investment Tax Calculator
+├── commerce/                               # Auction Site (CS50W)
+├── contact/                                # Contact Form Handler
+├── encyclopedia/                           # Wiki System (CS50W)
+├── mail/                                   # Single Page Email Client (CS50W)
+├── network/                                # Social Media Platform (CS50W)
+├── prograos/                               # Grain Management System
+├── reforco/                                # Student Management SaaS
+├── search/                                 # Google Search Clone (CS50W)
+├── portfolio_cleilton/                     # Project Settings
+├── manage.py
+├── db.sqlite3
+└── README.md
 ```
 
 ## 🛠️ Technologies Used
@@ -368,10 +197,15 @@ python manage.py startapp new_project
 
 ## 📱 Project URLs
 - `/` → Homepage
-- `/projects/` → Project list
-- `/projetos/reforco/` → Reforço Escolar (Academic Management System)
-- `/projetos/prograos/` → ProgGrãos (Grain Management System)
-- `/projetos/brokerage_analyzer/` → Brokerage Analyzer (Investment Reports)
+- `/projects/` → Project list (All Projects)
+- `/projetos/reforco/` → Reforço Escolar
+- `/projetos/prograos/` → ProGrãos
+- `/projetos/brokerage_analyzer/` → Brokerage Analyzer
+- `/projetos/commerce/` → Commerce (Auctions)
+- `/projetos/network/` → Network
+- `/projetos/search/` → Search
+- `/projetos/mail/` → Mail
+- `/projetos/encyclopedia/` → Encyclopedia
 - `/contact/` → Contact page
 
 

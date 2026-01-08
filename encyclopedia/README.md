@@ -17,3 +17,10 @@ This project was developed as part of **CS50’s Web Programming with Python and
 - **File I/O:** Entries are stored as flat Markdown files (`.md`) on the disk, not a database, demonstrating file manipulation fundamentals.
 - **Django Forms:** Handling user input for search and content creation.
 
+## 📋 How to Access
+1.  Navigate to `/projects/encyclopedia` (or click "Wiki" in navbar).
+2.  **Search:** Use the sidebar to find entries.
+3.  **Create New Page:** Add your own markdown entry.
+4.  **Random Page:** Explore content serendipitously.
+
+

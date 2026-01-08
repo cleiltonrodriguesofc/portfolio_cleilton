@@ -15,3 +15,10 @@ This project was developed as part of **CS50’s Web Programming with Python and
 - **History API:** Updates the URL programmatically to allow browser back/forward navigation within the SPA.
 - **Django Rest Framework (Concept):** While not using DRF, the backend serves JSON data, mimicking a RESTful API structure.
 
+## 📋 How to Access
+1.  Navigate to `/projects/mail` (or select "Mail" from the project dropdown).
+2.  **Register/Login:** Dedicated login for the mail app (separate from main portfolio auth).
+3.  **Inbox:** View received messages.
+4.  **Compose:** Send email to other registered users.
+
+
