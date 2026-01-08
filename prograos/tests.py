@@ -26,14 +26,14 @@ class AmostraModelTest(TestCase):
         """tests soybean sample creation"""
         amostra = Amostra.objects.create(
             tipo_grao='SOJA',
-            peso_bruto=1000.500,
+            peso_bruto=1000.50,
             umidade=14.5,
             impurezas=2.0,
             created_by=self.user
         )
 
         self.assertEqual(amostra.tipo_grao, 'SOJA')
-        self.assertEqual(amostra.peso_bruto, Decimal('1000.500'))
+        self.assertEqual(amostra.peso_bruto, Decimal('1000.50'))
         self.assertEqual(amostra.umidade, Decimal('14.5'))
         self.assertEqual(amostra.impurezas, Decimal('2.0'))
         self.assertEqual(amostra.created_by, self.user)
@@ -43,14 +43,14 @@ class AmostraModelTest(TestCase):
         """tests corn sample creation"""
         amostra = Amostra.objects.create(
             tipo_grao='MILHO',
-            peso_bruto=2000.750,
+            peso_bruto=2000.75,
             umidade=16.0,
             impurezas=1.5,
             created_by=self.user
         )
 
         self.assertEqual(amostra.tipo_grao, 'MILHO')
-        self.assertEqual(amostra.peso_bruto, Decimal('2000.750'))
+        self.assertEqual(amostra.peso_bruto, Decimal('2000.75'))
 
     def test_calcular_peso_util(self):
         """tests net weight calculation"""
@@ -245,7 +245,7 @@ class ViewsTest(TestCase):
         """tests sample creation view (post)"""
         data = {
             'tipo_grao': 'SOJA',
-            'peso_bruto': '1000.500',
+            'peso_bruto': '1000.50',
             'umidade': '14.5',
             'impurezas': '2.0'
         }
@@ -254,7 +254,7 @@ class ViewsTest(TestCase):
 
         # verify sample was created
         amostra = Amostra.objects.get(tipo_grao='SOJA')
-        self.assertEqual(amostra.peso_bruto, Decimal('1000.500'))
+        self.assertEqual(amostra.peso_bruto, Decimal('1000.50'))
 
 
 class ReportsTest(TestCase):
@@ -296,11 +296,11 @@ class APITest(TestCase):
         )
         self.client.login(username='testuser', password='testpass123')
 
-    @patch('prograos.scale_views.ScaleIntegration.connect')
+    @patch('prograos.views.scale.ScaleIntegration.connect')
     def test_scale_read_endpoint(self, mock_connect):
         """tests scale reading endpoint"""
         mock_connect.return_value = True
-        with patch('prograos.scale_views.ScaleIntegration.read_weight') as mock_read:
+        with patch('prograos.views.scale.ScaleIntegration.read_weight') as mock_read:
             mock_read.return_value = 1234.567
 
             response = self.client.post(
@@ -332,7 +332,7 @@ class APITest(TestCase):
             created_by=self.user
         )
 
-        response = self.client.get(reverse('prograos:api:export_amostras_pdf'))
+        response = self.client.get(reverse('prograos:export_amostras_pdf'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'application/pdf')
 
@@ -347,7 +347,7 @@ class APITest(TestCase):
             created_by=self.user
         )
 
-        response = self.client.get(reverse('prograos:api:export_amostras_excel'))
+        response = self.client.get(reverse('prograos:export_amostras_excel'))
         self.assertEqual(response.status_code, 200)
         self.assertIn('application/vnd.openxmlformats', response['Content-Type'])
 
@@ -368,7 +368,7 @@ class IntegrationTest(TestCase):
         # 1. create sample
         data_amostra = {
             'tipo_grao': 'SOJA',
-            'peso_bruto': '1000.500',
+            'peso_bruto': '1000.50',
             'umidade': '14.5',
             'impurezas': '2.0'
         }
@@ -378,18 +378,18 @@ class IntegrationTest(TestCase):
         amostra = Amostra.objects.get(tipo_grao='SOJA')
 
         # 2. verify sample was created
-        self.assertEqual(amostra.peso_bruto, Decimal('1000.500'))
+        self.assertEqual(amostra.peso_bruto, Decimal('1000.50'))
         self.assertEqual(amostra.umidade, Decimal('14.5'))
         self.assertEqual(amostra.impurezas, Decimal('2.0'))
 
         # 3. export report
-        response = self.client.get(reverse('prograos:api:export_amostras_pdf'))
+        response = self.client.get(reverse('prograos:export_amostras_pdf'))
         self.assertEqual(response.status_code, 200)
 
         # 4. edit sample
         data_edit = {
             'tipo_grao': 'SOJA',
-            'peso_bruto': '1000.500',
+            'peso_bruto': '1000.50',
             'umidade': '16.0',  # Acima do limite
             'impurezas': '2.0'
         }
@@ -404,7 +404,7 @@ class IntegrationTest(TestCase):
         # Criar amostra
         data_amostra = {
             'tipo_grao': 'SOJA',
-            'peso_bruto': '1000.500',
+            'peso_bruto': '1000.50',
             'umidade': '14.5',
             'impurezas': '2.0'
         }

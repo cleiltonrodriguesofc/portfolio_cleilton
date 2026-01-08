@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | ProGrãos</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'prograos/css/auth.css' %}">
+</head>
+
+<body>
+    {# Header do portfólio (casca neutra) #}
+    {% include '_header_shell.html' %}
+
+    <div class="auth-container">
+        <!-- Brand Side (Left) -->
+        <div class="auth-brand">
+            <div class="brand-content">
+                <div class="brand-logo">Pro<span>Grãos</span></div>
+                <div class="brand-text">
+                    <h1>Bem-vindo de volta.</h1>
+                    <p>Acesse seu painel e continue gerenciando sua operação com eficiência.</p>
+                </div>
+            </div>
+            <div class="brand-content quote">
+                <p>"Tecnologia que transforma a rotina do campo."</p>
+            </div>
+        </div>
+
+        <!-- Form Side (Right) -->
+        <div class="auth-form-container">
+            <div class="auth-form-box">
+                <div class="form-header">
+                    <h2>Entrar</h2>
+                    <p>Insira suas credenciais para acessar.</p>
+                </div>
+
+                <!-- Django Messages (Success/Warning) -->
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <!-- Form Errors (Non-field) -->
+                {% if form.errors %}
+                {% for error in form.non_field_errors %}
+                <div class="alert alert-error">
+                    {{ error }}
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <!-- Form -->
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="id_username" class="form-label">Usuário</label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                        <div style="color: #DC2626; font-size: 0.875rem; margin-top: 0.25rem;">
+                            {{ form.username.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_password" class="form-label">Senha</label>
+                        {{ form.password }}
+                        {% if form.password.errors %}
+                        <div style="color: #DC2626; font-size: 0.875rem; margin-top: 0.25rem;">
+                            {{ form.password.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="btn-primary">Entrar</button>
+
+                    <div class="form-footer">
+                        Não tem uma conta? <a href="{% url 'prograos:register' %}">Criar Conta</a>
+                    </div>
+                    <div class="form-footer" style="margin-top: 0.5rem;">
+                        <a href="{% url 'prograos:home' %}">Voltar para Início</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script to add class to inputs if Django doesn't -->
+    <script>
+        document.querySelectorAll('input').forEach(input => {
+            input.classList.add('form-control');
+        });
+
+        // Pre-fill for testing/demo manually
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const usernameInput = document.getElementById('id_username');
+            const passwordInput = document.getElementById('id_password');
+            if (usernameInput && passwordInput) {
+                usernameInput.value = 'tester';
+                passwordInput.value = '123';
+            }
+        });
+    </script>
+
+</body>
+
+</html>

@@ -9,7 +9,94 @@
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             Resumo da Operação
+            <div>
+                <!-- Correction: URL updated to 'export_recibo_pdf' which is the registered name -->
+                <a href="{% url 'prograos:export_recibo_pdf' pk=registro.nota.id %}"
+                    class="btn btn-sm btn-outline-primary me-2" target="_blank">
+                    <i class="fas fa-file-invoice-dollar me-1"></i> Recibo (PDF)
+                </a>
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.print()">
+                    <i class="fas fa-print me-1"></i> Imprimir
+                    <style>
+                        @media print {
+
+                            /* Hide navbar and buttons */
+                            .navbar,
+                            .btn,
+                            .no-print {
+                                display: none !important;
+                            }
+
+                            body {
+                                background: #ffffff;
+                                font-size: 14pt;
+                                /* Base font size for print */
+                            }
+
+                            .container {
+                                max-width: 100% !important;
+                            }
+
+                            /* Remove shadows */
+                            .card {
+                                box-shadow: none !important;
+                                border-color: #999 !important;
+                            }
+
+                            /* Bigger titles */
+                            h1 {
+                                font-size: 22pt !important;
+                            }
+
+                            h2,
+                            h3 {
+                                font-size: 18pt !important;
+                            }
+
+                            /* Increase labels (dt) */
+                            dt {
+                                font-size: 14pt !important;
+                            }
+
+                            /* Increase values (dd) */
+                            dd {
+                                font-size: 14pt !important;
+                            }
+
+                            /* Table fonts bigger */
+                            table {
+                                font-size: 13pt !important;
+                            }
+
+                            th {
+                                font-size: 14pt !important;
+                            }
+
+                            td {
+                                font-size: 13pt !important;
+                            }
+
+                            /* Keep Bootstrap colors when printing */
+                            .text-success {
+                                color: #198754 !important;
+                                -webkit-print-color-adjust: exact;
+                                print-color-adjust: exact;
+                            }
+
+                            .text-danger {
+                                color: #dc3545 !important;
+                                -webkit-print-color-adjust: exact;
+                                print-color-adjust: exact;
+                            }
+
+                            .badge {
+                                font-size: 12pt !important;
+                            }
+                        }
+                    </style>
+                </button>
             </div>
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
@@ -19,6 +106,15 @@
 
                         <dt class="col-sm-5">Valor Total da Venda:</dt>
                         <dd class="col-sm-7"><strong>R$ {{ registro.nota.valor_total|floatformat:2 }}</strong></dd>
+
+                        <dt class="col-sm-5 text-muted ps-4" style="font-size: 0.9em;">&llarr; Preço Venda:</dt>
+                        <dd class="col-sm-7 text-muted" style="font-size: 0.9em;">
+                            (R$ {{ registro.nota.preco_por_saco|default:"0.00"|floatformat:2 }} / saco)
+                        </dd>
+                        <dt class="col-sm-5 text-muted ps-4" style="font-size: 0.9em;">&llarr; Venda (sem frete):</dt>
+                        <dd class="col-sm-7 text-muted" style="font-size: 0.9em;">
+                            (R$ {{ venda_liquida_por_saco|default:"0.00"|floatformat:2 }} / saco)
+                        </dd>
                     </dl>
                 </div>
                 <div class="col-md-6">
@@ -26,11 +122,13 @@
                         <dt class="col-sm-5">Status do Pagamento:</dt>
                         <dd class="col-sm-7">
                             {% if registro.status_pagamento == 'PAGO' %}
-                                <span class="badge bg-success fs-6">{{ registro.get_status_pagamento_display }}</span>
+                            <span class="badge bg-success fs-6">{{ registro.get_status_pagamento_display }}</span>
                             {% elif registro.status_pagamento == 'PARCIAL' %}
-                                <span class="badge bg-warning text-dark fs-6">{{ registro.get_status_pagamento_display }}</span>
+                            <span class="badge bg-warning text-dark fs-6">
+                                {{ registro.get_status_pagamento_display }}
+                            </span>
                             {% else %}
-                                <span class="badge bg-danger fs-6">{{ registro.get_status_pagamento_display }}</span>
+                            <span class="badge bg-danger fs-6">{{ registro.get_status_pagamento_display }}</span>
                             {% endif %}
                         </dd>
 
@@ -38,13 +136,44 @@
                         <dd class="col-sm-7">R$ {{ registro.valor_pago|floatformat:2 }}</dd>
 
                         <dt class="col-sm-5">Valor Restante:</dt>
-                        <dd class="col-sm-7"><strong class="text-danger">R$ {{ registro.calcular_valor_restante|floatformat:2 }}</strong></dd>
+                        <dd class="col-sm-7"><strong class="text-danger">
+                                R$ {{ registro.calcular_valor_restante|floatformat:2 }}</strong></dd>
+
+                        <dt class="col-12">
+                            <hr class="my-2">
+                        </dt>
+
                         <dt class="col-sm-5">Custo Total da Operação:</dt>
-                        <dd class="col-sm-7">R$ {{ registro.valor_custo_total|default:"0.00"|floatformat:2 }}</dd>
+                        <dd class="col-sm-7"><strong>
+                                R$ {{ registro.valor_custo_total|default:"0.00"|floatformat:2 }}
+                            </strong></dd>
+
+                        {% if registro.nota.pesagem %}
+                        <dt class="col-sm-5 text-muted ps-4" style="font-size: 0.9em;">&llarr; Custo do Grão:</dt>
+                        <dd class="col-sm-7 text-muted" style="font-size: 0.9em;">
+                            (R$ {{ registro.nota.pesagem.valor_custo_por_saco|default:"0.00"|floatformat:2 }} / saco)
+                        </dd>
+
+                        <dt class="col-sm-5 text-muted ps-4" style="font-size: 0.9em;">&llarr; Custo do Frete:</dt>
+                        <dd class="col-sm-7 text-muted" style="font-size: 0.9em;">
+                            R$ {{ registro.nota.pesagem.frete_total_calculado|default:"0.00"|floatformat:2 }} (Total)
+                        </dd>
+
+                        <dt class="col-sm-5 text-muted ps-4" style="font-size: 0.9em;"></dt>
+                        <dd class="col-sm-7 text-muted" style="font-size: 0.9em;">
+                            (R$ {{ registro.nota.pesagem.frete_por_saco_calculado|default:"0.00"|floatformat:2 }} /
+                            saco)
+                        </dd>
+                        {% endif %}
+
+                        <dt class="col-12">
+                            <hr class="my-2">
+                        </dt>
 
                         <dt class="col-sm-5">Lucro da Operação:</dt>
                         <dd class="col-sm-7">
-                            <strong class="{% if registro.lucro > 0 %}text-success{% elif registro.lucro < 0 %}text-danger{% endif %} fs-5">
+                            <strong
+                                class="{% if registro.lucro > 0 %}text-success{% elif registro.lucro < 0 %}text-danger{% endif %} fs-5">
                                 R$ {{ registro.lucro|default:"0.00"|floatformat:2 }}
                             </strong>
                         </dd>
@@ -53,7 +182,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -83,14 +212,16 @@
                         <td>{{ pagamento.get_metodo_pagamento_display }}</td>
                         <td>
                             {% if pagamento.comprovante %}
-                                <a href="{{ pagamento.comprovante.url }}" target="_blank">Ver</a>
+                            <a href="{{ pagamento.comprovante.url }}" target="_blank">Ver</a>
                             {% else %}
-                                -
+                            -
                             {% endif %}
                         </td>
                         <td>
-                            <a href="{% url 'prograos:pagamento_update' pagamento.pk %}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                            <a href="{% url 'prograos:pagamento_delete' pagamento.pk %}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                            <a href="{% url 'prograos:pagamento_update' pagamento.pk %}"
+                                class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                            <a href="{% url 'prograos:pagamento_delete' pagamento.pk %}"
+                                class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                     {% endfor %}

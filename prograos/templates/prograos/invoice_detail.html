@@ -1,0 +1,81 @@
+{% extends 'prograos/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Invoice #{{ invoice.number|default:"N/A" }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h3>Invoice #{{ invoice.number|default:"(Não gerado)" }}</h3>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Cliente:</strong> {{ invoice.customer_name }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Documento:</strong> {{ invoice.customer_document }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Valor Total:</strong> R$ {{ invoice.total_amount|floatformat:2 }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Data de Emissão:</strong> {{ invoice.issue_date|date:"d/m/Y H:i" }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Status:</strong> {{ invoice.get_status_display }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Pesagem Vinculada:</strong>
+                    {% if invoice.weighing_record %}
+                    <a href="{% url 'prograos:pesagem_detail' invoice.weighing_record.pk %}">
+                        {{ invoice.weighing_record.placa }}
+                    </a>
+                    {% else %}
+                    Nenhuma
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if invoice.nfe %}
+            <hr>
+            <h4>Dados da NF-e</h4>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Chave de Acesso:</strong> {{ invoice.nfe.access_key }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Protocolo:</strong> {{ invoice.nfe.protocol }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Status SEFAZ:</strong> {{ invoice.nfe.get_status_display }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Ambiente:</strong> {{ invoice.nfe.get_environment_display }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="card-footer text-center">
+            <a href="{% url 'invoice_list' %}" class="btn btn-secondary">Voltar</a>
+
+            {% if not invoice.nfe or invoice.nfe.status != 'AUTHORIZED' %}
+            <a href="{% url 'emit_nfe' invoice.pk %}" class="btn btn-success">Emitir NF-e (Simulação)</a>
+            {% endif %}
+
+            {% if invoice.nfe and invoice.nfe.status == 'AUTHORIZED' %}
+            <a href="{% url 'generate_danfe' invoice.pk %}" class="btn btn-primary" target="_blank">Gerar DANFE
+                (PDF)</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

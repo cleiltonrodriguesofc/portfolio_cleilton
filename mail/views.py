@@ -175,8 +175,9 @@ def register(request):
             user.first_name = first_name
             user.last_name = last_name
             user.save()
-        except IntegrityError as e:
-            print(e)
+        except IntegrityError:
+            # print(e)
+
             return render(request, "mail/register.html", {
                 "message": "Email address already taken."
             })

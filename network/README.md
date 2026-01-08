@@ -15,3 +15,10 @@ This project was developed as part of **CS50’s Web Programming with Python and
 - **Django Pagination:** Efficiently handling large datasets (posts) by retrieving them in chunks.
 - **Security:** CSRF protection integrated into AJAX requests.
 
+## 📋 How to Access
+1.  Navigate to `/projects/network` (or select "Network" from the project dropdown).
+2.  **Register/Login:** Required to post, like, and follow.
+3.  **All Posts:** View the global feed of all user posts.
+4.  **Profile:** Click on a username to view their profile and follow status.
+
+

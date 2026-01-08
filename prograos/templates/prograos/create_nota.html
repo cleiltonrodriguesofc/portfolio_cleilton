@@ -2,132 +2,189 @@
 {% load static %}
 
 {% block title %}
-{% if form.instance.id %}Editar Nota de Carregamento #{{ form.instance.id }}{% else %}Nova Nota de Carregamento{% endif %}
+{% if form.instance.id %}
+Editar Nota de Carregamento #{{ form.instance.id }}
+{% else %}
+Nova Nota de Carregamento
+{% endif %}
 {% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="mb-4">
-        {% if form.instance.id %}Editar Nota de Carregamento #{{ form.instance.id }}{% else %}Nova Nota de
-        Carregamento{% endif %}
-    </h1>
-    <div class="card">
-        <div class="card-header">
-            {% if form.instance.id %}Editar Nota{% else %}Cadastrar Nota{% endif %}
-        </div>
-        <div class="card-body">
-            <form method="post" class="needs-validation" novalidate>
-                {% csrf_token %}
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.nome_recebedor.id_for_label }}" class="form-label">{{                             form.nome_recebedor.label }}</label>
-                        {{ form.nome_recebedor }}
-                        {% if form.nome_recebedor.errors %}<div class="invalid-feedback d-block">{{                             form.nome_recebedor.errors|join:", " }}</div>{% endif %}
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.cpf_cnpj_recebedor.id_for_label }}" class="form-label">{{                             form.cpf_cnpj_recebedor.label }} (Opcional)</label>
-                        {{ form.cpf_cnpj_recebedor }}
-                        {% if form.cpf_cnpj_recebedor.errors %}<div class="invalid-feedback d-block">{{                             form.cpf_cnpj_recebedor.errors|join:", " }}</div>{% endif %}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.telefone_recebedor.id_for_label }}" class="form-label">{{                             form.telefone_recebedor.label }} (Opcional)</label>
-                        {{ form.telefone_recebedor }}
-                        {% if form.telefone_recebedor.errors %}<div class="invalid-feedback d-block">{{                             form.telefone_recebedor.errors|join:", " }}</div>{% endif %}
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.pesagem.id_for_label }}" class="form-label">{{ form.pesagem.label }}
-                            (Opcional)</label>
-                        {{ form.pesagem }}
-                        {% if form.pesagem.errors %}<div class="invalid-feedback d-block">{{ form.pesagem.errors|join:",                             " }}</div>{% endif %}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.tipo_grao.id_for_label }}" class="form-label">{{ form.tipo_grao.label                             }}</label>
-                        {{ form.tipo_grao }}
-                        {% if form.tipo_grao.errors %}<div class="invalid-feedback d-block">{{                             form.tipo_grao.errors|join:", " }}</div>{% endif %}
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.quantidade_sacos.id_for_label }}" class="form-label">{{                             form.quantidade_sacos.label }}</label>
-                        {{ form.quantidade_sacos }}
-                        {% if form.quantidade_sacos.errors %}<div class="invalid-feedback d-block">{{                             form.quantidade_sacos.errors|join:", " }}</div>{% endif %}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.preco_por_saco.id_for_label }}" class="form-label">{{                             form.preco_por_saco.label }} (R$)</label>
-                        {{ form.preco_por_saco }}
-                        {% if form.preco_por_saco.errors %}<div class="invalid-feedback d-block">{{                             form.preco_por_saco.errors|join:", " }}</div>{% endif %}
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.endereco_recebedor.id_for_label }}" class="form-label">{{                             form.endereco_recebedor.label }} (Opcional)</label>
-                        {{ form.endereco_recebedor }}
-                        {% if form.endereco_recebedor.errors %}<div class="invalid-feedback d-block">{{                             form.endereco_recebedor.errors|join:", " }}</div>{% endif %}
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Salvar Nota</button>
-                <a href="{% url 'prograos:nota_list' %}" class="btn btn-secondary">Cancelar</a>
-            </form>
-        </div>
+  <h1 class="mb-4">
+    {% if form.instance.id %}
+    Editar Nota de Carregamento #{{ form.instance.id }}
+    {% else %}
+    Nova Nota de Carregamento
+    {% endif %}
+  </h1>
+  <div class="card">
+    <div class="card-header">
+      {% if form.instance.id %}Editar Nota{% else %}Cadastrar Nota{% endif %}
     </div>
+    <div class="card-body">
+      <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="{{ form.nome_recebedor.id_for_label }}" class="form-label">Nome do Recebedor</label>
+            {{ form.nome_recebedor }}
+            {% if form.nome_recebedor.errors %}<div class="invalid-feedback d-block">{{
+              form.nome_recebedor.errors|join:", " }}</div>{% endif %}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="{{ form.cpf_cnpj_recebedor.id_for_label }}" class="form-label">CPF/CNPJ (Opcional)</label>
+            {{ form.cpf_cnpj_recebedor }}
+            {% if form.cpf_cnpj_recebedor.errors %}<div class="invalid-feedback d-block">{{
+              form.cpf_cnpj_recebedor.errors|join:", " }}</div>{% endif %}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="{{ form.telefone_recebedor.id_for_label }}" class="form-label">Telefone (Opcional)</label>
+            {{ form.telefone_recebedor }}
+            {% if form.telefone_recebedor.errors %}<div class="invalid-feedback d-block">{{
+              form.telefone_recebedor.errors|join:", " }}</div>{% endif %}
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="{{ form.pesagem.id_for_label }}" class="form-label">Pesagem do Caminhão (Placa)
+              (Opcional)</label>
+            {{ form.pesagem }}
+
+            <small class="form-text text-muted mt-1" id="pesagem-placa-display">
+              {% if form.instance.pesagem %}
+              Placa atual: <strong>{{ form.instance.pesagem.placa }}</strong>
+              {% endif %}
+            </small>
+
+            {% if form.pesagem.errors %}<div class="invalid-feedback d-block">{{ form.pesagem.errors|join:", " }}</div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="{{ form.tipo_grao.id_for_label }}" class="form-label">Tipo de Grão</label>
+            {{ form.tipo_grao }}
+            {% if form.tipo_grao.errors %}<div class="invalid-feedback d-block">{{ form.tipo_grao.errors|join:", " }}
+            </div>{% endif %}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="{{ form.quantidade_sacos.id_for_label }}" class="form-label">Quantidade de Sacos</label>
+            {{ form.quantidade_sacos }}
+            {% if form.quantidade_sacos.errors %}<div class="invalid-feedback d-block">{{
+              form.quantidade_sacos.errors|join:", " }}</div>{% endif %}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="{{ form.preco_por_saco.id_for_label }}" class="form-label">Preço por Saco (R$)</label>
+            {{ form.preco_por_saco }}
+            {% if form.preco_por_saco.errors %}<div class="invalid-feedback d-block">{{
+              form.preco_por_saco.errors|join:", " }}</div>{% endif %}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="{{ form.endereco_recebedor.id_for_label }}" class="form-label">Endereço (Opcional)</label>
+            {{ form.endereco_recebedor }}
+            {% if form.endereco_recebedor.errors %}<div class="invalid-feedback d-block">{{
+              form.endereco_recebedor.errors|join:", " }}</div>{% endif %}
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Salvar Nota</button>
+        <a href="{% url 'prograos:nota_list' %}" class="btn btn-secondary">Cancelar</a>
+      </form>
+    </div>
+  </div>
 </div>
 
 {% if pesagens_json %}
 <script>
-    // executes the script when the page content is fully loaded.
-    document.addEventListener('DOMContentLoaded', function () {
-        try {
-            const pesagensData = JSON.parse('{{ pesagens_json|escapejs }}');
-            const pesagemSelect = document.getElementById('id_pesagem');
-            const tipoGraoField = document.getElementById('id_tipo_grao');
-            const quantidadeSacosField = document.getElementById('id_quantidade_sacos');
+  document.addEventListener('DOMContentLoaded', function () {
+    try {
+      const pesagensData = JSON.parse('{{ pesagens_json|escapejs }}');
 
-            function atualizarCampos() {
-                const pesagemId = pesagemSelect.value;
+      const pesagemSelect = document.getElementById('id_pesagem');
+      const tipoGraoField = document.getElementById('id_tipo_grao');
+      const quantidadeSacosField = document.getElementById('id_quantidade_sacos');
+      const placaDisplay = document.getElementById('pesagem-placa-display');
 
-                if (pesagemId && pesagensData[pesagemId]) {
-                    const data = pesagensData[pesagemId];
+      // espelho hidden (para enviar quando o select estiver disabled)
+      let tipoGraoHidden = document.getElementById('id_tipo_grao_hidden');
+      if (!tipoGraoHidden) {
+        tipoGraoHidden = document.createElement('input');
+        tipoGraoHidden.type = 'hidden';
+        tipoGraoHidden.name = 'tipo_grao';
+        tipoGraoHidden.id = 'id_tipo_grao_hidden';
+        tipoGraoField.insertAdjacentElement('afterend', tipoGraoHidden);
+      }
 
-                    // fills field values
-                    tipoGraoField.value = data.tipo_grao || '';
-                    const netWeight = (data.peso_carregado - data.tara) || 0;
-                    quantidadeSacosField.value = netWeight.toFixed(3);
+      function travarCampos(travar) {
+        // Para <select>, use disabled
+        if (tipoGraoField) tipoGraoField.disabled = travar;
+        // Para input, readonly funciona bem
+        if (quantidadeSacosField) quantidadeSacosField.readOnly = travar;
+      }
 
-                    // *** main correction ***
-                    // locks fields using 'readOnly' so data is sent.
-                    tipoGraoField.readOnly = true;
-                    quantidadeSacosField.readOnly = true;
+      function atualizarCampos() {
+        const pesagemId = pesagemSelect ? pesagemSelect.value : null;
 
-                } else {
-                    // if no weighing is selected, clears values
-                    // and allows editing again.
-                    tipoGraoField.value = '';
-                    quantidadeSacosField.value = '';
+        if (pesagemId && pesagensData[pesagemId]) {
+          const data = pesagensData[pesagemId];
 
-                    // removes 'readOnly' lock
-                    tipoGraoField.readOnly = false;
-                    quantidadeSacosField.readOnly = false;
-                }
-            }
+          // Converte strings -> number
+          const tara = parseFloat(data.tara) || 0;
+          const carregado = parseFloat(data.peso_carregado) || 0;
 
-            // adds a "listener" that calls the function whenever the weighing dropdown changes.
-            pesagemSelect.addEventListener('change', atualizarCampos);
+          // peso líquido = carregado - tara
+          const pesoLiquido = Math.max(0, carregado - tara);
 
-            // calls the function once on page load.
-            // this is important to fill fields if you are editing a note that already has a weighing.
-            atualizarCampos();
+          // quantidade de sacos = peso_liquido / 60
+          const qtdSacos = pesoLiquido / 60;
 
-        } catch (e) {
-            console.error('error in weighing script:', e);
+          // Preenche os campos
+          if (tipoGraoField) {
+            tipoGraoField.value = data.tipo_grao || '';
+            // mantém hidden sincronizado (necessário se o select estiver disabled)
+            tipoGraoHidden.value = tipoGraoField.value;
+          }
+
+          if (quantidadeSacosField) {
+            quantidadeSacosField.value = isFinite(qtdSacos) ? qtdSacos.toFixed(0) : '';
+          }
+
+          // Placa
+          if (placaDisplay) {
+            placaDisplay.innerHTML = data.placa ? 'Placa: <strong>' + data.placa + '</strong>' : '';
+          }
+
+          // trava campos derivados
+          travarCampos(true);
+
+        } else {
+          // limpa quando não há pesagem
+          if (tipoGraoField) {
+            tipoGraoField.value = '';
+            tipoGraoHidden.value = '';
+          }
+          if (quantidadeSacosField) quantidadeSacosField.value = '';
+          if (placaDisplay) placaDisplay.innerHTML = '';
+
+          travarCampos(false);
         }
-    });
+      }
+
+      if (pesagemSelect) pesagemSelect.addEventListener('change', atualizarCampos);
+      atualizarCampos();
+    } catch (e) {
+      console.error('Erro no script de pesagem:', e);
+    }
+  });
 </script>
+
 {% endif %}
 {% endblock %}

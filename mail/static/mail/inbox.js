@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 
   // Use buttons to toggle between views
   document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
@@ -17,30 +17,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // toggle menu buttons to hide or unhide
   document.querySelector('#menu-button').addEventListener('click', () => {
-  const menu = document.querySelector('.button');
-  // console.log('Calling function');
-  if (menu.style.display === 'none') {
-    menu.style.display = 'block'
-  } else {
-    menu.style.display = 'none'
-    window.addEventListener('resize', () => {
-      // hide names
-      if (window.innerWidth < 650) {
-        document.querySelector('#inbox').innerHTML = '...';
-        document.querySelector('#compose').innerHTML = '...';
-        document.querySelector('#sent').innerHTML = '...';
-        document.querySelector('#archived').innerHTML = '...';
-        document.querySelector('#menu-button').innerHTML = '☰';
-      } else {
-        // show names
-        document.querySelector('#inbox').innerHTML = 'Inbox';
-        document.querySelector('#compose').innerHTML = 'Compose';
-        document.querySelector('#sent').innerHTML = 'Sent';
-        document.querySelector('#archived').innerHTML = 'Archived';
-        document.querySelector('#menu-button').innerHTML = '☰ Menu';
-      }
-    })
-  }
+    const menu = document.querySelector('.button');
+
+    if (menu.style.display === 'none') {
+      menu.style.display = 'block'
+    } else {
+      menu.style.display = 'none'
+      window.addEventListener('resize', () => {
+        // hide names
+        if (window.innerWidth < 650) {
+          document.querySelector('#inbox').innerHTML = '...';
+          document.querySelector('#compose').innerHTML = '...';
+          document.querySelector('#sent').innerHTML = '...';
+          document.querySelector('#archived').innerHTML = '...';
+          document.querySelector('#menu-button').innerHTML = '☰';
+        } else {
+          // show names
+          document.querySelector('#inbox').innerHTML = 'Inbox';
+          document.querySelector('#compose').innerHTML = 'Compose';
+          document.querySelector('#sent').innerHTML = 'Sent';
+          document.querySelector('#archived').innerHTML = 'Archived';
+          document.querySelector('#menu-button').innerHTML = '☰ Menu';
+        }
+      })
+    }
   })
 
 });
@@ -58,13 +58,13 @@ function compose_email() {
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
 
-  console.log(`Compose email.`)
+
 }
 
 
 // load mail box for required box
 function load_mailbox(mailbox) {
-  
+
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
@@ -74,65 +74,63 @@ function load_mailbox(mailbox) {
 
   // call fetch to get emails 
   fetch(`/projetos/mail/emails/${mailbox}`)
-  // convert response to json
-  .then(response => response.json())
-  .then(emails => {
-    // print emails
-    console.log(emails);
-    
+    // convert response to json
+    .then(response => response.json())
+    .then(emails => {
 
-    // loop through each email and display it
-    emails.forEach(email => {
 
-      // create div for each email
-      const emailDiv = document.createElement('div');
-      emailDiv.className = 'email-item'; 
 
-      
-      // render sent email on sent box
-      if (mailbox === 'sent') {
-        emailDiv.innerHTML = `
+      // loop through each email and display it
+      emails.forEach(email => {
+
+        // create div for each email
+        const emailDiv = document.createElement('div');
+        emailDiv.className = 'email-item';
+
+
+        // render sent email on sent box
+        if (mailbox === 'sent') {
+          emailDiv.innerHTML = `
         ${email.recipients} - ${email.subject}
         <span class"timestamp" style="float: right;">${email.timestamp}</span>
       `;
-      }
-      // render received emails on inbox
-      if (mailbox === 'inbox') {
-        emailDiv.innerHTML = `
+        }
+        // render received emails on inbox
+        if (mailbox === 'inbox') {
+          emailDiv.innerHTML = `
         ${email.sender} - ${email.subject}
         <span class"timestamp" style="float: right;">${email.timestamp}</span>
       `;
-      }
-      if (mailbox === 'archive') {
-        emailDiv.innerHTML = `
+        }
+        if (mailbox === 'archive') {
+          emailDiv.innerHTML = `
         ${email.sender} - ${email.subject}
         <span class"timestamp" style="float: right;">${email.timestamp}</span>
       `;
-      }
-      // check if email is read
-      // console.log(`Email is read? ${email.read}`)
-      // toggle color between read and unread email
-      if (email.read) {
-        emailDiv.style.backgroundColor = 'gray'; 
-        emailDiv.style.color = 'white';
-      } else {
-        emailDiv.style.fontWeight = 'bold'
-        emailDiv.style.backgroundColor = 'white';
-      }            
-     
-      // add event to open email 
-      emailDiv.addEventListener('click', () => {
-        view_email(email.id, mailbox);
-        // call read_email function too
-        read_email(email.id);
-      });
-    
+        }
 
-      // append email to emails view
-      document.querySelector('#emails-view').appendChild(emailDiv);
+        // toggle color between read and unread email
+        if (email.read) {
+          emailDiv.style.backgroundColor = 'gray';
+          emailDiv.style.color = 'white';
+        } else {
+          emailDiv.style.fontWeight = 'bold'
+          emailDiv.style.backgroundColor = 'white';
+        }
+
+        // add event to open email 
+        emailDiv.addEventListener('click', () => {
+          view_email(email.id, mailbox);
+          // call read_email function too
+          read_email(email.id);
+        });
+
+
+        // append email to emails view
+        document.querySelector('#emails-view').appendChild(emailDiv);
+      });
+
     });
-  
-  });
 }
 
 // create function to send email
@@ -154,15 +152,14 @@ function send_email(event) {
       body: body
     })
   })
-  .then(response => response.json())
-  .then(result => {
-    // Print result
-    console.log(result);
+    .then(response => response.json())
+    .then(result => {
 
-    // redirect to inbox
-    load_mailbox('sent');
-    
-  });
+
+      // redirect to inbox
+      load_mailbox('sent');
+
+    });
 }
 
 // create a function to archive email
@@ -173,12 +170,12 @@ function archive_email(email_id) {
       archived: true
     })
   })
-  .then(() => {
-    // console.log(`Email ${email_id} archived.`);
-    // redirect to inbox
-    load_mailbox('inbox');
-  }
-  )
+    .then(() => {
+
+      // redirect to inbox
+      load_mailbox('inbox');
+    }
+    )
 }
 
 // un-archive email
@@ -189,37 +186,36 @@ function unarchive_email(email_id) {
       archived: false
     })
   })
-  .then(() => {
-    load_mailbox('inbox')
-  })
+    .then(() => {
+      load_mailbox('inbox')
+    })
 }
 
 // function to mark as read
 function read_email(email_id) {
-  // console.log(`Calling read_email(${email_id})`);
+
   fetch(`/projetos/mail/emails/${email_id}`, {
     method: 'PUT',
     body: JSON.stringify({
       read: true
     })
   })
-  .then(() => {
-    // console.log(`Email ${email_id} read.`);
-  })
+    .then(() => {
+
+    })
 }
 // function unread
 function unread_email(email_id) {
-  // Print calling unread_email function
-  // console.log(`Calling unread_email function.`)
+
   fetch(`/projetos/mail/emails/${email_id}`, {
     method: 'PUT',
     body: JSON.stringify({
       read: false
     })
   })
-  .then(() => {
-    // console.log(`Email ${email_id} marked as unread.`)
-  })
+    .then(() => {
+
+    })
 }
 
 // create function to show email.id
@@ -227,17 +223,16 @@ function view_email(email_id) {
 
   // get email id with fetch
   fetch(`/projetos/mail/emails/${email_id}`)
-  .then(response => response.json())
-  .then(email => {
-    // print email
-    // console.log(email);
-    
-    // create div for each email
-    const emailDiv = document.createElement('div');
-    emailDiv.className = 'view-email-item';
+    .then(response => response.json())
+    .then(email => {
 
-    // render email on archive and inbox
-    emailDiv.innerHTML = `
+
+      // create div for each email
+      const emailDiv = document.createElement('div');
+      emailDiv.className = 'view-email-item';
+
+      // render email on archive and inbox
+      emailDiv.innerHTML = `
     <div id="email-header">
       <div>
       <strong>From:</strong> ${email.sender}
@@ -268,42 +263,39 @@ function view_email(email_id) {
       <button class="btn btn-sm btn-outline-primary" style="bottom: 0;" id="reply">Reply</button>
     </div>
     `;
-    // display email and hide emails
-    document.querySelector('#emails-view').innerHTML = "";
-    document.querySelector('#emails-view').appendChild(emailDiv);
-    
-    // archive and un-archive email calling the functions
-    const archiveButton = document.querySelector('#archive_email');
-    // console.log(archiveButton)
-    console.log(`Archive status: `, email.archived)
+      // display email and hide emails
+      document.querySelector('#emails-view').innerHTML = "";
+      document.querySelector('#emails-view').appendChild(emailDiv);
 
-    // hide archive button on sent box
-    // get username element
-    const usernameElement = document.querySelector('.username');
-    // call username content
-    const loggedInUser = usernameElement ? usernameElement.textContent.trim() : null;
-    // hide archive button on sent email
-    if (email.sender === loggedInUser) {
-      // check function
-      console.log("Calling hide archive replyButton")
-      console.log('Username: ', loggedInUser)
-      archiveButton.style.display = 'none';
-    }
-    if (email.archived) {
-      archiveButton.innerHTML = 'Unarchive'
-      archiveButton.onclick = () => unarchive_email(email.id);
-    } else {
-      // Call archive email function
-      archiveButton.innerHTML = 'Archive';
-      archiveButton.onclick = () => archive_email(email.id);
-    }
-    // call unread function
-    document.querySelector('#unread').addEventListener('click', () => unread_email(email.id));
-    // Call reply email function
-    document.querySelector('#reply').addEventListener('click', () => reply_email(email.id));
+      // archive and un-archive email calling the functions
+      const archiveButton = document.querySelector('#archive_email');
 
-    
-  });
+
+      // hide archive button on sent box
+      // get username element
+      const usernameElement = document.querySelector('.username');
+      // call username content
+      const loggedInUser = usernameElement ? usernameElement.textContent.trim() : null;
+      // hide archive button on sent email
+      if (email.sender === loggedInUser) {
+
+        archiveButton.style.display = 'none';
+      }
+      if (email.archived) {
+        archiveButton.innerHTML = 'Unarchive'
+        archiveButton.onclick = () => unarchive_email(email.id);
+      } else {
+        // Call archive email function
+        archiveButton.innerHTML = 'Archive';
+        archiveButton.onclick = () => archive_email(email.id);
+      }
+      // call unread function
+      document.querySelector('#unread').addEventListener('click', () => unread_email(email.id));
+      // Call reply email function
+      document.querySelector('#reply').addEventListener('click', () => reply_email(email.id));
+
+
+    });
 }
 
 // create a function to reply email
@@ -315,28 +307,27 @@ function reply_email(email_id) {
   const replyBody = document.querySelector('#compose-reply-body');
   // get email informations
   fetch(`/projetos/mail/emails/${email_id}`)
-  .then(response => response.json())
-  .then(email => {
-    // print email to check it
-    // console.log(`Email: ${email.id} got sucssefuly.`)
-    
-    // first I need to render the form to reply
-    if (replyForm.style.display === 'none') {
-      replyForm.style.display = 'block';
-      replyButton.style.display = 'none';
-      // render email values
-      replyRecipients.value = `${email.sender}`;
+    .then(response => response.json())
+    .then(email => {
 
-      // check Re: in subject and do not include it if already exists
-      // use trim() to cut it
-      if (email.subject.trim().startsWith('Re:')) {
-        replySubject.value = email.subject.trim();
-      } else {
-        replySubject.value = `Re: ${email.subject.trim()}`;
-      }
-      
-      // render form with a value
-      replyBody.value = `
+
+      // first I need to render the form to reply
+      if (replyForm.style.display === 'none') {
+        replyForm.style.display = 'block';
+        replyButton.style.display = 'none';
+        // render email values
+        replyRecipients.value = `${email.sender}`;
+
+        // check Re: in subject and do not include it if already exists
+        // use trim() to cut it
+        if (email.subject.trim().startsWith('Re:')) {
+          replySubject.value = email.subject.trim();
+        } else {
+          replySubject.value = `Re: ${email.subject.trim()}`;
+        }
+
+        // render form with a value
+        replyBody.value = `
       
           
     ------------------------------------------------------------------------------------------------------------
@@ -345,25 +336,24 @@ function reply_email(email_id) {
     ${email.body}
     
     `
-    }
-    else {
-      replyForm.style.display = 'none';
-      replyButton.style.display = 'block';
-    }
+      }
+      else {
+        replyForm.style.display = 'none';
+        replyButton.style.display = 'block';
+      }
 
-    // Now, hide form
-    document.querySelector('#reply-submit').addEventListener('click', () => {
-      replyForm.style.display = 'none';
-      replyButton.style.display = 'block';
-    });
-    document.querySelector('.sidebar-buttons').addEventListener('click', () => {
-      replyForm.style.display = 'none';
-      replyButton.style.display = 'block';
-    });
-  
-    // check if function is called
-    // console.log(`Reply email.`)
-  })
+      // Now, hide form
+      document.querySelector('#reply-submit').addEventListener('click', () => {
+        replyForm.style.display = 'none';
+        replyButton.style.display = 'block';
+      });
+      document.querySelector('.sidebar-buttons').addEventListener('click', () => {
+        replyForm.style.display = 'none';
+        replyButton.style.display = 'block';
+      });
+
+
+    })
 }
 function send_reply(event) {
   event.preventDefault();
@@ -378,11 +368,9 @@ function send_reply(event) {
       body: replyBody.value
     })
   })
-  .then(response => response.json())
-  .then(result => {
-    // print result
-    console.log(result)
-    // console.log(`Email ${email.id} sent sucssefuly.`)
-    load_mailbox('sent')
-  })
+    .then(response => response.json())
+    .then(result => {
+
+      load_mailbox('sent')
+    })
 }
