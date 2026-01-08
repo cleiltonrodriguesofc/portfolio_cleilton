@@ -230,7 +230,7 @@ class Pagamento(models.Model):
     metodo_pagamento = models.CharField(
         max_length=10,
         choices=MetodoPagamento.choices,
-        default=MetodoPagamento.PIX  # <-- VALOR PADRÃO
+        default=MetodoPagamento.PIX
     )
     observacoes = models.TextField(blank=True, null=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
