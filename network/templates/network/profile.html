@@ -118,8 +118,8 @@
 
             <div id="post-content-{{ post.id }}">
                 <p class="caption">
-                    <a href="{% url 'network:profile' post.user.username %}" class="username">{{ post.user.username
-                        }}</a>
+                    <a href="{% url 'network:profile' post.user.username %}" class="username">
+                        {{ post.user.username }}</a>
                     {{ post.content }}
                 </p>
             </div>
